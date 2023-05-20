@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+    front:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: stellato-front
+        ports:
+            - "8080:8080"
+        volumes:
+            - ./src:/app/src
+            - ./public:/app/public
+            - ./dist:/app/dist
+            - ./node_modules:/app/node_modules
+            - ./vite.config.ts:/app/vite.config.ts
+            - ./tsconfig.json:/app/tsconfig.json
+            - ./package.json:/app/package.json
+volumes:
+    node_modules:
