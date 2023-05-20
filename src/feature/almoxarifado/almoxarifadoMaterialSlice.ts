@@ -1,4 +1,5 @@
 import { AlmoxarifadoMaterial, AlmoxarifadoMaterialParams, AlmoxarifadoParams } from "../../types/Almoxarifado"
+import { Material } from "../../types/Material";
 import { Results } from "../../types/Results"
 import { apiSlice } from "../api/apiSlice"
 
@@ -21,12 +22,6 @@ function parseQueryParams(params: AlmoxarifadoMaterialParams) {
     }
 
     return query.toString();
-}
-
-function getPageAlmoxarifadoMateriais({ page = 0, rows = 10, search = "" }) {
-    const params = { page, rows, search, isActive: true };
-
-    return `${endpointUrl}?${parseQueryParams(params)}`;
 }
 
 function deleteAlmoxarifadoMateriaisMutation(almox: AlmoxarifadoMaterial) {
@@ -52,10 +47,15 @@ function getAlmoxarifadoMateriais({ almoxarifadoMaterialId }: { almoxarifadoMate
     return `${endpointUrl}/${almoxarifadoMaterialId}`;
 }
 
+function getPageAlmoxarifadoMateriaisPorAlmoxarifado({ page = 0, rows = 10, search = "", almoxarifadoId = 0 }) {
+    const params = { page, rows, search, isActive: true };
+    return `${endpointUrl}/almoxarifado/${almoxarifadoId}?${parseQueryParams(params)}`;
+}
+
 export const almoxarifadoMaterialApiSlice = apiSlice.injectEndpoints({
     endpoints: ({ query, mutation }) => ({
-        getPageAlmoxarifadoMateriais: query<Results<AlmoxarifadoMaterial>, AlmoxarifadoMaterialParams>({
-            query: getPageAlmoxarifadoMateriais,
+        getPageAlmoxarifadoMateriaisPorAlmoxarifado: query<Results<AlmoxarifadoMaterial>, AlmoxarifadoMaterialParams>({
+            query: getPageAlmoxarifadoMateriaisPorAlmoxarifado,
             providesTags: ["AlmoxarifadoMaterial"],
         }),
         getAlmoxarifadoMaterial: query<AlmoxarifadoMaterial, { almoxarifadoMaterialId: number }>({
@@ -64,7 +64,7 @@ export const almoxarifadoMaterialApiSlice = apiSlice.injectEndpoints({
         }),
         createAlmoxarifadoMaterial: mutation<AlmoxarifadoMaterial, AlmoxarifadoMaterial>({
             query: createAlmoxarifadoMateriaisMutation,
-            invalidatesTags: ["AlmoxarifadoMaterial"],
+            invalidatesTags: ["AlmoxarifadoMaterial", "Material"],
         }),
         updateAlmoxarifadoMaterial: mutation<AlmoxarifadoMaterial, AlmoxarifadoMaterial>({
             query: updateAlmoxarifadoMateriaisMutation,
@@ -78,9 +78,9 @@ export const almoxarifadoMaterialApiSlice = apiSlice.injectEndpoints({
 })
 
 export const {
-    useGetPageAlmoxarifadoMateriaisQuery,
+    useGetPageAlmoxarifadoMateriaisPorAlmoxarifadoQuery,
     useGetAlmoxarifadoMaterialQuery,
     useCreateAlmoxarifadoMaterialMutation,
     useUpdateAlmoxarifadoMaterialMutation,
-    useDeleteAlmoxarifadoMaterialMutation,
+    useDeleteAlmoxarifadoMaterialMutation
 } = almoxarifadoMaterialApiSlice

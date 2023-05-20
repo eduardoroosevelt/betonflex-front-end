@@ -26,10 +26,10 @@ interface ColumnMeta {
 
 export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
     const columns: ColumnMeta[] = [
-        { field: 'almoxarifadoNome', header: 'Nome' },
-        { field: 'almoxarifadoDescricao', header: 'Descrição' },
-        { field: 'almoxarifadoAtivo', header: 'Ativo?' },
-        { field: 'almoxarifadoCreateat', header: 'Criado em' }
+        { field: 'material.materialNome', header: 'Nome' },
+        { field: 'material.materialDescricao', header: 'Descrição' },
+        { field: 'material.materialObservacao', header: 'Observação' },
+        { field: 'material.materialSku', header: 'Sku' }
     ];
 
     function renderHeader() {

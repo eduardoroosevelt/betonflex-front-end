@@ -59,7 +59,7 @@ function getMaterial({ materialId }: { materialId: number }) {
 }
 
 function getListMaterialQueNaoPertenceAoAmoxarifado({ almoxarifadoId }: { almoxarifadoId: number }) {
-    return `${endpointUrl}/list/${almoxarifadoId}`
+    return `${endpointUrl}/matriaisout/almoxarifado/${almoxarifadoId}`
 }
 
 export const MaterialApiSlice = apiSlice.injectEndpoints({

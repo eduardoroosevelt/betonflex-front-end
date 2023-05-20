@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useGetAlmoxarifadoMaterialQuery, useGetPageAlmoxarifadoMateriaisQuery } from '../almoxarifadoMaterialSlice'
+import { useGetPageAlmoxarifadoMateriaisPorAlmoxarifadoQuery } from '../almoxarifadoMaterialSlice'
 import AlmoxarifadoMaterialTable from './AlmoxarifadoMaterialTable';
 import { CreateAlmoxarifadoMaterial } from './CreateAlmoxarifadoMaterial';
 import { useSnackbar } from 'notistack';
@@ -16,6 +16,7 @@ export function AlmoxarifadoMaterial({ almoxarifadoId }: AlmoxarifadoMaterialPro
         rows: 5,
         rowsPerPage: [10, 20, 30],
     });
+    const { data, isFetching, error } = useGetPageAlmoxarifadoMateriaisPorAlmoxarifadoQuery({ ...options, almoxarifadoId })
 
     const handleFilterChange = (filterModel: any) => { }
     const handleOnPageChange = (page: any) => { }
@@ -24,7 +25,6 @@ export function AlmoxarifadoMaterial({ almoxarifadoId }: AlmoxarifadoMaterialPro
     }
     const handleDelete = (almoxarifadoId: number) => { }
 
-    const { data, isFetching, error } = useGetPageAlmoxarifadoMateriaisQuery({ ...options, almoxarifadoId })
 
 
     return (
@@ -40,11 +40,14 @@ export function AlmoxarifadoMaterial({ almoxarifadoId }: AlmoxarifadoMaterialPro
                 handleAdicionar={handleAdicionar}
             />
 
-            <CreateAlmoxarifadoMaterial
-                visibleAdicionar={visibleAdicionar}
-                onHideAdicionar={() => setVisibleAdicionar(false)}
-                almoxarifadoId={almoxarifadoId}
-            />
+            {
+                visibleAdicionar &&
+                <CreateAlmoxarifadoMaterial
+                    visibleAdicionar={visibleAdicionar}
+                    onHideAdicionar={() => setVisibleAdicionar(false)}
+                    almoxarifadoId={almoxarifadoId}
+                />
+            }
         </div>
     )
 }

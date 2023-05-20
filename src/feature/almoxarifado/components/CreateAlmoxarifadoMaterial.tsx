@@ -7,14 +7,19 @@ import { Controller, useForm } from 'react-hook-form';
 import { AlmoxarifadoMaterial } from '../../../types/Almoxarifado';
 import classNames from 'classnames';
 import { Button } from 'primereact/button';
+import { useCreateAlmoxarifadoMaterialMutation } from '../almoxarifadoMaterialSlice';
+import { useSnackbar } from 'notistack';
 
 interface CreateAlmoxarifadoMaterialProps {
     visibleAdicionar: boolean;
     onHideAdicionar: () => void;
     almoxarifadoId: number;
 }
+
 export function CreateAlmoxarifadoMaterial({ visibleAdicionar, onHideAdicionar, almoxarifadoId }: CreateAlmoxarifadoMaterialProps) {
+    const { enqueueSnackbar } = useSnackbar();
     const { data: materiais, isFetching, } = useGetListMaterialQueNaoPertenceAoAmoxarifadoQuery({ almoxarifadoId });
+    const [createAlmoxarifadoMaterial, almoxarifadoMaterialstatus] = useCreateAlmoxarifadoMaterialMutation()
 
     const { register, control, handleSubmit, setError, formState: { errors } } = useForm<AlmoxarifadoMaterial>({
         defaultValues: {
@@ -27,17 +32,25 @@ export function CreateAlmoxarifadoMaterial({ visibleAdicionar, onHideAdicionar, 
     useEffect(() => {
         if (errors) {
             console.log(errors);
-
         }
     }, [errors])
 
+    useEffect(() => {
+        if (almoxarifadoMaterialstatus.isSuccess) {
+            enqueueSnackbar("Material vinculado com  sucesso", { variant: "success" });
+            onHideAdicionar();
+        }
+
+    }, [almoxarifadoMaterialstatus.isSuccess, onHideAdicionar])
+
     async function onSubmit(data: AlmoxarifadoMaterial) {
-        console.log(data);
+        createAlmoxarifadoMaterial(data);
     }
 
     const getFormErrorMessage = (name: "material" | "almoxarifado" | "almoxarifadoMaterialId" | "root") => {
         return errors[name] ? <small className="p-error">{errors[name]?.message}</small> : <small className="p-error">&nbsp;</small>;
     };
+
     return (
         <Sidebar
             onHide={onHideAdicionar}
@@ -47,8 +60,7 @@ export function CreateAlmoxarifadoMaterial({ visibleAdicionar, onHideAdicionar, 
         >
             <h3>Vincular Material neste almoxarifado</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
-
-                <WrapperComLabel cols='12' label='Nome' isObrigatorio>
+                <WrapperComLabel cols='12' label='Escolher um material' isObrigatorio>
                     <Controller
                         name="material"
                         control={control}
@@ -57,7 +69,7 @@ export function CreateAlmoxarifadoMaterial({ visibleAdicionar, onHideAdicionar, 
                             <Dropdown
                                 id={field.name}
                                 value={field.value}
-                                optionLabel="name"
+                                optionLabel="materialNome"
                                 placeholder="Seleciona um material"
                                 options={materiais}
                                 focusInputRef={field.ref}
@@ -67,7 +79,6 @@ export function CreateAlmoxarifadoMaterial({ visibleAdicionar, onHideAdicionar, 
                         )}
                     />
                     {getFormErrorMessage('material')}
-
                 </WrapperComLabel>
                 <Button type="submit" severity="success" label="Salvar" className="col-12" />
             </form>
