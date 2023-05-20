@@ -55,20 +55,24 @@ export function EditAlmoxarifado() {
         await updateAlmoxarifado(data);
     }
 
+    function goBack() {
+        navigation('/app/cadastro/almoxarifado')
+    }
     return (
         <div>
             <h3>Editar Almoxarifado</h3>
 
             <TabView>
                 <TabPanel header="Dados Gerais">
-                    <form className='grid' onSubmit={handleSubmit(onSubmit)}>
+                    <form className='grid gap-2' onSubmit={handleSubmit(onSubmit)}>
                         <WrapperComLabel cols='12' label='Nome' >
                             <InputText {...register("almoxarifadoNome")} className={classNames('w-full')} />
                         </WrapperComLabel>
                         <WrapperComLabel cols='12' label='Descrição' >
                             <InputTextarea {...register("almoxarifadoDescricao")} rows={5} className={classNames('w-full')} autoResize={true} />
                         </WrapperComLabel>
-                        <Button type="submit" severity="success" label="Salvar" className="col-12" />
+                        <Button type="submit" severity="success" label="Salvar" className="col-12 md:col-2" />
+                        <Button label="Voltar" onClick={goBack} className="col-12 md:col-2" />
                     </form>
                 </TabPanel>
                 <TabPanel header="Materiais">

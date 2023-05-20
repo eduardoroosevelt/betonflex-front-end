@@ -59,11 +59,15 @@ export function EditMaterial() {
         await updateMaterial(data);
     }
 
+    function goBack() {
+        navigation('/app/cadastro/material')
+    }
+
     return (
         <div>
             <h3>Editar Material</h3>
 
-            <form className='grid' onSubmit={handleSubmit(onSubmit)}>
+            <form className='grid gap-2' onSubmit={handleSubmit(onSubmit)}>
                 <WrapperComLabel cols='12' label='Nome' >
                     <InputText {...register("materialNome")} className={classNames('w-full', { 'p-invalid': errors.materialNome })} />
                     {errors.materialNome && (
@@ -77,6 +81,7 @@ export function EditMaterial() {
                     <InputTextarea {...register("materialDescricao")} rows={5} className={classNames('w-full')} autoResize={true} />
                 </WrapperComLabel>
                 <Button type="submit" severity="success" label="Salvar" className="col-12 md:col-2" />
+                <Button label="Voltar" onClick={goBack} className="col-12 md:col-2" />
             </form>
         </div>
     )
