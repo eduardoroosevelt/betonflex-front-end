@@ -76,7 +76,7 @@ export function EditMaterial() {
                 <WrapperComLabel cols='12' label='Descrição' >
                     <InputTextarea {...register("materialDescricao")} rows={5} className={classNames('w-full')} autoResize={true} />
                 </WrapperComLabel>
-                <Button type="submit" severity="success" label="Salvar" className="col-12" />
+                <Button type="submit" severity="success" label="Salvar" className="col-12 md:col-2" />
             </form>
         </div>
     )

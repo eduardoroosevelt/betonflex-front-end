@@ -5,6 +5,7 @@ import { CSSTransition } from 'react-transition-group';
 import { Ripple } from 'primereact/ripple';
 import './AppMenuItem.css';
 import { MenuContext } from './context/menucontext';
+import { LayoutContext } from './context/layoutcontext';
 
 interface ItemProps {
     label: string;
@@ -29,7 +30,7 @@ interface AppMenuitemProps {
 
 export const AppMenuitem = ({ item, ...props }: AppMenuitemProps) => {
     const { activeMenu, setActiveMenu } = useContext(MenuContext);
-
+    const { onMenuToggle, isDesktop } = useContext(LayoutContext);
     let location = useLocation();
 
     const key = props.parentKey ? props.parentKey + '-' + props.index : String(props.index);
@@ -63,6 +64,9 @@ export const AppMenuitem = ({ item, ...props }: AppMenuitemProps) => {
         // toggle active state
         if (item.items) setActiveMenu(active ? props.parentKey! : key);
         else setActiveMenu(key);
+        if (!isDesktop) {
+            onMenuToggle()
+        }
     };
 
     const subMenu = item.items && (
@@ -105,6 +109,4 @@ export const AppMenuitem = ({ item, ...props }: AppMenuitemProps) => {
     );
 };
 
-function Title(props: { label: string }) {
-    return <div className="layout-menuitem-root-text">{props.label}</div>;
-}
+
