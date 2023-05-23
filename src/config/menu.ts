@@ -10,8 +10,8 @@ const menu = () => {
             items: [
                 { label: 'Cliente', icon: 'pi pi-fw pi-user', to: 'cadastro/cliente' },
                 { label: 'Tipo de Serviço', icon: 'pi pi-fw pi-user', to: 'cadastro/tipo-servico' },
-                { label: 'Almoxarifado  ', icon: 'pi pi-fw pi-id-card', to: 'cadastro/almoxarifado' },
                 { label: 'Materiais', icon: 'pi pi-fw pi-id-card', to: 'cadastro/material' },
+                { label: 'Almoxarifado  ', icon: 'pi pi-fw pi-id-card', to: 'cadastro/almoxarifado' },
                 { label: 'Ordem de Serviço', icon: 'pi pi-fw pi-id-card', to: 'cadastro/ordemServico' }
             ]
         },
