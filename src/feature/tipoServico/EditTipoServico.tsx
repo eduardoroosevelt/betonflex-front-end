@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react'
-import { Sidebar } from 'primereact/sidebar';
-import { useSnackbar } from 'notistack';
-import { useCreateTipoServicoMutation, useGetTipoServicoQuery, useUpdateTipoServicoMutation } from './TipoServicoSlice';
-import { TipoServico } from '../../types/TipoServico';
-import { useForm } from 'react-hook-form';
-import { WrapperComLabel } from '../../components/WrapperFormLabelInput';
-import { InputText } from 'primereact/inputtext';
 import classNames from 'classnames';
-import { InputTextarea } from 'primereact/inputtextarea';
+import { useSnackbar } from 'notistack';
 import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import { InputTextarea } from 'primereact/inputtextarea';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
+import { WrapperComLabel } from '../../components/WrapperFormLabelInput';
+import { TipoServico } from '../../types/TipoServico';
+import { useGetTipoServicoQuery, useUpdateTipoServicoMutation } from './TipoServicoSlice';
 
 export function EditTipoServico() {
     const id = useParams().id;

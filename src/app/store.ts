@@ -9,12 +9,14 @@ import { apiSlice } from "../feature/api/apiSlice";
 import { almoxarifadoApiSlice } from "../feature/almoxarifado/almoxarifadoSlice";
 import { MaterialApiSlice } from "../feature/materiais/materialSlice";
 import { TipoServicoApiSlice } from "../feature/tipoServico/TipoServicoSlice";
+import { ClienteApiSlice } from "../feature/cliente/ClienteSlice";
 
 const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
     [almoxarifadoApiSlice.reducerPath]: almoxarifadoApiSlice.reducer,
     [MaterialApiSlice.reducerPath]: MaterialApiSlice.reducer,
     [TipoServicoApiSlice.reducerPath]: TipoServicoApiSlice.reducer,
+    [ClienteApiSlice.reducerPath]: ClienteApiSlice.reducer,
 });
 
 
