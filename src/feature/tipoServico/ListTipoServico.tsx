@@ -55,6 +55,7 @@ export function ListTipoServico() {
 
     return (
         <div>
+            <h3>Tipo de Serviços</h3>
             <TipoServicoTable
                 data={data}
                 isFetching={isFetching}
