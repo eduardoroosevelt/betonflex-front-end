@@ -26,7 +26,7 @@ export function ListMaterial() {
     }
   }, [deleteSuccess, deleteError, enqueueSnackbar]);
 
-  async function handleDeleteMaterial(materialId: number) {
+  async function handleDelete(materialId: number) {
     await deleteMaterial({ materialId });
   }
 
@@ -41,7 +41,6 @@ export function ListMaterial() {
   }
 
   function handleOnPageChange(page: DataTableStateEvent) {
-    console.log(page);
 
     setOptions({
       ...options,
@@ -59,7 +58,7 @@ export function ListMaterial() {
       <MaterialTable
         data={data}
         isFetching={isFetching}
-        handleDelete={handleDeleteMaterial}
+        handleDelete={handleDelete}
         handleFilterChange={handleFilterChange}
         handleOnPageChange={handleOnPageChange}
         rows={options.rows}

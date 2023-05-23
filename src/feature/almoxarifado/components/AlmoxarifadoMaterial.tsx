@@ -3,12 +3,15 @@ import { useGetPageAlmoxarifadoMateriaisPorAlmoxarifadoQuery } from '../almoxari
 import AlmoxarifadoMaterialTable from './AlmoxarifadoMaterialTable';
 import { CreateAlmoxarifadoMaterial } from './CreateAlmoxarifadoMaterial';
 import { useSnackbar } from 'notistack';
+import { Button } from 'primereact/button';
+import { useNavigate } from 'react-router-dom';
 
 interface AlmoxarifadoMaterialProps {
     almoxarifadoId: number
 }
 export function AlmoxarifadoMaterial({ almoxarifadoId }: AlmoxarifadoMaterialProps) {
     const { enqueueSnackbar } = useSnackbar();
+    const navigation = useNavigate();
     const [visibleAdicionar, setVisibleAdicionar] = useState(false);
     const [options, setOptions] = useState({
         page: 0,
@@ -26,19 +29,25 @@ export function AlmoxarifadoMaterial({ almoxarifadoId }: AlmoxarifadoMaterialPro
     const handleDelete = (almoxarifadoId: number) => { }
 
 
-
+    function goBack() {
+        navigation('/app/cadastro/almoxarifado')
+    }
     return (
-        <div>
-            <AlmoxarifadoMaterialTable
-                data={data}
-                isFetching={isFetching}
-                rows={options.rows}
-                rowsPerPage={[5, 10, 20]}
-                handleDelete={handleDelete}
-                handleFilterChange={handleFilterChange}
-                handleOnPageChange={handleOnPageChange}
-                handleAdicionar={handleAdicionar}
-            />
+        <div className='grid '>
+            <div className="col-12">
+
+                <AlmoxarifadoMaterialTable
+                    data={data}
+                    isFetching={isFetching}
+                    rows={options.rows}
+                    rowsPerPage={[5, 10, 20]}
+                    handleDelete={handleDelete}
+                    handleFilterChange={handleFilterChange}
+                    handleOnPageChange={handleOnPageChange}
+                    handleAdicionar={handleAdicionar}
+                />
+            </div>
+            <Button label="Voltar" onClick={goBack} className="col-12 md:col-2" />
 
             {
                 visibleAdicionar &&

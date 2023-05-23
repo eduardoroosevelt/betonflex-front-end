@@ -43,29 +43,28 @@ export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rows
     const first = data?.number && data?.size ? data?.number * data?.size : 0;
 
     return (
-        <div>
-            <DataTable
-                value={data?.content}
-                totalRecords={data?.totalElements}
-                tableStyle={{ minWidth: '50rem' }}
-                rowsPerPageOptions={rowsPerPage}
-                loading={isFetching}
-                rows={rows}
-                paginator
-                lazy
-                first={first}
-                showGridlines
-                onPage={handleOnPageChange}
-                onFilter={handleFilterChange}
-                header={renderHeader()}
-                onRowClick={handleEdit}
-                selectionMode="single"
-                metaKeySelection={true}
-            >
-                {columns.map((col, i) => (
-                    <Column key={col.field} field={col.field} header={col.header} />
-                ))}
-            </DataTable>
-        </div>
+
+        <DataTable
+            value={data?.content}
+            totalRecords={data?.totalElements}
+            tableStyle={{ minWidth: '50rem' }}
+            rowsPerPageOptions={rowsPerPage}
+            loading={isFetching}
+            rows={rows}
+            paginator
+            lazy
+            first={first}
+            showGridlines
+            onPage={handleOnPageChange}
+            onFilter={handleFilterChange}
+            header={renderHeader()}
+            onRowClick={handleEdit}
+            selectionMode="single"
+            metaKeySelection={true}
+        >
+            {columns.map((col, i) => (
+                <Column key={col.field} field={col.field} header={col.header} />
+            ))}
+        </DataTable>
     )
 }

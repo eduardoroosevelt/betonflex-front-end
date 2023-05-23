@@ -10,6 +10,8 @@ import ListCliente from './feature/cliente/ListCliente';
 import { ListMaterial } from './feature/materiais/ListMaterial';
 import ListOrdemServico from './feature/ordemServico/ListOrdemServico';
 import { EditMaterial } from './feature/materiais/EditMaterial';
+import { ListTipoServico } from './feature/tipoServico/ListTipoServico';
+import { EditTipoServico } from './feature/tipoServico/EditTipoServico';
 
 export function RouterApp() {
     return (
@@ -30,6 +32,10 @@ export function RouterApp() {
 
                     <Route path="/app/cadastro/cliente" element={<ListCliente />} />
                     <Route path="/app/cadastro/ordemServico" element={<ListOrdemServico />} />
+
+                    <Route path="/app/cadastro/tipo-servico" element={<ListTipoServico />} />
+                    <Route path="/app/cadastro/tipo-servico/edit/:id" element={<EditTipoServico />} />
+
 
                 </Route>
 
