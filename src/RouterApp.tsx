@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, } from 'react-router-dom';
 
 import { AppLayout } from './layout/AppLayout';
 import { LayoutProvider } from './layout/context/layoutcontext';
@@ -13,13 +13,17 @@ import { EditMaterial } from './feature/materiais/EditMaterial';
 import { ListTipoServico } from './feature/tipoServico/ListTipoServico';
 import { EditTipoServico } from './feature/tipoServico/EditTipoServico';
 import { EditCliente } from './feature/cliente/EditCliente';
+import { useEffect } from 'react';
+import { Redirect } from './components/Redirect';
+
+
 
 export function RouterApp() {
     return (
         <LayoutProvider>
             <Routes>
 
-                <Route path="/">
+                <Route path="/" element={<Redirect url='/app' />}>
                     {/* <Route path="/login" element={<Login />} /> */}
                 </Route>
 
