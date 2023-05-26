@@ -32,6 +32,7 @@ export function CreateAlmoxarifadoMaterial({ visibleAdicionar, onHideAdicionar, 
     });
     const watchFieldsQtde = watch("qtde");
     const watchFieldsValorUnitario = watch("valorUnitario");
+
     useEffect(() => {
         if (errors) {
             console.log(errors);
@@ -163,6 +164,9 @@ export function CreateAlmoxarifadoMaterial({ visibleAdicionar, onHideAdicionar, 
                         render={({ field, fieldState }) => (
                             <>
                                 <InputNumber
+                                    mode="currency"
+                                    currency="BRL"
+                                    locale="pt-BR"
                                     id={field.name}
                                     inputRef={field.ref}
                                     value={field.value}

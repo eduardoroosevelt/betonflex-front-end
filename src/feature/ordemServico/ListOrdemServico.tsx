@@ -3,7 +3,7 @@ import { DataTableStateEvent } from 'primereact/datatable';
 import React, { useEffect, useState } from 'react'
 import { useDeleteOrdemServicoMutation, useGetOrdemServicosQuery } from './OrdemServico.slice';
 import { OrdemServicoTable } from './components/OrdemServicoTable';
-import { CreateOrdemServico } from './components/CreateOrdemServico';
+import { CreateOrdemServico } from './CreateOrdemServico';
 
 export default function ListOrdemServico() {
   const { enqueueSnackbar } = useSnackbar();

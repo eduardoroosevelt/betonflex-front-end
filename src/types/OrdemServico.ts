@@ -4,8 +4,9 @@ export interface OrdemServico {
     ordemServicoId: number
     ordemServicoNumero: string
     tipoServico: TipoServico
-    ordemServicoStatus: "EM_ANDAMENTO" | "FINALIZADO" | "CANCELADO"
+    ordemServicoStatus: "NOVO" | "EM_ANDAMENTO" | "FINALIZADO" | "CANCELADO"
     ordemServicoDataAbertura: string
+    ordemServicoValor: number
 }
 
 export interface OrdemServicoParams {
