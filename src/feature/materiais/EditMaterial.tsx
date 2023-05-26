@@ -10,6 +10,7 @@ import { Material } from '../../types/Material';
 import { WrapperComLabel } from '../../components/WrapperFormLabelInput';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TabView, TabPanel } from 'primereact/tabview';
+import { MaterialForm } from './components/MaterialForm';
 
 export function EditMaterial() {
     const id = useParams().id;
@@ -67,22 +68,11 @@ export function EditMaterial() {
         <div>
             <h3>Editar Material</h3>
 
-            <form className='grid gap-2' onSubmit={handleSubmit(onSubmit)}>
-                <WrapperComLabel cols='12' label='Nome' >
-                    <InputText {...register("materialNome")} className={classNames('w-full', { 'p-invalid': errors.materialNome })} />
-                    {errors.materialNome && (
-                        <p role="alert" style={{ color: 'var(--red-700)' }}>
-                            {errors.materialNome?.message}
-                        </p>
-                    )}
-                </WrapperComLabel>
-
-                <WrapperComLabel cols='12' label='Descrição' >
-                    <InputTextarea {...register("materialDescricao")} rows={5} className={classNames('w-full')} autoResize={true} />
-                </WrapperComLabel>
-                <Button type="submit" severity="success" label="Salvar" className="col-12 md:col-2" />
-                <Button label="Voltar" onClick={goBack} className="col-12 md:col-2" />
-            </form>
+            <MaterialForm
+                handleSubmit={handleSubmit(onSubmit)}
+                erros={errors}
+                register={register}
+            />
         </div>
     )
 }

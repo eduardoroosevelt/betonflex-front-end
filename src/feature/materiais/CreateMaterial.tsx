@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import { WrapperComLabel } from '../../components/WrapperFormLabelInput';
+import { MaterialForm } from './components/MaterialForm';
 
 interface CreateMaterialProps {
     visibleAdicionar: boolean;
@@ -55,8 +56,12 @@ export function CreateMaterial({ visibleAdicionar, onHideAdicionar }: CreateMate
     return (
         <Sidebar onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' >
             <h3>Cadastrar Material</h3>
-
-            <form className='grid' onSubmit={handleSubmit(onSubmit)}>
+            <MaterialForm
+                handleSubmit={handleSubmit(onSubmit)}
+                erros={errors}
+                register={register}
+            />
+            {/* <form className='grid' onSubmit={handleSubmit(onSubmit)}>
                 <WrapperComLabel cols='12' label='Nome' >
                     <InputText {...register("materialNome")} className={classNames('w-full', { 'p-invalid': errors.materialNome })} />
                     {errors.materialNome && (
@@ -70,7 +75,7 @@ export function CreateMaterial({ visibleAdicionar, onHideAdicionar }: CreateMate
                     <InputTextarea {...register("materialDescricao")} rows={5} className={classNames('w-full')} autoResize={true} />
                 </WrapperComLabel>
                 <Button type="submit" severity="success" label="Salvar" className="col-12" />
-            </form>
+            </form> */}
         </Sidebar>
     )
 }
