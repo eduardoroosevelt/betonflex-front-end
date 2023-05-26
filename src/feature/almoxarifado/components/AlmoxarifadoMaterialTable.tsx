@@ -1,6 +1,6 @@
 import { Column } from 'primereact/column'
 import { DataTable, DataTableRowClickEvent, DataTableStateEvent } from 'primereact/datatable'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { Results } from '../../../types/Results';
 import { AlmoxarifadoMaterial } from '../../../types/Almoxarifado';
 import { Button } from 'primereact/button';
@@ -22,14 +22,26 @@ type Props = {
 interface ColumnMeta {
     field: string;
     header: string;
+    body?: (arg: AlmoxarifadoMaterial) => ReactNode
 }
 
 export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
+    const valorTotalBodyTemplate = (product: AlmoxarifadoMaterial) => {
+        return formatCurrency(product.valorTotal);
+    };
+
+    const valorUnitarioBodyTemplate = (product: AlmoxarifadoMaterial) => {
+        return formatCurrency(product.valorUnitario);
+    };
+
     const columns: ColumnMeta[] = [
         { field: 'material.materialNome', header: 'Nome' },
         { field: 'material.materialDescricao', header: 'Descrição' },
         { field: 'material.materialObservacao', header: 'Observação' },
-        { field: 'material.materialSku', header: 'Sku' }
+        { field: 'material.materialSku', header: 'Sku' },
+        { field: 'qtde', header: 'Quantidade' },
+        { field: 'valorUnitario', header: 'Valor unitário', body: valorUnitarioBodyTemplate },
+        { field: 'valorTotal', header: 'Valor Total', body: valorTotalBodyTemplate },
     ];
 
     function renderHeader() {
@@ -39,6 +51,12 @@ export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rows
     function handleEdit(parm: DataTableRowClickEvent) {
 
     }
+
+    const formatCurrency = (value: number) => {
+        return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    };
+
+
 
     const first = data?.number && data?.size ? data?.number * data?.size : 0;
 
@@ -63,7 +81,7 @@ export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rows
             metaKeySelection={true}
         >
             {columns.map((col, i) => (
-                <Column key={col.field} field={col.field} header={col.header} />
+                <Column key={col.field} field={col.field} header={col.header} body={col.body} />
             ))}
         </DataTable>
     )

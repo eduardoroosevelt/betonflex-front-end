@@ -81,7 +81,11 @@ export const TipoServicoApiSlice = apiSlice.injectEndpoints({
         updateTipoServico: mutation<TipoServico, TipoServico>({
             query: updateTipoServicoMutation,
             invalidatesTags: ["TipoServico"],
-        })
+        }),
+        getTipoServicoList: query<TipoServico[], void>({
+            query: () => `${endpointUrl}/ativos`,
+            providesTags: ["TipoServico"],
+        }),
     })
 
 });
@@ -92,4 +96,5 @@ export const {
     useGetTipoServicosQuery,
     useDeleteTipoServicoMutation,
     useUpdateTipoServicoMutation,
+    useGetTipoServicoListQuery
 } = TipoServicoApiSlice
