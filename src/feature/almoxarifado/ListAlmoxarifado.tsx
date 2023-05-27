@@ -41,7 +41,6 @@ export function ListAlmoxarifado() {
   }
 
   function handleOnPageChange(page: DataTableStateEvent) {
-    console.log(page);
 
     setOptions({
       ...options,

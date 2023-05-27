@@ -80,7 +80,8 @@ export const OrdemServicoClienteApiSlice = apiSlice.injectEndpoints({
         }),
         getOrdemServicoClientePelaOrdemServico: query<Results<OrdemServicoCliente>, { page?: number; rows?: number; search?: string; ordemServicoId: number }>({
             query: getOrdemServicoClientePelaOrdemServico,
-            providesTags: ["OrdemServicoCliente"],
+
+
         }),
     })
 

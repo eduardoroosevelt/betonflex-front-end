@@ -35,7 +35,7 @@ export function CreateAlmoxarifadoMaterial({ visibleAdicionar, onHideAdicionar, 
 
     useEffect(() => {
         if (errors) {
-            console.log(errors);
+
         }
     }, [errors])
 

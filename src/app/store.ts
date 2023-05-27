@@ -15,6 +15,7 @@ import { OrdemServicoApiSlice } from "../feature/ordemServico/OrdemServico.slice
 import { OrdemServicoClienteApiSlice } from "../feature/ordemServicoCliente/OrdemServicoClienteSlice";
 import { funcionarioApiSlice } from "../feature/funcionario/FuncionarioSlice";
 import { OrdemServicoMaterialApiSlice } from "../feature/ordemServicoMaterial/OrdemServicoMaterial";
+import { OrdemServicoAnexoApiSlice } from "../feature/ordemServicoAnexo/ordemServicoAnexoSlice";
 
 const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
     [funcionarioApiSlice.reducerPath]: funcionarioApiSlice.reducer,
     [OrdemServicoMaterialApiSlice.reducerPath]: OrdemServicoMaterialApiSlice.reducer,
     [OrdemServicoClienteApiSlice.reducerPath]: OrdemServicoClienteApiSlice.reducer,
+    [OrdemServicoAnexoApiSlice.reducerPath]: OrdemServicoAnexoApiSlice.reducer,
     auth: authSlice.reducer,
 });
 
