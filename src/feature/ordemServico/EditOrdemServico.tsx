@@ -7,6 +7,7 @@ import { OrdemServico } from '../../types/OrdemServico';
 import { OrdemServicoForm } from './components/OrdemServicoForm';
 import { useSnackbar } from 'notistack';
 import { OrdemServicoTabCliente } from './components/ClienteTab/OrdemServicoTabCliente';
+import { OrdemServicoTabMaterial } from './components/MaterialTab/OrdemServicoTabMaterial';
 
 export default function EditOrdemServico() {
     const { enqueueSnackbar } = useSnackbar();
@@ -67,10 +68,10 @@ export default function EditOrdemServico() {
                     <OrdemServicoTabCliente ordemServicoId={parseInt(id!)} />
                 </TabPanel>
                 <TabPanel header="Materiais">
-                    <h1>a</h1>
+                    <OrdemServicoTabMaterial ordemServicoId={parseInt(id!)} />
                 </TabPanel>
-                <TabPanel header="Anexos">
-                    <h1>a</h1>
+                <TabPanel header="Anexos (Em Construção)">
+                    <h1>Em Construção</h1>
                 </TabPanel>
             </TabView>
         </div>

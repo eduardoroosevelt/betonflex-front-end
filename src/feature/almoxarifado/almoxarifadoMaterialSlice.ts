@@ -54,6 +54,10 @@ function getPageAlmoxarifadoMateriaisPorAlmoxarifado({ page = 0, rows = 10, sear
     return `${endpointUrl}/almoxarifado/${almoxarifadoId}?${parseQueryParams(params)}`;
 }
 
+function getAlmoxarifadoMateriailListPorAlmoxarifado({ almoxarifadoId }: { almoxarifadoId: number }) {
+    return `${endpointUrl}/almoxarifado/list/${almoxarifadoId}`;
+}
+
 export const almoxarifadoMaterialApiSlice = apiSlice.injectEndpoints({
     endpoints: ({ query, mutation }) => ({
         getPageAlmoxarifadoMateriaisPorAlmoxarifado: query<Results<AlmoxarifadoMaterial>, AlmoxarifadoMaterialParams>({
@@ -62,6 +66,10 @@ export const almoxarifadoMaterialApiSlice = apiSlice.injectEndpoints({
         }),
         getAlmoxarifadoMaterial: query<AlmoxarifadoMaterial, { almoxarifadoMaterialId: number }>({
             query: getAlmoxarifadoMateriais,
+            providesTags: ["AlmoxarifadoMaterial"],
+        }),
+        getAlmoxarifadoMateriailListPorAlmoxarifado: query<AlmoxarifadoMaterial[], { almoxarifadoId: number }>({
+            query: getAlmoxarifadoMateriailListPorAlmoxarifado,
             providesTags: ["AlmoxarifadoMaterial"],
         }),
         createAlmoxarifadoMaterial: mutation<AlmoxarifadoMaterial, AlmoxarifadoMaterial>({
@@ -82,6 +90,7 @@ export const almoxarifadoMaterialApiSlice = apiSlice.injectEndpoints({
 export const {
     useGetPageAlmoxarifadoMateriaisPorAlmoxarifadoQuery,
     useGetAlmoxarifadoMaterialQuery,
+    useGetAlmoxarifadoMateriailListPorAlmoxarifadoQuery,
     useCreateAlmoxarifadoMaterialMutation,
     useUpdateAlmoxarifadoMaterialMutation,
     useDeleteAlmoxarifadoMaterialMutation

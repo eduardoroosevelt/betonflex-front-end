@@ -5,7 +5,7 @@ export function Redirect({ url = '/app' }: { url?: string }) {
     const navigate = useNavigate();
     useEffect(() => {
         console.log('redirect');
-        navigate('/app')
+        navigate(url)
     }, [])
     return <></>;
 }

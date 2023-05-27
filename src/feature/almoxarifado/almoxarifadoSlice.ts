@@ -82,6 +82,10 @@ export const almoxarifadoApiSlice = apiSlice.injectEndpoints({
             query: getAlmoxarifado,
             providesTags: ["Almoxarifado"],
         }),
+        getAlmoxarifadoList: query<Almoxarifado[], void>({
+            query: () => `${endpointUrl}/ativos`,
+            providesTags: ["Almoxarifado"],
+        }),
         createAlmoxarifado: mutation<Almoxarifado, Almoxarifado>({
             query: createAlmoxarifadoMutation,
             invalidatesTags: ["Almoxarifado"],
@@ -104,5 +108,6 @@ export const {
     useGetAlmoxarifadoQuery,
     useGetAlmoxarifadosQuery,
     useDeleteAlmoxarifadoMutation,
-    useUpdateAlmoxarifadoMutation
+    useUpdateAlmoxarifadoMutation,
+    useGetAlmoxarifadoListQuery,
 } = almoxarifadoApiSlice

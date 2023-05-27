@@ -56,6 +56,13 @@ export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rows
         return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     };
 
+    function botoes(data: AlmoxarifadoMaterial) {
+        return (
+            <div>
+                <Button label={"Excluir"} icon="pi pi-trash" severity='danger' onClick={() => handleDelete(data.almoxarifadoMaterialId)} />
+            </div>
+        )
+    }
 
 
     const first = data?.number && data?.size ? data?.number * data?.size : 0;
@@ -83,6 +90,7 @@ export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rows
             {columns.map((col, i) => (
                 <Column key={col.field} field={col.field} header={col.header} body={col.body} />
             ))}
+            <Column header="Ações" body={botoes} />
         </DataTable>
     )
 }

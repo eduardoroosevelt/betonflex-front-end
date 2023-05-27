@@ -68,6 +68,10 @@ export const funcionarioApiSlice = apiSlice.injectEndpoints({
             query: getFuncionario,
             providesTags: ["Funcionario"],
         }),
+        getFuncionarioList: query<Funcionario[], void>({
+            query: () => `${endpointUrl}/ativos`,
+            providesTags: ["Funcionario"],
+        }),
         createFuncionario: mutation<Funcionario, Funcionario>({
             query: createFuncionarioMutation,
             invalidatesTags: ["Funcionario"],
@@ -91,5 +95,6 @@ export const {
     useGetFuncionarioQuery,
     useGetFuncionariosQuery,
     useDeleteFuncionarioMutation,
-    useUpdateFuncionarioMutation
+    useUpdateFuncionarioMutation,
+    useGetFuncionarioListQuery
 } = funcionarioApiSlice

@@ -26,7 +26,7 @@ export function RouterApp() {
         <LayoutProvider>
             <Routes>
 
-                <Route path="/" element={<Redirect url='/app' />}>
+                <Route path="/" element={<Redirect url='/app/cadastro/cliente' />}>
                     {/* <Route path="/login" element={<Login />} /> */}
                 </Route>
 

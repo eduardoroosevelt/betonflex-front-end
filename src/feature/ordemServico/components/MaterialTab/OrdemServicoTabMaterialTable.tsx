@@ -1,13 +1,18 @@
 import React from 'react'
-import { Cliente } from '../../../types/Cliente';
-import { Results } from '../../../types/Results';
-import { DataTable, DataTableRowClickEvent, DataTableStateEvent } from 'primereact/datatable';
-import { useNavigate } from 'react-router-dom';
+import { OrdemServicoMaterial } from '../../../../types/OrdemServicoMaterial';
+import { Results } from '../../../../types/Results';
+import { DataTable, DataTableStateEvent } from 'primereact/datatable';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 
+interface ColumnMeta {
+    field: string;
+    header: string;
+}
+
+
 type Props = {
-    data: Results<Cliente> | undefined;
+    data: Results<OrdemServicoMaterial> | undefined;
     rows: number;
     isFetching: boolean;
     rowsPerPage?: number[];
@@ -18,38 +23,26 @@ type Props = {
     handleAdicionar: () => void;
 };
 
-
-interface ColumnMeta {
-    field: string;
-    header: string;
-}
-
-
-export function ClientTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
-    const navigation = useNavigate();
-
+export function OrdemServicoTabMaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
     const columns: ColumnMeta[] = [
-        { field: 'clienteNome', header: 'Nome' },
-        { field: 'clienteDocumento', header: 'Documento' },
-        { field: 'clienteCreateat', header: 'Criado em' }
+        { field: 'cliente.clienteNome', header: 'Nome' },
+        { field: 'cliente.clienteDocumento', header: 'Documento' },
+        { field: 'cliente.clienteCreateat', header: 'Criado em' }
     ];
 
     function renderHeader() {
         return <Button label={"Adicionar"} icon="pi pi-plus" onClick={handleAdicionar} />
     }
-
-    function handleEdit(parm: DataTableRowClickEvent) {
-        navigation(`/app/cadastro/cliente/edit/${parm.data.clienteId}`);
-    }
-
     const first = data?.number && data?.size ? data?.number * data?.size : 0;
 
-    function botoes(data: Cliente) {
+    function botoes(data: OrdemServicoMaterial) {
+
         return (
             <div>
-                <Button label={"Excluir"} icon="pi pi-trash" severity='danger' onClick={() => handleDelete(data.clienteId)} />
+                <Button label={"Excluir"} icon="pi pi-trash" severity='danger' onClick={() => handleDelete(data.ordemServicoMaterialId)} />
             </div>
         )
+
     }
 
     return (
@@ -68,7 +61,6 @@ export function ClientTable({ data, rows, isFetching, rowsPerPage, handleOnPageC
                 onPage={handleOnPageChange}
                 onFilter={handleFilterChange}
                 header={renderHeader()}
-                onRowClick={handleEdit}
                 selectionMode="single"
                 metaKeySelection={true}
             >
