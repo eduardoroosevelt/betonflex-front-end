@@ -1,3 +1,4 @@
+import { FetchArgs } from "@reduxjs/toolkit/dist/query";
 import { AlmoxarifadoMaterial, AlmoxarifadoMaterialParams, AlmoxarifadoParams } from "../../types/Almoxarifado"
 import { Material } from "../../types/Material";
 import { Results } from "../../types/Results"
@@ -24,10 +25,11 @@ function parseQueryParams(params: AlmoxarifadoMaterialParams) {
     return query.toString();
 }
 
-function deleteAlmoxarifadoMateriaisMutation(almox: AlmoxarifadoMaterial) {
+function deleteAlmoxarifadoMateriaisMutation(almox: AlmoxarifadoMaterial): FetchArgs {
     return {
         url: `${endpointUrl}/${almox.almoxarifadoMaterialId}`,
         method: "DELETE",
+        responseHandler: (response) => response.text(),
     };
 }
 

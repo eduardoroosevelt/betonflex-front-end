@@ -1,3 +1,4 @@
+import { FetchArgs } from "@reduxjs/toolkit/dist/query";
 import { Material, MaterialParams } from "../../types/Material"
 import { Results } from "../../types/Results";
 import { apiSlice } from "../api/apiSlice"
@@ -21,9 +22,6 @@ function parseQueryParams(params: MaterialParams) {
         query.append("search", params.search);
     }
 
-    // if (params.isActive) {
-    //     query.append("is_active", params.isActive.toString());
-    // }
 
     return query.toString();
 }
@@ -35,10 +33,11 @@ function getMaterials({ page = 0, rows = 10, search = "" }) {
 }
 
 
-function deleteMaterialMutation(material: Material) {
+function deleteMaterialMutation(material: Material): FetchArgs {
     return {
         url: `${endpointUrl}/${material.materialId}`,
         method: "DELETE",
+        responseHandler: (response) => response.text(),
     };
 }
 

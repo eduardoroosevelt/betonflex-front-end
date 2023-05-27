@@ -1,3 +1,4 @@
+import { FetchArgs } from "@reduxjs/toolkit/dist/query"
 import { AlmoxarifadoParams } from "../../types/Almoxarifado"
 import { Results } from "../../types/Results"
 import { apiSlice } from "../api/apiSlice"
@@ -41,10 +42,11 @@ function getAlmoxarifados({ page = 0, rows = 10, search = "" }) {
     return `${endpointUrl}?${parseQueryParams(params)}`;
 }
 
-function deleteAlmoxarifadoMutation(almox: Almoxarifado) {
+function deleteAlmoxarifadoMutation(almox: Almoxarifado): FetchArgs {
     return {
         url: `${endpointUrl}/${almox.almoxarifadoId}`,
         method: "DELETE",
+        responseHandler: (response) => response.text(),
     };
 }
 

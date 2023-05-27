@@ -1,15 +1,10 @@
 import { useSnackbar } from 'notistack';
-import React, { useEffect } from 'react'
-import { useCreateMaterialMutation } from './materialSlice';
-import { useForm } from 'react-hook-form';
 import { Sidebar } from 'primereact/sidebar';
-import { InputText } from 'primereact/inputtext';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { Material } from '../../types/Material';
-import classNames from 'classnames';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { Button } from 'primereact/button';
-import { WrapperComLabel } from '../../components/WrapperFormLabelInput';
 import { MaterialForm } from './components/MaterialForm';
+import { useCreateMaterialMutation } from './materialSlice';
 
 interface CreateMaterialProps {
     visibleAdicionar: boolean;

@@ -1,3 +1,4 @@
+import { FetchArgs } from "@reduxjs/toolkit/dist/query";
 import { Cliente, ClienteParams } from "../../types/Cliente";
 import { Results } from "../../types/Results";
 import { apiSlice } from "../api/apiSlice";
@@ -33,11 +34,11 @@ function getClientes({ page = 0, rows = 10, search = "" }) {
     return `${endpointUrl}?${parseQueryParams(params)}`;
 }
 
-
-function deleteClienteMutation(cliente: Cliente) {
+function deleteClienteMutation(cliente: Cliente): FetchArgs {
     return {
         url: `${endpointUrl}/${cliente.clienteId}`,
         method: "DELETE",
+        responseHandler: (response) => response.text(),
     };
 }
 
@@ -67,6 +68,10 @@ export const ClienteApiSlice = apiSlice.injectEndpoints({
             query: getCliente,
             providesTags: ["Cliente"],
         }),
+        getClienteNotInOrdemServicoList: query<Cliente[], { ordemServicoId: number }>({
+            query: ({ ordemServicoId }) => `${endpointUrl}/notInOrdemServico/${ordemServicoId}`,
+            providesTags: ["Cliente"],
+        }),
         createCliente: mutation<Cliente, Cliente>({
             query: createClienteMutation,
             invalidatesTags: ["Cliente"],
@@ -90,4 +95,5 @@ export const {
     useGetClientesQuery,
     useDeleteClienteMutation,
     useUpdateClienteMutation,
+    useGetClienteNotInOrdemServicoListQuery
 } = ClienteApiSlice

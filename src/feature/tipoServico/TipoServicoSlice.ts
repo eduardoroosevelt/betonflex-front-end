@@ -1,3 +1,4 @@
+import { FetchArgs } from "@reduxjs/toolkit/dist/query";
 import { Results } from "../../types/Results";
 import { TipoServico, TipoServicoParams } from "../../types/TipoServico";
 import { apiSlice } from "../api/apiSlice";
@@ -33,10 +34,11 @@ function getTipoServicos({ page = 0, rows = 10, search = "" }) {
 }
 
 
-function deleteTipoServicoMutation(tipoServico: TipoServico) {
+function deleteTipoServicoMutation(tipoServico: TipoServico): FetchArgs {
     return {
         url: `${endpointUrl}/${tipoServico.tipoServicoId}`,
         method: "DELETE",
+        responseHandler: (response) => response.text(),
     };
 }
 

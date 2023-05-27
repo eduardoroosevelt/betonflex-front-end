@@ -16,6 +16,8 @@ import { EditCliente } from './feature/cliente/EditCliente';
 import { useEffect } from 'react';
 import { Redirect } from './components/Redirect';
 import EditOrdemServico from './feature/ordemServico/EditOrdemServico';
+import { ListFuncionario } from './feature/funcionario/ListFuncionario';
+import { EditFuncionario } from './feature/funcionario/EditFuncionario';
 
 
 
@@ -38,6 +40,9 @@ export function RouterApp() {
 
                     <Route path="/app/cadastro/cliente" element={<ListCliente />} />
                     <Route path="/app/cadastro/cliente/edit/:id" element={<EditCliente />} />
+
+                    <Route path="/app/cadastro/Funcionario" element={<ListFuncionario />} />
+                    <Route path="/app/cadastro/Funcionario/edit/:id" element={<EditFuncionario />} />
 
                     <Route path="/app/cadastro/tipo-servico" element={<ListTipoServico />} />
                     <Route path="/app/cadastro/tipo-servico/edit/:id" element={<EditTipoServico />} />

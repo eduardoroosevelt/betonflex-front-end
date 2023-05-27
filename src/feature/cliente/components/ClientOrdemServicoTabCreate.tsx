@@ -13,7 +13,7 @@ import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
 import { Button } from 'primereact/button';
-import { useCreateOrdemServicoClienteMutation } from '../../ordemServicoCliente/OrdemServicoCliente';
+import { useCreateOrdemServicoClienteMutation } from '../../ordemServicoCliente/OrdemServicoClienteSlice';
 import { OrdemServicoCliente } from '../../../types/OrdemServicoCliente';
 
 interface ClientOrdemServicoTabProps {

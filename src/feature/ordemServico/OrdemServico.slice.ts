@@ -1,3 +1,4 @@
+import { FetchArgs } from "@reduxjs/toolkit/dist/query";
 import { OrdemServico, OrdemServicoParams } from "../../types/OrdemServico";
 import { Results } from "../../types/Results";
 import { apiSlice } from "../api/apiSlice";
@@ -33,10 +34,11 @@ function getOrdemServicos({ page = 0, rows = 10, search = "" }) {
 }
 
 
-function deleteOrdemServicoMutation(ordemServico: OrdemServico) {
+function deleteOrdemServicoMutation(ordemServico: OrdemServico): FetchArgs {
     return {
         url: `${endpointUrl}/${ordemServico.ordemServicoId}`,
         method: "DELETE",
+        responseHandler: (response) => response.text(),
     };
 }
 

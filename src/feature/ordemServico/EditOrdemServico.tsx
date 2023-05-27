@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { OrdemServico } from '../../types/OrdemServico';
 import { OrdemServicoForm } from './components/OrdemServicoForm';
 import { useSnackbar } from 'notistack';
+import { OrdemServicoTabCliente } from './components/ClienteTab/OrdemServicoTabCliente';
 
 export default function EditOrdemServico() {
     const { enqueueSnackbar } = useSnackbar();
@@ -63,7 +64,7 @@ export default function EditOrdemServico() {
                     />
                 </TabPanel>
                 <TabPanel header="Cliente">
-                    <h1>a</h1>
+                    <OrdemServicoTabCliente ordemServicoId={parseInt(id!)} />
                 </TabPanel>
                 <TabPanel header="Materiais">
                     <h1>a</h1>

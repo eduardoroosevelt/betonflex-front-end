@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useDeleteMaterialMutation, useGetMaterialsQuery } from './materialSlice';
 import { useSnackbar } from 'notistack';
+import { DataTableStateEvent } from 'primereact/datatable';
+import { useDeleteMaterialMutation, useGetMaterialsQuery } from './materialSlice';
 import { CreateMaterial } from './CreateMaterial';
 import { MaterialTable } from './components/MaterialTable';
-import { DataTableStateEvent } from 'primereact/datatable';
 
 export function ListMaterial() {
   const { enqueueSnackbar } = useSnackbar();
