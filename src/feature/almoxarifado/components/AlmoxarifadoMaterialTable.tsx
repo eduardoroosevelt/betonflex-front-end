@@ -28,7 +28,7 @@ interface ColumnMeta {
 
 export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
     const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
-    const [selecteConfirmExclusao, setSelecteConfirmExclusao] = useState<AlmoxarifadoMaterial>();
+    const [selected, setSelected] = useState<AlmoxarifadoMaterial | null>();
 
     const valorTotalBodyTemplate = (product: AlmoxarifadoMaterial) => {
         return formatCurrency(product.valorTotal);
@@ -73,13 +73,18 @@ export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rows
 
     const onExcluir = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, rowData: AlmoxarifadoMaterial) => {
         event.preventDefault();
-        setSelecteConfirmExclusao(rowData);
+        setSelected(rowData);
         setVisibleConfirmExcluir(true);
     };
 
     const confirmarExclucao = () => {
         setVisibleConfirmExcluir(false);
-        handleDelete && selecteConfirmExclusao && handleDelete(selecteConfirmExclusao?.almoxarifadoMaterialId);
+        handleDelete && selected && handleDelete(selected?.almoxarifadoMaterialId);
+    };
+
+    const hideConfirmarExclucao = () => {
+        setSelected(null);
+        setVisibleConfirmExcluir(false);
     };
 
     const renderFooter = () => {
@@ -100,12 +105,13 @@ export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rows
                     type="button"
                     icon="pi pi-times"
                     iconPos="left"
-                    onClick={() => setVisibleConfirmExcluir(false)}
+                    onClick={() => hideConfirmarExclucao()}
 
                 />
             </div>
         );
     };
+
     return (
         <>
             <DataTable
@@ -124,6 +130,7 @@ export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rows
                 header={renderHeader()}
                 onRowClick={handleEdit}
                 selectionMode="single"
+                selection={selected || []}
                 metaKeySelection={true}
             >
                 {columns.map((col, i) => (
@@ -135,7 +142,7 @@ export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rows
                 header="Confirmação"
                 visible={visibleConfirmExcluir}
                 footer={renderFooter()}
-                onHide={() => setVisibleConfirmExcluir(false)}
+                onHide={() => hideConfirmarExclucao()}
                 onShow={() => confirmarExclucao}
                 id="confirm_exclusao"
             >

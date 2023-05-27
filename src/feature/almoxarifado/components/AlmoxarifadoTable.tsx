@@ -70,8 +70,6 @@ export function AlmoxarifadoTable({ data, rows, isFetching, rowsPerPage, handleO
   };
 
   const hideConfirmarExclucao = () => {
-    console.log('a,p,fopf');
-
     setSelected(null);
     setVisibleConfirmExcluir(false);
   };

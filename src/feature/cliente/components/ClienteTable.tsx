@@ -29,7 +29,7 @@ interface ColumnMeta {
 export function ClientTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
     const navigation = useNavigate();
     const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
-    const [selecteConfirmExclusao, setSelecteConfirmExclusao] = useState<Cliente>();
+    const [selected, setSelected] = useState<Cliente | null>();
 
     const columns: ColumnMeta[] = [
         { field: 'clienteNome', header: 'Nome' },
@@ -57,15 +57,19 @@ export function ClientTable({ data, rows, isFetching, rowsPerPage, handleOnPageC
 
     const onExcluir = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, rowData: Cliente) => {
         event.preventDefault();
-        setSelecteConfirmExclusao(rowData);
+        setSelected(rowData);
         setVisibleConfirmExcluir(true);
     };
 
     const confirmarExclucao = () => {
         setVisibleConfirmExcluir(false);
-        handleDelete && selecteConfirmExclusao && handleDelete(selecteConfirmExclusao?.clienteId);
+        handleDelete && selected && handleDelete(selected?.clienteId);
     };
 
+    const hideConfirmarExclucao = () => {
+        setSelected(null);
+        setVisibleConfirmExcluir(false);
+    };
     const renderFooter = () => {
         return (
             <div>
@@ -84,7 +88,7 @@ export function ClientTable({ data, rows, isFetching, rowsPerPage, handleOnPageC
                     type="button"
                     icon="pi pi-times"
                     iconPos="left"
-                    onClick={() => setVisibleConfirmExcluir(false)}
+                    onClick={() => hideConfirmarExclucao()}
 
                 />
             </div>
@@ -108,6 +112,7 @@ export function ClientTable({ data, rows, isFetching, rowsPerPage, handleOnPageC
                 header={renderHeader()}
                 onRowClick={handleEdit}
                 selectionMode="single"
+                selection={selected || []}
                 metaKeySelection={true}
             >
                 {columns.map((col, i) => (
@@ -119,7 +124,7 @@ export function ClientTable({ data, rows, isFetching, rowsPerPage, handleOnPageC
                 header="Confirmação"
                 visible={visibleConfirmExcluir}
                 footer={renderFooter()}
-                onHide={() => setVisibleConfirmExcluir(false)}
+                onHide={() => hideConfirmarExclucao()}
                 onShow={() => confirmarExclucao}
                 id="confirm_exclusao"
             >

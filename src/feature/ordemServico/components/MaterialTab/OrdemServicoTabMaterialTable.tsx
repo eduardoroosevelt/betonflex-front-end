@@ -26,7 +26,8 @@ type Props = {
 
 export function OrdemServicoTabMaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
     const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
-    const [selecteConfirmExclusao, setSelecteConfirmExclusao] = useState<OrdemServicoMaterial>();
+    const [selected, setSelected] = useState<OrdemServicoMaterial | null>();
+    const first = data?.number && data?.size ? data?.number * data?.size : 0;
 
     const columns: ColumnMeta[] = [
         { field: 'cliente.clienteNome', header: 'Nome' },
@@ -37,29 +38,30 @@ export function OrdemServicoTabMaterialTable({ data, rows, isFetching, rowsPerPa
     function renderHeader() {
         return <Button label={"Adicionar"} icon="pi pi-plus" onClick={handleAdicionar} />
     }
-    const first = data?.number && data?.size ? data?.number * data?.size : 0;
 
     function botoes(data: OrdemServicoMaterial) {
-
         return (
             <div>
                 <Button label={"Excluir"} icon="pi pi-trash" severity='danger' onClick={(e) => onExcluir(e, data)} />
             </div>
         )
-
     }
 
     const onExcluir = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, rowData: OrdemServicoMaterial) => {
         event.preventDefault();
-        setSelecteConfirmExclusao(rowData);
+        setSelected(rowData);
         setVisibleConfirmExcluir(true);
     };
 
     const confirmarExclucao = () => {
         setVisibleConfirmExcluir(false);
-        handleDelete && selecteConfirmExclusao && handleDelete(selecteConfirmExclusao?.ordemServicoMaterialId);
+        handleDelete && selected && handleDelete(selected?.ordemServicoMaterialId);
     };
 
+    const hideConfirmarExclucao = () => {
+        setSelected(null);
+        setVisibleConfirmExcluir(false);
+    };
     const renderFooter = () => {
         return (
             <div>
@@ -78,7 +80,7 @@ export function OrdemServicoTabMaterialTable({ data, rows, isFetching, rowsPerPa
                     type="button"
                     icon="pi pi-times"
                     iconPos="left"
-                    onClick={() => setVisibleConfirmExcluir(false)}
+                    onClick={() => hideConfirmarExclucao()}
 
                 />
             </div>
@@ -102,6 +104,7 @@ export function OrdemServicoTabMaterialTable({ data, rows, isFetching, rowsPerPa
                 header={renderHeader()}
                 selectionMode="single"
                 metaKeySelection={true}
+                selection={selected || []}
             >
                 {columns.map((col, i) => (
                     <Column key={col.field} field={col.field} header={col.header} />

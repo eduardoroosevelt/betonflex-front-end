@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate, } from 'react-router-dom';
 import { AppLayout } from './layout/AppLayout';
 import { LayoutProvider } from './layout/context/layoutcontext';
 import { NotFound } from './pages/404';
-import { Dashboard } from './pages/app/Dashboard';
+
 import { ListAlmoxarifado } from './feature/almoxarifado/ListAlmoxarifado';
 import { EditAlmoxarifado } from './feature/almoxarifado/EditAlmoxarifado';
 import ListCliente from './feature/cliente/ListCliente';
@@ -18,6 +18,7 @@ import { Redirect } from './components/Redirect';
 import EditOrdemServico from './feature/ordemServico/EditOrdemServico';
 import { ListFuncionario } from './feature/funcionario/ListFuncionario';
 import { EditFuncionario } from './feature/funcionario/EditFuncionario';
+import { Dashboard } from './feature/dashboard/Dashboard';
 
 
 
@@ -26,7 +27,7 @@ export function RouterApp() {
         <LayoutProvider>
             <Routes>
 
-                <Route path="/" element={<Redirect url='/app/cadastro/cliente' />}>
+                <Route path="/" element={<Redirect url='/app' />}>
                     {/* <Route path="/login" element={<Login />} /> */}
                 </Route>
 

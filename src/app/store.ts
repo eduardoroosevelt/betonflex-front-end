@@ -26,6 +26,7 @@ const rootReducer = combineReducers({
     [OrdemServicoClienteApiSlice.reducerPath]: OrdemServicoClienteApiSlice.reducer,
     [funcionarioApiSlice.reducerPath]: funcionarioApiSlice.reducer,
     [OrdemServicoMaterialApiSlice.reducerPath]: OrdemServicoMaterialApiSlice.reducer,
+    [OrdemServicoClienteApiSlice.reducerPath]: OrdemServicoClienteApiSlice.reducer,
     auth: authSlice.reducer,
 });
 

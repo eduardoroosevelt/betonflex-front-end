@@ -5,6 +5,8 @@ import { DataTable, DataTableRowClickEvent, DataTableSelectionChangeEvent, DataT
 import { useNavigate } from 'react-router-dom';
 import { Results } from '../../../types/Results';
 import { Material } from '../../../types/Material';
+import { useState } from 'react';
+import { Dialog } from 'primereact/dialog';
 
 
 
@@ -29,6 +31,8 @@ interface ColumnMeta {
 export function MaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
 
     const navigation = useNavigate();
+    const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
+    const [selected, setSelected] = useState<Material | null>();
 
     const columns: ColumnMeta[] = [
         { field: 'materialNome', header: 'Nome' },
@@ -49,6 +53,53 @@ export function MaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPag
 
     const first = data?.number && data?.size ? data?.number * data?.size : 0;
 
+    function botoes(data: Material) {
+        return (
+            <div>
+                <Button label={"Excluir"} icon="pi pi-trash" severity='danger' onClick={(e) => onExcluir(e, data)} />
+            </div>
+        )
+    }
+
+    const onExcluir = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, rowData: Material) => {
+        event.preventDefault();
+        setSelected(rowData);
+        setVisibleConfirmExcluir(true);
+    };
+
+    const confirmarExclucao = () => {
+        setVisibleConfirmExcluir(false);
+        handleDelete && selected && handleDelete(selected?.materialId);
+    };
+
+    const hideConfirmarExclucao = () => {
+        setSelected(null);
+        setVisibleConfirmExcluir(false);
+    };
+    const renderFooter = () => {
+        return (
+            <div>
+                <Button
+                    label="Sim"
+                    type="button"
+                    icon="pi pi-check"
+                    iconPos="left"
+                    onClick={confirmarExclucao}
+                    text
+                    raised
+                />
+
+                <Button
+                    label="Não"
+                    type="button"
+                    icon="pi pi-times"
+                    iconPos="left"
+                    onClick={() => hideConfirmarExclucao()}
+
+                />
+            </div>
+        );
+    };
 
     return (
         <div>
@@ -68,12 +119,24 @@ export function MaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPag
                 header={renderHeader()}
                 onRowClick={handleEdit}
                 selectionMode="single"
+                selection={selected || []}
                 metaKeySelection={true}
             >
                 {columns.map((col, i) => (
                     <Column key={col.field} field={col.field} header={col.header} />
                 ))}
+                <Column header={'Ação'} body={botoes} />
             </DataTable>
+            <Dialog
+                header="Confirmação"
+                visible={visibleConfirmExcluir}
+                footer={renderFooter()}
+                onHide={() => hideConfirmarExclucao()}
+                onShow={() => confirmarExclucao}
+                id="confirm_exclusao"
+            >
+                <p>Deseja realmente remover o registro selecionado? </p>
+            </Dialog>
         </div >
     )
 }

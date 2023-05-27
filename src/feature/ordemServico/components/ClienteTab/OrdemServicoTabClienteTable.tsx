@@ -28,7 +28,7 @@ type Props = {
 
 export default function OrdemServicoTabClienteTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
     const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
-    const [selecteConfirmExclusao, setSelecteConfirmExclusao] = useState<OrdemServicoCliente>();
+    const [selected, setSelected] = useState<OrdemServicoCliente | null>();
 
     const columns: ColumnMeta[] = [
         { field: 'cliente.clienteNome', header: 'Nome' },
@@ -53,15 +53,19 @@ export default function OrdemServicoTabClienteTable({ data, rows, isFetching, ro
 
     const onExcluir = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, rowData: OrdemServicoCliente) => {
         event.preventDefault();
-        setSelecteConfirmExclusao(rowData);
+        setSelected(rowData);
         setVisibleConfirmExcluir(true);
     };
 
     const confirmarExclucao = () => {
         setVisibleConfirmExcluir(false);
-        handleDelete && selecteConfirmExclusao && handleDelete(selecteConfirmExclusao?.ordemServicoClienteId);
+        handleDelete && selected && handleDelete(selected?.ordemServicoClienteId);
     };
 
+    const hideConfirmarExclucao = () => {
+        setSelected(null);
+        setVisibleConfirmExcluir(false);
+    };
     const renderFooter = () => {
         return (
             <div>
@@ -80,7 +84,7 @@ export default function OrdemServicoTabClienteTable({ data, rows, isFetching, ro
                     type="button"
                     icon="pi pi-times"
                     iconPos="left"
-                    onClick={() => setVisibleConfirmExcluir(false)}
+                    onClick={() => hideConfirmarExclucao()}
 
                 />
             </div>
@@ -103,6 +107,7 @@ export default function OrdemServicoTabClienteTable({ data, rows, isFetching, ro
                 onPage={handleOnPageChange}
                 onFilter={handleFilterChange}
                 header={renderHeader()}
+                selection={selected || []}
                 selectionMode="single"
                 metaKeySelection={true}
             >
@@ -115,7 +120,7 @@ export default function OrdemServicoTabClienteTable({ data, rows, isFetching, ro
                 header="Confirmação"
                 visible={visibleConfirmExcluir}
                 footer={renderFooter()}
-                onHide={() => setVisibleConfirmExcluir(false)}
+                onHide={() => hideConfirmarExclucao()}
                 onShow={() => confirmarExclucao}
                 id="confirm_exclusao"
             >

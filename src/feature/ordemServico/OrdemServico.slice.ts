@@ -73,6 +73,10 @@ export const OrdemServicoApiSlice = apiSlice.injectEndpoints({
             query: ({ clienteId, page, rows }) => `${endpointUrl}/cliente/${clienteId}?page=${page}&size=${rows}`,
             providesTags: ["OrdemServico"],
         }),
+        getUltimaOrdemServico: query<OrdemServico[], void>({
+            query: () => `${endpointUrl}/ultimasordemservicos`,
+            providesTags: ["OrdemServico"],
+        }),
         createOrdemServico: mutation<OrdemServico, OrdemServico>({
             query: createOrdemServicoMutation,
             invalidatesTags: ["OrdemServico"],
@@ -96,5 +100,6 @@ export const {
     useGetOrdemServicosQuery,
     useDeleteOrdemServicoMutation,
     useUpdateOrdemServicoMutation,
-    useGetOrdemServicoPorClientePageQuery
+    useGetOrdemServicoPorClientePageQuery,
+    useGetUltimaOrdemServicoQuery
 } = OrdemServicoApiSlice
