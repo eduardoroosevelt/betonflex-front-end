@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useGetOrdemServicoQuery, useUpdateOrdemServicoMutation } from './OrdemServico.slice';
 import { useForm } from 'react-hook-form';
 import { OrdemServico } from '../../types/OrdemServico';
-import { OrdemServicoForm } from './OrdemServicoForm';
+import { OrdemServicoForm } from './components/OrdemServicoForm';
 import { useSnackbar } from 'notistack';
 
 export default function EditOrdemServico() {
@@ -62,10 +62,10 @@ export default function EditOrdemServico() {
                         control={control}
                     />
                 </TabPanel>
-                <TabPanel header="Materiais">
+                <TabPanel header="Cliente">
                     <h1>a</h1>
                 </TabPanel>
-                <TabPanel header="Produto">
+                <TabPanel header="Materiais">
                     <h1>a</h1>
                 </TabPanel>
                 <TabPanel header="Anexos">

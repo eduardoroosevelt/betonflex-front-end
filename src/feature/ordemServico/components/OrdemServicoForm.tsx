@@ -1,6 +1,6 @@
 import React from 'react'
-import { WrapperComLabel } from '../../components/WrapperFormLabelInput'
-import { OrdemServico } from '../../types/OrdemServico'
+import { WrapperComLabel } from '../../../components/WrapperFormLabelInput'
+import { OrdemServico } from '../../../types/OrdemServico'
 import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form'
 import { InputText } from 'primereact/inputtext'
 import classNames from 'classnames'
@@ -8,7 +8,7 @@ import { Calendar } from 'primereact/calendar'
 import { Dropdown } from 'primereact/dropdown'
 import { InputNumber } from 'primereact/inputnumber'
 import { Button } from 'primereact/button'
-import { useGetTipoServicoListQuery } from '../tipoServico/TipoServicoSlice'
+import { useGetTipoServicoListQuery } from '../../tipoServico/TipoServicoSlice'
 
 interface OrdemServicoFormProps {
     handleSubmit: React.FormEventHandler<HTMLFormElement>

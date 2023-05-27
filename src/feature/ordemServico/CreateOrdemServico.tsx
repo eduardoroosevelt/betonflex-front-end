@@ -12,7 +12,7 @@ import { useGetTipoServicoListQuery } from '../tipoServico/TipoServicoSlice';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
 import { Calendar } from "primereact/calendar";
-import { OrdemServicoForm } from './OrdemServicoForm';
+import { OrdemServicoForm } from './components/OrdemServicoForm';
 
 interface CreateOrdemServicoProps {
     visibleAdicionar: boolean;
