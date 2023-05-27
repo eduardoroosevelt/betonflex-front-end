@@ -34,11 +34,11 @@ export const OrdemServicoClienteApiSlice = apiSlice.injectEndpoints({
         }),
         deleteOrdemServicoCliente: mutation<string, { ordemServicoClienteId: number }>({
             query: deleteOrdemServicoClienteMutation,
-            invalidatesTags: ["OrdemServicoCliente"],
+            invalidatesTags: ["OrdemServicoCliente", "OrdemServico"],
         }),
         updateOrdemServicoCliente: mutation<OrdemServicoCliente, OrdemServicoCliente>({
             query: updateOrdemServicoClienteMutation,
-            invalidatesTags: ["OrdemServicoCliente"],
+            invalidatesTags: ["OrdemServicoCliente", "OrdemServico"],
         }),
     })
 
