@@ -9,6 +9,8 @@ import { WrapperComLabel } from '../../components/WrapperFormLabelInput';
 import { InputText } from 'primereact/inputtext';
 import classNames from 'classnames';
 import { Button } from 'primereact/button';
+import { TabPanel, TabView } from 'primereact/tabview';
+import { ClientOrdemServicoTab } from './components/ClientOrdemServicoTab';
 
 export function EditCliente() {
     const id = useParams().id;
@@ -59,22 +61,32 @@ export function EditCliente() {
     return (
         <div>
             <h3>Editar Cliente</h3>
-            <form className='grid gap-2' onSubmit={handleSubmit(onSubmit)}>
-                <WrapperComLabel cols='12' label='Nome' >
-                    <InputText {...register("clienteNome")} className={classNames('w-full', { 'p-invalid': errors.clienteNome })} />
-                    {errors.clienteNome && (
-                        <p role="alert" style={{ color: 'var(--red-700)' }}>
-                            {errors.clienteNome?.message}
-                        </p>
-                    )}
-                </WrapperComLabel>
 
-                <WrapperComLabel cols='12' label='Documento' >
-                    <InputText {...register("clienteDocumento")} className={classNames('w-full')} />
-                </WrapperComLabel>
-                <Button type="submit" severity="success" label="Salvar" className="col-12 md:col-2" />
-                <Button label="Voltar" onClick={goBack} className="col-12 md:col-2" />
-            </form>
+            <TabView>
+                <TabPanel header="Dados Gerais">
+                    <form className='grid gap-2' onSubmit={handleSubmit(onSubmit)}>
+                        <WrapperComLabel cols='12' label='Nome' >
+                            <InputText {...register("clienteNome")} className={classNames('w-full', { 'p-invalid': errors.clienteNome })} />
+                            {errors.clienteNome && (
+                                <p role="alert" style={{ color: 'var(--red-700)' }}>
+                                    {errors.clienteNome?.message}
+                                </p>
+                            )}
+                        </WrapperComLabel>
+
+                        <WrapperComLabel cols='12' label='Documento' >
+                            <InputText {...register("clienteDocumento")} className={classNames('w-full')} />
+                        </WrapperComLabel>
+                        <Button type="submit" severity="success" label="Salvar" className="col-12 md:col-2" />
+                        <Button label="Voltar" onClick={goBack} className="col-12 md:col-2" />
+                    </form>
+                </TabPanel>
+
+                <TabPanel header="Ordem de Serviços">
+                    <ClientOrdemServicoTab clienteId={parseInt(id!)} />
+                </TabPanel>
+            </TabView>
+
         </div>
     )
 }

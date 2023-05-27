@@ -1,35 +1,44 @@
+
 import { useSnackbar } from 'notistack';
+import { Sidebar } from 'primereact/sidebar'
 import React, { useEffect } from 'react'
-import { OrdemServico } from '../../types/OrdemServico';
+import { useCreateOrdemServicoMutation } from '../../ordemServico/OrdemServico.slice';
+import { useGetTipoServicoListQuery } from '../../tipoServico/TipoServicoSlice';
 import { Controller, useForm } from 'react-hook-form';
-import { useCreateOrdemServicoMutation } from './OrdemServico.slice';
-import { Sidebar } from 'primereact/sidebar';
-import { WrapperComLabel } from '../../components/WrapperFormLabelInput';
+import { OrdemServico } from '../../../types/OrdemServico';
+import { WrapperComLabel } from '../../../components/WrapperFormLabelInput';
 import { InputText } from 'primereact/inputtext';
-import classNames from 'classnames';
-import { Button } from 'primereact/button';
-import { useGetTipoServicoListQuery } from '../tipoServico/TipoServicoSlice';
+import { classNames } from 'primereact/utils';
+import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
-import { Calendar } from "primereact/calendar";
+import { Button } from 'primereact/button';
+import { useCreateOrdemServicoClienteMutation } from '../../ordemServicoCliente/OrdemServicoCliente';
+import { OrdemServicoCliente } from '../../../types/OrdemServicoCliente';
 
-interface CreateOrdemServicoProps {
+interface ClientOrdemServicoTabProps {
+    clienteId: number
     visibleAdicionar: boolean;
     onHideAdicionar: () => void;
 }
 
-export function CreateOrdemServico({ visibleAdicionar, onHideAdicionar }: CreateOrdemServicoProps) {
+export function ClientOrdemServicoTabCreate({ clienteId, onHideAdicionar, visibleAdicionar }: ClientOrdemServicoTabProps) {
     const { enqueueSnackbar } = useSnackbar();
-    const [createOrdemServico, status] = useCreateOrdemServicoMutation();
+    const [createOrdemServicoCliente, status] = useCreateOrdemServicoClienteMutation();
     const { data: listTipoServico } = useGetTipoServicoListQuery();
-    const { register, handleSubmit, control, watch, setError, formState: { errors } } = useForm<OrdemServico>({
+    const { register, handleSubmit, control, watch, setError, formState: { errors } } = useForm<OrdemServicoCliente>({
         defaultValues: {
-            ordemServicoId: 0,
-            ordemServicoNumero: "",
-            tipoServico: {},
-            ordemServicoStatus: 'NOVO',
-            ordemServicoDataAbertura: (new Date()).toLocaleDateString('pt-BR'),
-            ordemServicoValor: 0,
+            cliente: {
+                clienteId: clienteId,
+            },
+            ordemServico: {
+                ordemServicoId: 0,
+                ordemServicoNumero: "",
+                tipoServico: {},
+                ordemServicoStatus: 'NOVO',
+                ordemServicoDataAbertura: (new Date()).toLocaleDateString('pt-BR'),
+                ordemServicoValor: 0,
+            }
         }
     });
 
@@ -44,8 +53,8 @@ export function CreateOrdemServico({ visibleAdicionar, onHideAdicionar }: Create
         }
     }, [enqueueSnackbar, status.error, status.isSuccess]);
 
-    async function onSubmit(data: OrdemServico) {
-        await createOrdemServico(data);
+    async function onSubmit(data: OrdemServicoCliente) {
+        await createOrdemServicoCliente(data);
     }
 
 
@@ -55,17 +64,17 @@ export function CreateOrdemServico({ visibleAdicionar, onHideAdicionar }: Create
 
             <form className='grid' onSubmit={handleSubmit(onSubmit)}>
                 <WrapperComLabel cols='12' label='N° da Ordem' >
-                    <InputText {...register("ordemServicoNumero")} className={classNames('w-full', { 'p-invalid': errors.ordemServicoNumero })} />
-                    {errors.ordemServicoNumero && (
+                    <InputText {...register("ordemServico.ordemServicoNumero")} className={classNames('w-full', { 'p-invalid': errors.ordemServico?.ordemServicoNumero })} />
+                    {errors.ordemServico?.ordemServicoNumero && (
                         <p role="alert" style={{ color: 'var(--red-700)' }}>
-                            {errors.ordemServicoNumero?.message}
+                            {errors.ordemServico?.ordemServicoNumero?.message}
                         </p>
                     )}
                 </WrapperComLabel>
 
                 <WrapperComLabel cols='12' label='Data da Abertura' >
                     <Controller
-                        name="ordemServicoDataAbertura"
+                        name="ordemServico.ordemServicoDataAbertura"
                         control={control}
                         rules={{ required: 'Data é obrigatório.' }}
                         render={({ field, fieldState }) => {
@@ -85,9 +94,9 @@ export function CreateOrdemServico({ visibleAdicionar, onHideAdicionar }: Create
                                     appendTo="self"
                                 />
                                 {
-                                    errors.ordemServicoDataAbertura && (
+                                    errors.ordemServico?.ordemServicoDataAbertura && (
                                         <p role="alert" style={{ color: 'var(--red-700)' }}>
-                                            {errors.ordemServicoDataAbertura?.message}
+                                            {errors.ordemServico?.ordemServicoDataAbertura?.message}
                                         </p>
                                     )
                                 }
@@ -98,7 +107,7 @@ export function CreateOrdemServico({ visibleAdicionar, onHideAdicionar }: Create
 
                 <WrapperComLabel cols='12' label='Tipo de Serviço' isObrigatorio>
                     <Controller
-                        name="tipoServico"
+                        name="ordemServico.tipoServico"
                         control={control}
                         rules={{ required: 'Tipo Serviço é obrigatório' }}
                         render={({ field, fieldState }) => (
@@ -118,7 +127,7 @@ export function CreateOrdemServico({ visibleAdicionar, onHideAdicionar }: Create
 
                 <WrapperComLabel cols='12' label='Valor da Ordem' >
                     <Controller
-                        name="ordemServicoValor"
+                        name="ordemServico.ordemServicoValor"
                         control={control}
                         rules={{
                             required: 'Entre com um valor acima de 0.',
@@ -140,9 +149,9 @@ export function CreateOrdemServico({ visibleAdicionar, onHideAdicionar }: Create
                                     className='w-full'
                                 />
                                 {
-                                    errors.ordemServicoValor && (
+                                    errors.ordemServico?.ordemServicoValor && (
                                         <p role="alert" style={{ color: 'var(--red-700)' }}>
-                                            {errors.ordemServicoValor?.message}
+                                            {errors.ordemServico?.ordemServicoValor?.message}
                                         </p>
                                     )
                                 }
@@ -150,8 +159,9 @@ export function CreateOrdemServico({ visibleAdicionar, onHideAdicionar }: Create
                         )}
                     />
                 </WrapperComLabel>
+
                 <Button type="submit" severity="success" label="Salvar" className="col-12" />
             </form>
-        </Sidebar >
+        </Sidebar>
     )
 }

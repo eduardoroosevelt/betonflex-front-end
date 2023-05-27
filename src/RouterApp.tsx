@@ -15,6 +15,7 @@ import { EditTipoServico } from './feature/tipoServico/EditTipoServico';
 import { EditCliente } from './feature/cliente/EditCliente';
 import { useEffect } from 'react';
 import { Redirect } from './components/Redirect';
+import EditOrdemServico from './feature/ordemServico/EditOrdemServico';
 
 
 
@@ -42,7 +43,7 @@ export function RouterApp() {
                     <Route path="/app/cadastro/tipo-servico/edit/:id" element={<EditTipoServico />} />
 
                     <Route path="/app/cadastro/ordemServico" element={<ListOrdemServico />} />
-                    <Route path="/app/cadastro/ordemServico/edit/:id" element={<EditTipoServico />} />
+                    <Route path="/app/cadastro/ordemServico/edit/:id" element={<EditOrdemServico />} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

@@ -1,13 +1,13 @@
 import React from 'react'
-import { Cliente } from '../../../types/Cliente';
+import { OrdemServico } from '../../../types/OrdemServico';
 import { Results } from '../../../types/Results';
 import { DataTable, DataTableRowClickEvent, DataTableStateEvent } from 'primereact/datatable';
-import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
-    data: Results<Cliente> | undefined;
+    data: Results<OrdemServico> | undefined;
     rows: number;
     isFetching: boolean;
     rowsPerPage?: number[];
@@ -18,28 +18,29 @@ type Props = {
     handleAdicionar: () => void;
 };
 
-
 interface ColumnMeta {
     field: string;
     header: string;
 }
 
 
-export function ClientTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
+export function ClientOrdemServicoTabTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
     const navigation = useNavigate();
 
     const columns: ColumnMeta[] = [
-        { field: 'clienteNome', header: 'Nome' },
-        { field: 'clienteDocumento', header: 'Documento' },
-        { field: 'clienteCreateat', header: 'Criado em' }
+        { field: 'ordemServicoNumero', header: 'N° da ordem' },
+        { field: 'tipoServico.tipoServicoNome', header: 'Tipo de Serviço' },
+        { field: 'ordemServicoStatus', header: 'Status' },
     ];
 
     function renderHeader() {
+
         return <Button label={"Adicionar"} icon="pi pi-plus" onClick={handleAdicionar} />
     }
 
     function handleEdit(parm: DataTableRowClickEvent) {
-        navigation(`/app/cadastro/cliente/edit/${parm.data.clienteId}`);
+
+        navigation(`/app/cadastro/ordemServico/edit/${parm.data.ordemServicoId}`);
     }
 
     const first = data?.number && data?.size ? data?.number * data?.size : 0;

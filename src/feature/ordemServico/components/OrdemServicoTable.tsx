@@ -42,7 +42,7 @@ export function OrdemServicoTable({ data, rows, isFetching, rowsPerPage, handleO
 
     function handleEdit(parm: DataTableRowClickEvent) {
 
-        navigation(`/app/cadastro/ordemServico/edit/${parm.data.clienteId}`);
+        navigation(`/app/cadastro/ordemServico/edit/${parm.data.ordemServicoId}`);
     }
 
     const first = data?.number && data?.size ? data?.number * data?.size : 0;
