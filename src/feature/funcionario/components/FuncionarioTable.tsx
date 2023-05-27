@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Funcionario } from '../../../types/Funcionario';
 import { Results } from '../../../types/Results';
 import { DataTable, DataTableRowClickEvent, DataTableStateEvent } from 'primereact/datatable';
 import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
 import { Column } from 'primereact/column';
+import { Dialog } from 'primereact/dialog';
 
 type Props = {
     data: Results<Funcionario> | undefined;
@@ -26,6 +27,8 @@ interface ColumnMeta {
 
 export function FuncionarioTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
     const navigation = useNavigate();
+    const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
+    const [selecteConfirmExclusao, setSelecteConfirmExclusao] = useState<Funcionario>();
 
     const columns: ColumnMeta[] = [
         { field: 'funcionarioNome', header: 'Nome' },
@@ -46,11 +49,47 @@ export function FuncionarioTable({ data, rows, isFetching, rowsPerPage, handleOn
     function botoes(data: Funcionario) {
         return (
             <div>
-                <Button label={"Excluir"} icon="pi pi-trash" severity='danger' onClick={() => handleDelete(data.funcionarioId)} />
+                <Button label={"Excluir"} icon="pi pi-trash" severity='danger' onClick={(e) => onExcluir(e, data)} />
             </div>
         )
     }
 
+
+    const onExcluir = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, rowData: Funcionario) => {
+        event.preventDefault();
+        setSelecteConfirmExclusao(rowData);
+        setVisibleConfirmExcluir(true);
+    };
+
+    const confirmarExclucao = () => {
+        setVisibleConfirmExcluir(false);
+        handleDelete && selecteConfirmExclusao && handleDelete(selecteConfirmExclusao?.funcionarioId);
+    };
+
+    const renderFooter = () => {
+        return (
+            <div>
+                <Button
+                    label="Sim"
+                    type="button"
+                    icon="pi pi-check"
+                    iconPos="left"
+                    onClick={confirmarExclucao}
+                    text
+                    raised
+                />
+
+                <Button
+                    label="Não"
+                    type="button"
+                    icon="pi pi-times"
+                    iconPos="left"
+                    onClick={() => setVisibleConfirmExcluir(false)}
+
+                />
+            </div>
+        );
+    };
 
     return (
         <div>
@@ -78,6 +117,16 @@ export function FuncionarioTable({ data, rows, isFetching, rowsPerPage, handleOn
 
                 <Column header="Ações" body={botoes} />
             </DataTable>
+            <Dialog
+                header="Confirmação"
+                visible={visibleConfirmExcluir}
+                footer={renderFooter()}
+                onHide={() => setVisibleConfirmExcluir(false)}
+                onShow={() => confirmarExclucao}
+                id="confirm_exclusao"
+            >
+                <p>Deseja realmente remover o registro selecionado? </p>
+            </Dialog>
         </div >
     )
 }

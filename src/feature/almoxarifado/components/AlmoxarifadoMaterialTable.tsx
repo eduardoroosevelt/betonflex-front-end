@@ -1,9 +1,10 @@
 import { Column } from 'primereact/column'
 import { DataTable, DataTableRowClickEvent, DataTableStateEvent } from 'primereact/datatable'
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Results } from '../../../types/Results';
 import { AlmoxarifadoMaterial } from '../../../types/Almoxarifado';
 import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 
 
 type Props = {
@@ -26,6 +27,9 @@ interface ColumnMeta {
 }
 
 export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
+    const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
+    const [selecteConfirmExclusao, setSelecteConfirmExclusao] = useState<AlmoxarifadoMaterial>();
+
     const valorTotalBodyTemplate = (product: AlmoxarifadoMaterial) => {
         return formatCurrency(product.valorTotal);
     };
@@ -59,7 +63,7 @@ export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rows
     function botoes(data: AlmoxarifadoMaterial) {
         return (
             <div>
-                <Button label={"Excluir"} icon="pi pi-trash" severity='danger' onClick={() => handleDelete(data.almoxarifadoMaterialId)} />
+                <Button label={"Excluir"} icon="pi pi-trash" severity='danger' onClick={(e) => onExcluir(e, data)} />
             </div>
         )
     }
@@ -67,30 +71,76 @@ export default function AlmoxarifadoMaterialTable({ data, rows, isFetching, rows
 
     const first = data?.number && data?.size ? data?.number * data?.size : 0;
 
-    return (
+    const onExcluir = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, rowData: AlmoxarifadoMaterial) => {
+        event.preventDefault();
+        setSelecteConfirmExclusao(rowData);
+        setVisibleConfirmExcluir(true);
+    };
 
-        <DataTable
-            value={data?.content}
-            totalRecords={data?.totalElements}
-            tableStyle={{ minWidth: '50rem' }}
-            rowsPerPageOptions={rowsPerPage}
-            loading={isFetching}
-            rows={rows}
-            paginator
-            lazy
-            first={first}
-            showGridlines
-            onPage={handleOnPageChange}
-            onFilter={handleFilterChange}
-            header={renderHeader()}
-            onRowClick={handleEdit}
-            selectionMode="single"
-            metaKeySelection={true}
-        >
-            {columns.map((col, i) => (
-                <Column key={col.field} field={col.field} header={col.header} body={col.body} />
-            ))}
-            <Column header="Ações" body={botoes} />
-        </DataTable>
+    const confirmarExclucao = () => {
+        setVisibleConfirmExcluir(false);
+        handleDelete && selecteConfirmExclusao && handleDelete(selecteConfirmExclusao?.almoxarifadoMaterialId);
+    };
+
+    const renderFooter = () => {
+        return (
+            <div>
+                <Button
+                    label="Sim"
+                    type="button"
+                    icon="pi pi-check"
+                    iconPos="left"
+                    onClick={confirmarExclucao}
+                    text
+                    raised
+                />
+
+                <Button
+                    label="Não"
+                    type="button"
+                    icon="pi pi-times"
+                    iconPos="left"
+                    onClick={() => setVisibleConfirmExcluir(false)}
+
+                />
+            </div>
+        );
+    };
+    return (
+        <>
+            <DataTable
+                value={data?.content}
+                totalRecords={data?.totalElements}
+                tableStyle={{ minWidth: '50rem' }}
+                rowsPerPageOptions={rowsPerPage}
+                loading={isFetching}
+                rows={rows}
+                paginator
+                lazy
+                first={first}
+                showGridlines
+                onPage={handleOnPageChange}
+                onFilter={handleFilterChange}
+                header={renderHeader()}
+                onRowClick={handleEdit}
+                selectionMode="single"
+                metaKeySelection={true}
+            >
+                {columns.map((col, i) => (
+                    <Column key={col.field} field={col.field} header={col.header} body={col.body} />
+                ))}
+                <Column header="Ações" body={botoes} />
+            </DataTable>
+            <Dialog
+                header="Confirmação"
+                visible={visibleConfirmExcluir}
+                footer={renderFooter()}
+                onHide={() => setVisibleConfirmExcluir(false)}
+                onShow={() => confirmarExclucao}
+                id="confirm_exclusao"
+            >
+                <p>Deseja realmente remover o registro selecionado? </p>
+            </Dialog>
+        </>
     )
 }

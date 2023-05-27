@@ -1,10 +1,11 @@
 import { Button } from 'primereact/button';
 import { DataTable, DataTableStateEvent } from 'primereact/datatable';
-import React from 'react'
+import React, { useState } from 'react'
 import { Results } from '../../../../types/Results';
 import { Cliente } from '../../../../types/Cliente';
 import { Column } from 'primereact/column';
 import { OrdemServicoCliente } from '../../../../types/OrdemServicoCliente';
+import { Dialog } from 'primereact/dialog';
 
 interface ColumnMeta {
     field: string;
@@ -26,6 +27,9 @@ type Props = {
 
 
 export default function OrdemServicoTabClienteTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
+    const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
+    const [selecteConfirmExclusao, setSelecteConfirmExclusao] = useState<OrdemServicoCliente>();
+
     const columns: ColumnMeta[] = [
         { field: 'cliente.clienteNome', header: 'Nome' },
         { field: 'cliente.clienteDocumento', header: 'Documento' },
@@ -41,11 +45,48 @@ export default function OrdemServicoTabClienteTable({ data, rows, isFetching, ro
 
         return (
             <div>
-                <Button label={"Excluir"} icon="pi pi-trash" severity='danger' onClick={() => handleDelete(data.ordemServicoClienteId)} />
+                <Button label={"Excluir"} icon="pi pi-trash" severity='danger' onClick={(e) => onExcluir(e, data)} />
             </div>
         )
 
     }
+
+    const onExcluir = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, rowData: OrdemServicoCliente) => {
+        event.preventDefault();
+        setSelecteConfirmExclusao(rowData);
+        setVisibleConfirmExcluir(true);
+    };
+
+    const confirmarExclucao = () => {
+        setVisibleConfirmExcluir(false);
+        handleDelete && selecteConfirmExclusao && handleDelete(selecteConfirmExclusao?.ordemServicoClienteId);
+    };
+
+    const renderFooter = () => {
+        return (
+            <div>
+                <Button
+                    label="Sim"
+                    type="button"
+                    icon="pi pi-check"
+                    iconPos="left"
+                    onClick={confirmarExclucao}
+                    text
+                    raised
+                />
+
+                <Button
+                    label="Não"
+                    type="button"
+                    icon="pi pi-times"
+                    iconPos="left"
+                    onClick={() => setVisibleConfirmExcluir(false)}
+
+                />
+            </div>
+        );
+    };
+
     return (
         <div>
             <DataTable
@@ -70,6 +111,16 @@ export default function OrdemServicoTabClienteTable({ data, rows, isFetching, ro
                 ))}
                 <Column header="Ações" body={botoes} />
             </DataTable>
+            <Dialog
+                header="Confirmação"
+                visible={visibleConfirmExcluir}
+                footer={renderFooter()}
+                onHide={() => setVisibleConfirmExcluir(false)}
+                onShow={() => confirmarExclucao}
+                id="confirm_exclusao"
+            >
+                <p>Deseja realmente remover o registro selecionado? </p>
+            </Dialog>
         </div >
     )
 }

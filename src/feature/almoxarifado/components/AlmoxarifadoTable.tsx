@@ -5,6 +5,8 @@ import { DataTable, DataTableRowClickEvent, DataTableSelectionChangeEvent, DataT
 import { useNavigate } from 'react-router-dom';
 import { Results } from '../../../types/Results';
 import { Almoxarifado } from '../../../types/Almoxarifado';
+import { useState } from 'react';
+import { Dialog } from 'primereact/dialog';
 
 type Props = {
   data: Results<Almoxarifado> | undefined;
@@ -27,6 +29,8 @@ interface ColumnMeta {
 export function AlmoxarifadoTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
 
   const navigation = useNavigate();
+  const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
+  const [selected, setSelected] = useState<Almoxarifado | null>();
 
   const columns: ColumnMeta[] = [
     { field: 'almoxarifadoNome', header: 'Nome' },
@@ -40,17 +44,67 @@ export function AlmoxarifadoTable({ data, rows, isFetching, rowsPerPage, handleO
   }
 
   function handleEdit(parm: DataTableRowClickEvent) {
-    console.log(parm.data.almoxarifadoId);
 
     navigation(`/app/cadastro/almoxarifado/edit/${parm.data.almoxarifadoId}`);
   }
 
   const first = data?.number && data?.size ? data?.number * data?.size : 0;
 
+  function botoes(data: Almoxarifado) {
+    return (
+      <div>
+        <Button label={"Excluir"} icon="pi pi-trash" severity='danger' onClick={(e) => onExcluir(e, data)} />
+      </div>
+    )
+  }
+
+  const onExcluir = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, rowData: Almoxarifado) => {
+    event.preventDefault();
+    setSelected(rowData);
+    setVisibleConfirmExcluir(true);
+  };
+
+  const confirmarExclucao = () => {
+    setVisibleConfirmExcluir(false);
+    handleDelete && selected && handleDelete(selected?.almoxarifadoId);
+  };
+
+  const hideConfirmarExclucao = () => {
+    console.log('a,p,fopf');
+
+    setSelected(null);
+    setVisibleConfirmExcluir(false);
+  };
+
+  const renderFooter = () => {
+    return (
+      <div>
+        <Button
+          label="Sim"
+          type="button"
+          icon="pi pi-check"
+          iconPos="left"
+          onClick={confirmarExclucao}
+          text
+          raised
+        />
+
+        <Button
+          label="Não"
+          type="button"
+          icon="pi pi-times"
+          iconPos="left"
+          onClick={() => hideConfirmarExclucao()}
+
+        />
+      </div>
+    );
+  };
 
   return (
     <div>
       <DataTable
+        dataKey='almoxarifadoId'
         value={data?.content}
         totalRecords={data?.totalElements}
         tableStyle={{ minWidth: '50rem' }}
@@ -66,12 +120,24 @@ export function AlmoxarifadoTable({ data, rows, isFetching, rowsPerPage, handleO
         header={renderHeader()}
         onRowClick={handleEdit}
         selectionMode="single"
+        selection={selected || []}
         metaKeySelection={true}
       >
         {columns.map((col, i) => (
           <Column key={col.field} field={col.field} header={col.header} />
         ))}
+        <Column header={'Ação'} body={botoes} />
       </DataTable>
+      <Dialog
+        header="Confirmação"
+        visible={visibleConfirmExcluir}
+        footer={renderFooter()}
+        onHide={() => hideConfirmarExclucao()}
+        onShow={() => confirmarExclucao}
+        id="confirm_exclusao"
+      >
+        <p>Deseja realmente remover o registro selecionado? </p>
+      </Dialog>
     </div >
   )
 }
