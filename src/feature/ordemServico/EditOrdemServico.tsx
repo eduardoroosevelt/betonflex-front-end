@@ -71,8 +71,7 @@ export default function EditOrdemServico() {
                 <TabPanel header="Materiais">
                     <OrdemServicoTabMaterial ordemServicoId={parseInt(id!)} />
                 </TabPanel>
-                <TabPanel header="Anexos (Em Construção)">
-                    <h1>Em Construção</h1>
+                <TabPanel header="Anexos ">
                     <OrdemServicoTabAnexo ordemServicoId={parseInt(id!)} />
                 </TabPanel>
             </TabView>

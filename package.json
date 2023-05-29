@@ -1,6 +1,7 @@
 {
-  "name": "stellato-front-end",
+  "name": "betonflex-front-end",
   "private": true,
+  "homepage": "/betonflex",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

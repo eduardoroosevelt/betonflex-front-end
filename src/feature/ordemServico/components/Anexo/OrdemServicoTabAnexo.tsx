@@ -46,7 +46,7 @@ export function OrdemServicoTabAnexo({ ordemServicoId }: OrdemServicoTabClienteP
             <div className="card">
                 <FileUpload
                     name="file"
-                    url={`http://localhost:8083/ordemservicos/upload/${ordemServicoId}`}
+                    url={`${import.meta.env.VITE_BASE_URL}/ordemservicos/upload/${ordemServicoId}`}
                     multiple accept="*"
                     maxFileSize={1000000}
                     emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>}
