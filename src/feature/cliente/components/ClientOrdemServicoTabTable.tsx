@@ -5,9 +5,10 @@ import { DataTable, DataTableRowClickEvent, DataTableStateEvent } from 'primerea
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { useNavigate } from 'react-router-dom';
+import { OrdemServicoCliente } from '../../../types/OrdemServicoCliente';
 
 type Props = {
-    data: Results<OrdemServico> | undefined;
+    data: Results<OrdemServicoCliente> | undefined;
     rows: number;
     isFetching: boolean;
     rowsPerPage?: number[];
@@ -28,9 +29,9 @@ export function ClientOrdemServicoTabTable({ data, rows, isFetching, rowsPerPage
     const navigation = useNavigate();
 
     const columns: ColumnMeta[] = [
-        { field: 'ordemServicoNumero', header: 'N° da ordem' },
-        { field: 'tipoServico.tipoServicoNome', header: 'Tipo de Serviço' },
-        { field: 'ordemServicoStatus', header: 'Status' },
+        { field: 'ordemServico.ordemServicoNumero', header: 'N° da ordem' },
+        { field: 'ordemServico.tipoServico.tipoServicoNome', header: 'Tipo de Serviço' },
+        { field: 'ordemServico.ordemServicoStatus', header: 'Status' },
     ];
 
     function renderHeader() {
@@ -40,7 +41,7 @@ export function ClientOrdemServicoTabTable({ data, rows, isFetching, rowsPerPage
 
     function handleEdit(parm: DataTableRowClickEvent) {
 
-        navigation(`/app/cadastro/ordemServico/edit/${parm.data.ordemServicoId}`);
+        navigation(`/app/cadastro/ordemServico/edit/${parm.data.ordemServico.ordemServicoId}`);
     }
 
     const first = data?.number && data?.size ? data?.number * data?.size : 0;

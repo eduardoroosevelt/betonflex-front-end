@@ -3,6 +3,7 @@ import { useGetOrdemServicoPorClientePageQuery } from '../../ordemServico/OrdemS
 import { ClientOrdemServicoTabTable } from './ClientOrdemServicoTabTable';
 import { DataTableStateEvent } from 'primereact/datatable';
 import { ClientOrdemServicoTabCreate } from './ClientOrdemServicoTabCreate';
+import { useGetOrdemServicoClientePorClientePageQuery } from '../../ordemServicoCliente/OrdemServicoClienteSlice';
 
 interface ClientOrdemServicoTabProps {
     clienteId: number
@@ -14,7 +15,7 @@ export function ClientOrdemServicoTab({ clienteId }: ClientOrdemServicoTabProps)
         rows: 5,
         rowsPerPage: [10, 20, 30],
     });
-    const { data, isFetching, error } = useGetOrdemServicoPorClientePageQuery({ ...options, clienteId })
+    const { data, isFetching, error } = useGetOrdemServicoClientePorClientePageQuery({ ...options, clienteId })
     const [visibleAdicionar, setVisibleAdicionar] = useState(false);
 
     async function handleDelete(clienteId: number) {

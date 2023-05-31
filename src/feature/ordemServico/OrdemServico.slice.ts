@@ -80,7 +80,6 @@ export const OrdemServicoApiSlice = apiSlice.injectEndpoints({
         createOrdemServico: mutation<OrdemServico, OrdemServico>({
             query: createOrdemServicoMutation,
             invalidatesTags: ["OrdemServico"],
-
         }),
         deleteOrdemServico: mutation<string, { ordemServicoId: number }>({
             query: deleteOrdemServicoMutation,

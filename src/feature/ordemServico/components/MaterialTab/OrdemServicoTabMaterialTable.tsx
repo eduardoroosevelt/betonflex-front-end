@@ -30,9 +30,10 @@ export function OrdemServicoTabMaterialTable({ data, rows, isFetching, rowsPerPa
     const first = data?.number && data?.size ? data?.number * data?.size : 0;
 
     const columns: ColumnMeta[] = [
-        { field: 'cliente.clienteNome', header: 'Nome' },
-        { field: 'cliente.clienteDocumento', header: 'Documento' },
-        { field: 'cliente.clienteCreateat', header: 'Criado em' }
+        { field: 'almoxarifadoMaterial.material.materialNome', header: 'Nome' },
+        { field: 'almoxarifadoMaterial.material.materialSku', header: 'Sku' },
+        { field: 'almoxarifadoMaterial.material.materialDescricao', header: 'Descrição' },
+        { field: 'almoxarifadoMaterial.material.materialObservacao', header: 'Observação' }
     ];
 
     function renderHeader() {
@@ -49,6 +50,7 @@ export function OrdemServicoTabMaterialTable({ data, rows, isFetching, rowsPerPa
 
     const onExcluir = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, rowData: OrdemServicoMaterial) => {
         event.preventDefault();
+
         setSelected(rowData);
         setVisibleConfirmExcluir(true);
     };
