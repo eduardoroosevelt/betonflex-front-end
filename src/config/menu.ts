@@ -8,12 +8,12 @@ const menu = () => {
         {
             label: 'Cadastros',
             items: [
-                { label: 'Cliente', icon: 'pi pi-fw pi-user', to: 'cadastro/cliente' },
-                { label: 'Funcionário', icon: 'pi pi-fw pi-user', to: 'cadastro/funcionario' },
-                { label: 'Tipo de Serviço', icon: 'pi pi-fw pi-user', to: 'cadastro/tipo-servico' },
+                // { label: 'Cliente', icon: 'pi pi-fw pi-user', to: 'cadastro/cliente' },
+                // { label: 'Funcionário', icon: 'pi pi-fw pi-user', to: 'cadastro/funcionario' },
+                // { label: 'Tipo de Serviço', icon: 'pi pi-fw pi-user', to: 'cadastro/tipo-servico' },
                 { label: 'Materiais', icon: 'pi pi-fw pi-id-card', to: 'cadastro/material' },
                 { label: 'Almoxarifado  ', icon: 'pi pi-fw pi-id-card', to: 'cadastro/almoxarifado' },
-                { label: 'Ordem de Serviço', icon: 'pi pi-fw pi-id-card', to: 'cadastro/ordemServico' }
+                // { label: 'Ordem de Serviço', icon: 'pi pi-fw pi-id-card', to: 'cadastro/ordemServico' }
             ]
         },
 

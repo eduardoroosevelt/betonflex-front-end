@@ -39,6 +39,7 @@ export function ClientTable({ data, rows, isFetching, rowsPerPage, handleOnPageC
 
     function renderHeader() {
         return <Button label={"Adicionar"} icon="pi pi-plus" onClick={handleAdicionar} />
+
     }
 
     function handleEdit(parm: DataTableRowClickEvent) {

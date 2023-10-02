@@ -2,7 +2,7 @@ import { useSnackbar } from 'notistack';
 import { Sidebar } from 'primereact/sidebar';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Material } from '../../types/Material';
+import { IMaterial } from '../../types/Material';
 import { MaterialForm } from './components/MaterialForm';
 import { useCreateMaterialMutation } from './materialSlice';
 
@@ -15,15 +15,14 @@ export function CreateMaterial({ visibleAdicionar, onHideAdicionar }: CreateMate
 
     const { enqueueSnackbar } = useSnackbar();
     const [createMaterial, status] = useCreateMaterialMutation();
-    const { register, handleSubmit, setError, formState: { errors } } = useForm<Material>({
+    const { register, handleSubmit, setError, formState: { errors } } = useForm<IMaterial>({
         defaultValues: {
-            materialId: 0,
-            materialNome: "",
-            materialDescricao: "",
-            materialAtivo: true,
-            materialCreateat: "",
-            materialObservacao: "",
-            materialSku: "",
+            id: 0,
+            nome: "",
+            descricao: "",
+            ativo: true,
+            created
+                : "",
         }
     });
 
@@ -39,9 +38,9 @@ export function CreateMaterial({ visibleAdicionar, onHideAdicionar }: CreateMate
         }
     }, [enqueueSnackbar, status.error, status.isSuccess]);
 
-    async function onSubmit(data: Material) {
-        if (data.materialNome === "") {
-            setError("materialNome", { type: "manual", message: "Nome não pode ser vazio" })
+    async function onSubmit(data: IMaterial) {
+        if (data.nome === "") {
+            setError("nome", { type: "manual", message: "Nome não pode ser vazio" })
             return enqueueSnackbar("Nome não pode ser vazio", { variant: "error" });
         }
         await createMaterial(data);

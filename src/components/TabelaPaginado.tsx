@@ -4,7 +4,8 @@ import { Dialog } from 'primereact/dialog';
 import { DataTable, DataTableRowClickEvent, DataTableStateEvent, DataTableValueArray } from 'primereact/datatable';
 import React, { useState } from 'react'
 import { Results } from '../types/Results';
-
+import { ButtonIcon } from './ButtonComponent';
+import style from './styles/TabelaPaginado.module.css'
 export interface TabelaPaginadoProps<T> {
     data: Results<T> | undefined;
     rows: number;
@@ -15,28 +16,33 @@ export interface TabelaPaginadoProps<T> {
 
     handleOnPageChange?: (page: DataTableStateEvent) => void;
     handleFilterChange?: (filterModel: DataTableStateEvent) => void;
-    handleDelete?: (arg: T) => void;
-    handleAdicionar?: () => void;
-    handleEdit?: (arg: T) => void;
+    handleDelete?: ((arg: T) => void) | null;
+    handleEdit?: ((arg: T) => void) | null;
+    handleView?: ((arg: T) => void) | null;
+    handleAdicionar?: (() => void) | null;
     botoes?: (arg: T) => React.ReactNode;
 };
 
 
 
 export interface ColumnMeta {
-    field: string;
+    field?: string;
     header: string;
     body?: (data: any, options: ColumnBodyOptions) => React.ReactNode
 }
 
 
-export function TabelaPaginado<T>({ data, rows, isFetching, rowsPerPage, columns, hasEventoAcao, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar, handleEdit }: TabelaPaginadoProps<T>) {
+export function TabelaPaginado<T>({ data, rows, isFetching, rowsPerPage, columns, hasEventoAcao, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar, handleEdit, handleView }: TabelaPaginadoProps<T>) {
     const first = data?.number && data?.size ? data?.number * data?.size : 0;
     const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
     const [selecteConfirmExclusao, setSelecteConfirmExclusao] = useState<T>();
 
     function renderHeader() {
-        return <Button label={"Adicionar"} icon="pi pi-plus" onClick={handleAdicionar} />
+        return (
+            <>
+                {handleAdicionar && <Button label={"Adicionar"} icon="pi pi-plus" onClick={handleAdicionar} tooltip="Adicionar" tooltipOptions={{ position: 'top' }} />}
+            </>
+        )
     }
 
     const onExcluir = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, rowData: T) => {
@@ -45,8 +51,6 @@ export function TabelaPaginado<T>({ data, rows, isFetching, rowsPerPage, columns
         setVisibleConfirmExcluir(true);
     };
 
-
-
     const confirmarExclucao = () => {
         setVisibleConfirmExcluir(false);
         handleDelete && handleDelete(selecteConfirmExclusao as T);
@@ -54,10 +58,10 @@ export function TabelaPaginado<T>({ data, rows, isFetching, rowsPerPage, columns
 
     const actionBotoes = (rowData: T) => {
         return (
-            <div className="acoesContainer">
-                {handleEdit && <Button severity="warning" type="button" tooltip="Editar" tooltipOptions={{ position: "top" }} icon="pi pi-pencil" onClick={() => handleEdit(rowData)} />}
-                {handleDelete && <Button severity="danger" type="button" tooltip="Excluir" tooltipOptions={{ position: "top" }} icon="pi pi-trash" className="p-button-danger p-mb-1" onClick={(e) => onExcluir(e, rowData)} />}
-
+            <div className={style.compTableDivButtons}>
+                {handleView && <ButtonIcon type="button" tooltip="Visualizar" icon="pi pi-eye" onClick={() => handleView(rowData)} />}
+                {handleEdit && <ButtonIcon severity="warning" type="button" tooltip="Editar" icon="pi pi-pencil" onClick={() => handleEdit(rowData)} />}
+                {handleDelete && <ButtonIcon severity="danger" type="button" tooltip="Excluir" icon="pi pi-trash" onClick={(e) => onExcluir(e, rowData)} />}
             </div>
         );
     };
@@ -115,7 +119,6 @@ export function TabelaPaginado<T>({ data, rows, isFetching, rowsPerPage, columns
                 visible={visibleConfirmExcluir}
                 footer={renderFooter()}
                 onHide={() => setVisibleConfirmExcluir(false)}
-                onShow={confirmarExclucao}
                 id="confirm_exclusao"
             >
                 <p>Deseja realmente remover o registro selecionado? </p>

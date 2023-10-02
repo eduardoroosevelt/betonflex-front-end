@@ -16,19 +16,23 @@ import { OrdemServicoClienteApiSlice } from "../feature/ordemServicoCliente/Orde
 import { funcionarioApiSlice } from "../feature/funcionario/FuncionarioSlice";
 import { OrdemServicoMaterialApiSlice } from "../feature/ordemServicoMaterial/OrdemServicoMaterial";
 import { OrdemServicoAnexoApiSlice } from "../feature/ordemServicoAnexo/ordemServicoAnexoSlice";
+import { MaterialFamiliaApiSlice } from "../feature/materiais/components/materialFamilia/MaterialFamiliaApiSlice";
+import { ProdutoApiSlice } from "../feature/materiais/components/materialProduto/ProdutoApiSlice";
 
 const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
-    [almoxarifadoApiSlice.reducerPath]: almoxarifadoApiSlice.reducer,
-    [MaterialApiSlice.reducerPath]: MaterialApiSlice.reducer,
-    [TipoServicoApiSlice.reducerPath]: TipoServicoApiSlice.reducer,
-    [ClienteApiSlice.reducerPath]: ClienteApiSlice.reducer,
-    [OrdemServicoApiSlice.reducerPath]: OrdemServicoApiSlice.reducer,
-    [OrdemServicoClienteApiSlice.reducerPath]: OrdemServicoClienteApiSlice.reducer,
-    [funcionarioApiSlice.reducerPath]: funcionarioApiSlice.reducer,
-    [OrdemServicoMaterialApiSlice.reducerPath]: OrdemServicoMaterialApiSlice.reducer,
-    [OrdemServicoClienteApiSlice.reducerPath]: OrdemServicoClienteApiSlice.reducer,
-    [OrdemServicoAnexoApiSlice.reducerPath]: OrdemServicoAnexoApiSlice.reducer,
+    [almoxarifadoApiSlice.reducerPath]: apiSlice.reducer,
+    [MaterialApiSlice.reducerPath]: apiSlice.reducer,
+    [TipoServicoApiSlice.reducerPath]: apiSlice.reducer,
+    [ClienteApiSlice.reducerPath]: apiSlice.reducer,
+    [OrdemServicoApiSlice.reducerPath]: apiSlice.reducer,
+    [OrdemServicoClienteApiSlice.reducerPath]: apiSlice.reducer,
+    [funcionarioApiSlice.reducerPath]: apiSlice.reducer,
+    [OrdemServicoMaterialApiSlice.reducerPath]: apiSlice.reducer,
+    [OrdemServicoClienteApiSlice.reducerPath]: apiSlice.reducer,
+    [OrdemServicoAnexoApiSlice.reducerPath]: apiSlice.reducer,
+    [MaterialFamiliaApiSlice.reducerPath]: apiSlice.reducer,
+    [ProdutoApiSlice.reducerPath]: apiSlice.reducer,
     auth: authSlice.reducer,
 });
 

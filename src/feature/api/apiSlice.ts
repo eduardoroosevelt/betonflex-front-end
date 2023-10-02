@@ -5,7 +5,19 @@ export const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export const apiSlice = createApi({
     reducerPath: "api",
-    tagTypes: ["Almoxarifado", "AlmoxarifadoMaterial", "Material", "TipoServico", "Cliente", "OrdemServico", "OrdemServicoCliente", "OrdemServicoMaterial", "OrdemServicoAnexo", "Funcionario"],
+    tagTypes: ["Almoxarifado", 
+    "AlmoxarifadoMaterial", 
+    "Material", 
+    "TipoServico", 
+    "Cliente", 
+    "OrdemServico", 
+    "OrdemServicoCliente", 
+    "OrdemServicoMaterial", 
+    "OrdemServicoAnexo", 
+    "Funcionario",
+    "MaterialFamilia",
+    'Produto'
+],
     endpoints: (builder) => ({}),
     baseQuery: fetchBaseQuery({
         baseUrl,

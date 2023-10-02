@@ -26,8 +26,8 @@ export function ListMaterial() {
     }
   }, [deleteSuccess, deleteError, enqueueSnackbar]);
 
-  async function handleDelete(materialId: number) {
-    await deleteMaterial({ materialId });
+  async function handleDelete(id: number) {
+    await deleteMaterial({ id });
   }
 
 

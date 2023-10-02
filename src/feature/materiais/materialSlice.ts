@@ -1,5 +1,5 @@
 import { FetchArgs } from "@reduxjs/toolkit/dist/query";
-import { Material, MaterialParams } from "../../types/Material"
+import { IMaterial, IMaterialParams } from "../../types/Material"
 import { Results } from "../../types/Results";
 import { apiSlice } from "../api/apiSlice"
 
@@ -7,7 +7,7 @@ import { apiSlice } from "../api/apiSlice"
 const endpointUrl = "/materiais"
 
 
-function parseQueryParams(params: MaterialParams) {
+function parseQueryParams(params: IMaterialParams) {
     const query = new URLSearchParams();
 
     if (params.page) {
@@ -29,32 +29,32 @@ function parseQueryParams(params: MaterialParams) {
 function getMaterials({ page = 0, rows = 10, search = "" }) {
     const params = { page, rows, search, isActive: true };
 
-    return `${endpointUrl}?${parseQueryParams(params)}`;
+    return `${endpointUrl}/buscanegenerica?${parseQueryParams(params)}`;
 }
 
 
-function deleteMaterialMutation(material: Material): FetchArgs {
+function deleteMaterialMutation(material: IMaterial): FetchArgs {
     return {
-        url: `${endpointUrl}/${material.materialId}`,
+        url: `${endpointUrl}/${material.id}`,
         method: "DELETE",
         responseHandler: (response) => response.text(),
     };
 }
 
-function createMaterialMutation(material: Material) {
+function createMaterialMutation(material: IMaterial) {
     return { url: endpointUrl, method: "POST", body: material };
 }
 
-function updateMaterialMutation(material: Material) {
+function updateMaterialMutation(material: IMaterial) {
     return {
-        url: `${endpointUrl}/${material.materialId}`,
+        url: `${endpointUrl}/${material.id}`,
         method: "PUT",
         body: material,
     };
 }
 
-function getMaterial({ materialId }: { materialId: number }) {
-    return `${endpointUrl}/${materialId}`;
+function getMaterial({ id }: { id: number }) {
+    return `${endpointUrl}/${id}`;
 }
 
 function getListMaterialQueNaoPertenceAoAmoxarifado({ almoxarifadoId }: { almoxarifadoId: number }) {
@@ -64,28 +64,28 @@ function getListMaterialQueNaoPertenceAoAmoxarifado({ almoxarifadoId }: { almoxa
 export const MaterialApiSlice = apiSlice.injectEndpoints({
 
     endpoints: ({ query, mutation }) => ({
-        getMaterials: query<Results<Material>, MaterialParams>({
+        getMaterials: query<Results<IMaterial>, IMaterialParams>({
             query: getMaterials,
             providesTags: ["Material"],
         }),
-        getMaterial: query<Material, { materialId: number }>({
+        getMaterial: query<IMaterial, { id: number }>({
             query: getMaterial,
             providesTags: ["Material"],
         }),
-        createMaterial: mutation<Material, Material>({
+        createMaterial: mutation<IMaterial, IMaterial>({
             query: createMaterialMutation,
             invalidatesTags: ["Material"],
 
         }),
-        deleteMaterial: mutation<string, { materialId: number }>({
+        deleteMaterial: mutation<string, { id: number }>({
             query: deleteMaterialMutation,
             invalidatesTags: ["Material"],
         }),
-        updateMaterial: mutation<Material, Material>({
+        updateMaterial: mutation<IMaterial, IMaterial>({
             query: updateMaterialMutation,
             invalidatesTags: ["Material"],
         }),
-        getListMaterialQueNaoPertenceAoAmoxarifado: query<Material[], { almoxarifadoId: number }>({
+        getListMaterialQueNaoPertenceAoAmoxarifado: query<IMaterial[], { almoxarifadoId: number }>({
             query: getListMaterialQueNaoPertenceAoAmoxarifado,
             providesTags: ["Material"],
         }),

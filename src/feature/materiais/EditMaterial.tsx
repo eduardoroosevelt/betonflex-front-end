@@ -1,45 +1,35 @@
-import React, { useEffect } from 'react'
-import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
-import { InputTextarea } from 'primereact/inputtextarea';
+import { useEffect } from 'react'
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
-import classNames from 'classnames';
 import { useGetMaterialQuery, useUpdateMaterialMutation } from './materialSlice';
-import { Material } from '../../types/Material';
-import { WrapperComLabel } from '../../components/WrapperFormLabelInput';
+import { IMaterial } from '../../types/Material';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TabView, TabPanel } from 'primereact/tabview';
 import { MaterialForm } from './components/MaterialForm';
+import { TabView, TabPanel } from 'primereact/tabview';
+import CardWrapper from '../../components/CardWrapper';
+import { MaterialFamilia } from './components/materialFamilia/MaterialFamilia';
+import { Produto } from './components/materialProduto/Produto';
 
 export function EditMaterial() {
     const id = useParams().id;
     const { enqueueSnackbar } = useSnackbar();
-    const { data: material, isFetching, refetch } = useGetMaterialQuery({ materialId: parseInt(id!) })
+    const { data: material, isFetching, refetch } = useGetMaterialQuery({ id: parseInt(id!) })
     const [updateMaterial, status] = useUpdateMaterialMutation();
     const navigation = useNavigate();
 
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm<Material>({
+    const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<IMaterial>({
         defaultValues: {
-            materialId: 0,
-            materialNome: "",
-            materialDescricao: "",
-            materialAtivo: true,
-            materialCreateat: "",
-            materialObservacao: "",
-            materialSku: "",
+            id: 0,
+            nome: "",
+            descricao: "",
+            ativo: true,
+            created: "",
         }
     });
 
     useEffect(() => {
         if (material) {
-            setValue("materialId", material?.materialId)
-            setValue("materialNome", material?.materialNome)
-            setValue("materialDescricao", material?.materialDescricao)
-            setValue("materialAtivo", material?.materialAtivo)
-            setValue("materialCreateat", material?.materialCreateat)
-            setValue("materialObservacao", material?.materialObservacao)
-            setValue("materialSku", material?.materialSku)
+            reset(material)
         }
     }, [material])
 
@@ -56,7 +46,7 @@ export function EditMaterial() {
         }
     }, [enqueueSnackbar, status.error, status.isSuccess]);
 
-    async function onSubmit(data: Material) {
+    async function onSubmit(data: IMaterial) {
         await updateMaterial(data);
     }
 
@@ -65,14 +55,23 @@ export function EditMaterial() {
     }
 
     return (
-        <div>
-            <h3>Editar Material</h3>
-
-            <MaterialForm
-                handleSubmit={handleSubmit(onSubmit)}
-                erros={errors}
-                register={register}
-            />
-        </div>
+        <CardWrapper>
+            <h3 className='col-12'>Editar Material</h3>
+            <TabView className='col-12'>
+                <TabPanel header="Material">
+                    <MaterialForm
+                        handleSubmit={handleSubmit(onSubmit)}
+                        erros={errors}
+                        register={register}
+                    />
+                </TabPanel>
+                <TabPanel header="Família">
+                    {material && <MaterialFamilia material={material} />}
+                </TabPanel>
+                <TabPanel header="Produto">
+                    {material && <Produto material={material} />}
+                </TabPanel>
+            </TabView>
+        </CardWrapper>
     )
 }

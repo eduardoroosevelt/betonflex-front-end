@@ -4,14 +4,14 @@ import { Column } from 'primereact/column';
 import { DataTable, DataTableRowClickEvent, DataTableSelectionChangeEvent, DataTableStateEvent } from 'primereact/datatable';
 import { useNavigate } from 'react-router-dom';
 import { Results } from '../../../types/Results';
-import { Material } from '../../../types/Material';
+import { IMaterial } from '../../../types/Material';
 import { useState } from 'react';
 import { Dialog } from 'primereact/dialog';
 
 
 
 type Props = {
-    data: Results<Material> | undefined;
+    data: Results<IMaterial> | undefined;
     rows: number;
     isFetching: boolean;
     rowsPerPage?: number[];
@@ -32,13 +32,13 @@ export function MaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPag
 
     const navigation = useNavigate();
     const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
-    const [selected, setSelected] = useState<Material | null>();
+    const [selected, setSelected] = useState<IMaterial | null>();
 
     const columns: ColumnMeta[] = [
-        { field: 'materialNome', header: 'Nome' },
-        { field: 'materialDescricao', header: 'Descrição' },
-        { field: 'materialAtivo', header: 'Ativo?' },
-        { field: 'materialCreateat', header: 'Criado em' }
+        { field: 'nome', header: 'Nome' },
+        { field: 'descricao', header: 'Descrição' },
+        { field: 'ativo', header: 'Ativo?' },
+        { field: 'created', header: 'Criado em' }
     ];
 
     function renderHeader() {
@@ -48,12 +48,12 @@ export function MaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPag
 
     function handleEdit(parm: DataTableRowClickEvent) {
 
-        navigation(`/app/cadastro/material/edit/${parm.data.materialId}`);
+        navigation(`/app/cadastro/material/edit/${parm.data.id}`);
     }
 
     const first = data?.number && data?.size ? data?.number * data?.size : 0;
 
-    function botoes(data: Material) {
+    function botoes(data: IMaterial) {
         return (
             <div>
                 <Button label={"Excluir"} icon="pi pi-trash" severity='danger' onClick={(e) => onExcluir(e, data)} />
@@ -61,7 +61,7 @@ export function MaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPag
         )
     }
 
-    const onExcluir = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, rowData: Material) => {
+    const onExcluir = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, rowData: IMaterial) => {
         event.preventDefault();
         setSelected(rowData);
         setVisibleConfirmExcluir(true);
@@ -69,7 +69,7 @@ export function MaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPag
 
     const confirmarExclucao = () => {
         setVisibleConfirmExcluir(false);
-        handleDelete && selected && handleDelete(selected?.materialId);
+        handleDelete && selected && handleDelete(selected?.id);
     };
 
     const hideConfirmarExclucao = () => {
