@@ -26,7 +26,7 @@ export function ProdutoForm({ onSubmit, isView, control, errors, isLoading, onGo
 
     return (
         <form onSubmit={onSubmit} className="grid p-fluid col-12">
-            < WrapperComLabel label="Nome:" cols="12 " isObrigatorio >
+            <WrapperComLabel label="Nome:" cols="12 " isObrigatorio>
                 <Controller
                     name="nome"
                     control={control}

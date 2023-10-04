@@ -1,20 +1,13 @@
 import { FetchArgs } from "@reduxjs/toolkit/dist/query"
-import { AlmoxarifadoParams } from "../../types/Almoxarifado"
+import { IAlmoxarifadoParams, IAlmoxarifado } from "../../types/IAlmoxarifado"
 import { Results } from "../../types/Results"
 import { apiSlice } from "../api/apiSlice"
 
-export interface Almoxarifado {
-    almoxarifadoId: number
-    almoxarifadoNome: string
-    almoxarifadoDescricao: string
-    almoxarifadoAtivo: boolean
-    almoxarifadoCreateat: string
-}
 
 const endpointUrl = "/almoxarifados"
 const endpointUrlAlmoxarifadoMateriais = "/almoxarifadomaterials"
 
-function parseQueryParams(params: AlmoxarifadoParams) {
+function parseQueryParams(params: IAlmoxarifadoParams) {
     const query = new URLSearchParams();
 
     if (params.page) {
@@ -29,73 +22,69 @@ function parseQueryParams(params: AlmoxarifadoParams) {
         query.append("search", params.search);
     }
 
-    // if (params.isActive) {
-    //     query.append("is_active", params.isActive.toString());
-    // }
-
     return query.toString();
 }
 
 function getAlmoxarifados({ page = 0, rows = 10, search = "" }) {
     const params = { page, rows, search, isActive: true };
 
-    return `${endpointUrl}?${parseQueryParams(params)}`;
+    return `${endpointUrl}/buscanegenerica?${parseQueryParams(params)}`;
 }
 
-function deleteAlmoxarifadoMutation(almox: Almoxarifado): FetchArgs {
+function deleteAlmoxarifadoMutation(almox: IAlmoxarifado): FetchArgs {
     return {
-        url: `${endpointUrl}/${almox.almoxarifadoId}`,
+        url: `${endpointUrl}/${almox.id}`,
         method: "DELETE",
         responseHandler: (response) => response.text(),
     };
 }
 
-function createAlmoxarifadoMutation(almox: Almoxarifado) {
+function createAlmoxarifadoMutation(almox: IAlmoxarifado) {
     return { url: endpointUrl, method: "POST", body: almox };
 }
 
-function updateAlmoxarifadoMutation(almox: Almoxarifado) {
+function updateAlmoxarifadoMutation(almox: IAlmoxarifado) {
     return {
-        url: `${endpointUrl}/${almox.almoxarifadoId}`,
+        url: `${endpointUrl}/${almox.id}`,
         method: "PUT",
         body: almox,
     };
 }
 
-function getAlmoxarifado({ almoxarifadoId }: { almoxarifadoId: number }) {
-    return `${endpointUrl}/${almoxarifadoId}`;
+function getAlmoxarifado({ id }: { id: number }) {
+    return `${endpointUrl}/${id}`;
 }
 
-function getAlmoxarifadoMaterial({ almoxarifadoId }: { almoxarifadoId: number }) {
-    return `${endpointUrlAlmoxarifadoMateriais}/${almoxarifadoId}/materiais`;
+function getAlmoxarifadoMaterial({ id }: { id: number }) {
+    return `${endpointUrlAlmoxarifadoMateriais}/${id}/materiais`;
 }
 
 export const almoxarifadoApiSlice = apiSlice.injectEndpoints({
 
     endpoints: ({ query, mutation }) => ({
-        getAlmoxarifados: query<Results<Almoxarifado>, AlmoxarifadoParams>({
+        getAlmoxarifados: query<Results<IAlmoxarifado>, IAlmoxarifadoParams>({
             query: getAlmoxarifados,
             providesTags: ["Almoxarifado"],
 
         }),
-        getAlmoxarifado: query<Almoxarifado, { almoxarifadoId: number }>({
+        getAlmoxarifado: query<IAlmoxarifado, { id: number }>({
             query: getAlmoxarifado,
             providesTags: ["Almoxarifado"],
         }),
-        getAlmoxarifadoList: query<Almoxarifado[], void>({
+        getAlmoxarifadoList: query<IAlmoxarifado[], void>({
             query: () => `${endpointUrl}/ativos`,
             providesTags: ["Almoxarifado"],
         }),
-        createAlmoxarifado: mutation<Almoxarifado, Almoxarifado>({
+        createAlmoxarifado: mutation<IAlmoxarifado, IAlmoxarifado>({
             query: createAlmoxarifadoMutation,
             invalidatesTags: ["Almoxarifado"],
 
         }),
-        deleteAlmoxarifado: mutation<string, { almoxarifadoId: number }>({
+        deleteAlmoxarifado: mutation<string, { id: number }>({
             query: deleteAlmoxarifadoMutation,
             invalidatesTags: ["Almoxarifado"],
         }),
-        updateAlmoxarifado: mutation<Almoxarifado, Almoxarifado>({
+        updateAlmoxarifado: mutation<IAlmoxarifado, IAlmoxarifado>({
             query: updateAlmoxarifadoMutation,
             invalidatesTags: ["Almoxarifado"],
         }),

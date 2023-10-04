@@ -1,85 +1,64 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { Almoxarifado, useGetAlmoxarifadoQuery, useUpdateAlmoxarifadoMutation } from './almoxarifadoSlice';
-import { WrapperComLabel } from '../../components/WrapperFormLabelInput';
-import { InputText } from 'primereact/inputtext';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { Button } from 'primereact/button';
+import { useGetAlmoxarifadoQuery, useUpdateAlmoxarifadoMutation } from './almoxarifadoSlice';
 import { useForm } from 'react-hook-form';
-import classNames from 'classnames';
 import { useSnackbar } from 'notistack';
 import { TabPanel, TabView } from 'primereact/tabview';
-import { AlmoxarifadoMaterial } from './components/AlmoxarifadoMaterial';
+import { IAlmoxarifado } from '../../types/IAlmoxarifado';
+import { AlmoxarifadoForm } from './components/AlmoxarifadoForm';
+import CardWrapper from '../../components/CardWrapper';
+import { AlmoxarifadoProduto } from './components/AlmoxarifadoProduto/AlmoxarifadoProduto';
 
 export function EditAlmoxarifado() {
     const id = useParams().id;
     const { enqueueSnackbar } = useSnackbar();
-    const { data: almoxarifado, isFetching, refetch } = useGetAlmoxarifadoQuery({ almoxarifadoId: parseInt(id!) })
+    const { data: almoxarifado } = useGetAlmoxarifadoQuery({ id: parseInt(id!) })
     const [updateAlmoxarifado, status] = useUpdateAlmoxarifadoMutation();
     const navigation = useNavigate();
 
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm<Almoxarifado>({
+    const { handleSubmit, control, reset, formState: { errors } } = useForm<IAlmoxarifado>({
         defaultValues: {
-            almoxarifadoId: almoxarifado?.almoxarifadoId,
-            almoxarifadoNome: almoxarifado?.almoxarifadoNome,
-            almoxarifadoDescricao: almoxarifado?.almoxarifadoDescricao,
-            almoxarifadoAtivo: almoxarifado?.almoxarifadoAtivo,
-            almoxarifadoCreateat: almoxarifado?.almoxarifadoCreateat,
+            nome: "",
+            descricao: "",
         }
     });
 
     useEffect(() => {
         if (almoxarifado) {
-            setValue("almoxarifadoId", almoxarifado?.almoxarifadoId)
-            setValue("almoxarifadoNome", almoxarifado?.almoxarifadoNome)
-            setValue("almoxarifadoDescricao", almoxarifado?.almoxarifadoDescricao)
-            setValue("almoxarifadoAtivo", almoxarifado?.almoxarifadoAtivo)
-            setValue("almoxarifadoCreateat", almoxarifado?.almoxarifadoCreateat)
+            reset(almoxarifado)
         }
     }, [almoxarifado])
 
     useEffect(() => {
         if (status.isSuccess) {
-            setTimeout(() => {
-                navigation('/app/cadastro/almoxarifado')
-            }, 0);
             enqueueSnackbar("Almoxarifado alterado com sucesso", { variant: "success" });
         }
-        if (status.error) {
-            enqueueSnackbar("Almoxarifado ap alterar o almoxarifado", { variant: "error" });
+    }, [status.isSuccess]);
 
-        }
-    }, [enqueueSnackbar, status.error, status.isSuccess]);
-
-    async function onSubmit(data: Almoxarifado) {
-        await updateAlmoxarifado(data);
+    async function onSubmit(data: IAlmoxarifado) {
+        updateAlmoxarifado(data);
     }
 
     function goBack() {
         navigation('/app/cadastro/almoxarifado')
     }
-    return (
-        <div>
-            <h3>Editar Almoxarifado</h3>
 
-            <TabView>
+    return (
+        <CardWrapper title='Editar Almoxarifado'>
+            <TabView className='col-12'>
                 <TabPanel header="Dados Gerais">
-                    <form className='grid gap-2' onSubmit={handleSubmit(onSubmit)}>
-                        <WrapperComLabel cols='12' label='Nome' >
-                            <InputText {...register("almoxarifadoNome")} className={classNames('w-full')} />
-                        </WrapperComLabel>
-                        <WrapperComLabel cols='12' label='Descrição' >
-                            <InputTextarea {...register("almoxarifadoDescricao")} rows={5} className={classNames('w-full')} autoResize={true} />
-                        </WrapperComLabel>
-                        <Button type="submit" severity="success" label="Salvar" className="col-12 md:col-2" />
-                        <Button label="Voltar" onClick={goBack} className="col-12 md:col-2" />
-                    </form>
+                    <AlmoxarifadoForm
+                        errors={errors}
+                        onSubmit={handleSubmit(onSubmit)}
+                        control={control}
+                        isLoading={status.isLoading}
+                        onGoBack={goBack}
+                    />
                 </TabPanel>
-                <TabPanel header="Materiais">
-                    <AlmoxarifadoMaterial almoxarifadoId={parseInt(id!)} />
+                <TabPanel header="Produtos">
+                    {almoxarifado && <AlmoxarifadoProduto almoxarifado={almoxarifado} />}
                 </TabPanel>
             </TabView>
-
-        </div>
+        </CardWrapper>
     )
 }

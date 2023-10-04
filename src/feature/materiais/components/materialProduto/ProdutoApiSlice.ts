@@ -47,11 +47,22 @@ function getProdutosPorMaterialAndMaterialFamilia({materialId,...params}:IProdut
     }
 }
 
+function getProdutosListAtivos():FetchArgs{
+    return {
+        url: `${endpointUrl}/listAtivos`,
+        method: "GET"
+    }
+}
+
 export const ProdutoApiSlice = apiSlice.injectEndpoints({
 
     endpoints: ({ query, mutation }) => ({
         getProdutosPorMaterialAndMaterialFamilia: query<Results<IProduto>, IProdutoParams>({
             query: getProdutosPorMaterialAndMaterialFamilia,
+            providesTags: ["Produto"],
+        }),
+        getProdutosListAtivos: query<IProduto[], void>({
+            query: getProdutosListAtivos,
             providesTags: ["Produto"],
         }),
         createProduto: mutation<IProduto, IProduto>({
@@ -74,5 +85,6 @@ export const {
     useCreateProdutoMutation,
     useDeleteProdutoMutation,
     useUpdateProdutoMutation,
-    useGetProdutosPorMaterialAndMaterialFamiliaQuery
+    useGetProdutosPorMaterialAndMaterialFamiliaQuery,
+    useGetProdutosListAtivosQuery
 } = ProdutoApiSlice

@@ -1,4 +1,4 @@
-import { AlmoxarifadoMaterial } from "./Almoxarifado"
+import { AlmoxarifadoMaterial } from "./IAlmoxarifado"
 import { Funcionario } from "./Funcionario"
 import { OrdemServico } from "./OrdemServico"
 

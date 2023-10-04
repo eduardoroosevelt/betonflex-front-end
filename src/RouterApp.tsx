@@ -48,8 +48,8 @@ export function RouterApp() {
                     <Route path="/app/cadastro/tipo-servico" element={<ListTipoServico />} />
                     <Route path="/app/cadastro/tipo-servico/edit/:id" element={<EditTipoServico />} />
 
-                    <Route path="/app/cadastro/ordemServico" element={<ListOrdemServico />} />
-                    <Route path="/app/cadastro/ordemServico/edit/:id" element={<EditOrdemServico />} />
+                    {/* <Route path="/app/cadastro/ordemServico" element={<ListOrdemServico />} />
+                    <Route path="/app/cadastro/ordemServico/edit/:id" element={<EditOrdemServico />} /> */}
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

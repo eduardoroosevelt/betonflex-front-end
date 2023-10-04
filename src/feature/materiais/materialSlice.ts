@@ -57,6 +57,10 @@ function getMaterial({ id }: { id: number }) {
     return `${endpointUrl}/${id}`;
 }
 
+function getListMaterial() {
+    return `${endpointUrl}/ativos`;
+}
+
 function getListMaterialQueNaoPertenceAoAmoxarifado({ almoxarifadoId }: { almoxarifadoId: number }) {
     return `${endpointUrl}/matriaisout/almoxarifado/${almoxarifadoId}`
 }
@@ -70,6 +74,10 @@ export const MaterialApiSlice = apiSlice.injectEndpoints({
         }),
         getMaterial: query<IMaterial, { id: number }>({
             query: getMaterial,
+            providesTags: ["Material"],
+        }),
+        getListMaterial:query<IMaterial[], void>({
+            query: getListMaterial,
             providesTags: ["Material"],
         }),
         createMaterial: mutation<IMaterial, IMaterial>({
@@ -99,5 +107,6 @@ export const {
     useGetMaterialsQuery,
     useDeleteMaterialMutation,
     useUpdateMaterialMutation,
-    useGetListMaterialQueNaoPertenceAoAmoxarifadoQuery
+    useGetListMaterialQueNaoPertenceAoAmoxarifadoQuery,
+    useGetListMaterialQuery
 } = MaterialApiSlice

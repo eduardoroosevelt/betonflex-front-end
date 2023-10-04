@@ -4,10 +4,13 @@ import { useSnackbar } from 'notistack';
 import { CreateAlmoxarifado } from './CreateAlmoxarifado';
 import { AlmoxarifadoTable } from './components/AlmoxarifadoTable';
 import { DataTableStateEvent } from 'primereact/datatable';
+import { useNavigate } from 'react-router-dom';
+import { IAlmoxarifado } from '../../types/IAlmoxarifado';
 
 export function ListAlmoxarifado() {
   const { enqueueSnackbar } = useSnackbar();
   const [visibleAdicionar, setVisibleAdicionar] = useState(false);
+  const navigation = useNavigate();
   const [options, setOptions] = useState({
     page: 0,
     search: "",
@@ -26,10 +29,13 @@ export function ListAlmoxarifado() {
     }
   }, [deleteSuccess, deleteError, enqueueSnackbar]);
 
-  async function handleDeleteCategory(almoxarifadoId: number) {
-    await deleteAlmoxarigado({ almoxarifadoId });
+  async function handleDeleteCategory(almox: IAlmoxarifado) {
+    await deleteAlmoxarigado({ id: almox.id });
   }
 
+  function handleEdit(almox: IAlmoxarifado) {
+    navigation(`/app/cadastro/almoxarifado/edit/${almox.id}`);
+  }
 
   function handleFilterChange(filterModel: DataTableStateEvent) {
     if (!filterModel.quickFilterValues?.length) {
@@ -61,6 +67,7 @@ export function ListAlmoxarifado() {
         handleDelete={handleDeleteCategory}
         handleFilterChange={handleFilterChange}
         handleOnPageChange={handleOnPageChange}
+        handleEdit={handleEdit}
         rows={options.rows}
         rowsPerPage={[5, 10, 20]}
         handleAdicionar={handleAdicionar}

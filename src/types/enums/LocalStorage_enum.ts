@@ -3,4 +3,5 @@ export const LOCAL_STORAGE_KEYS = {
     USER: 'user',
     MATERIAL_FAMILIA: 'material_familia',
     PRODUTO: 'produto',
+    PROMPT_PRODUTO: 'prompt_produto',
 }

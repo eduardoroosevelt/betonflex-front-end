@@ -109,9 +109,10 @@ export function TabelaPaginado<T>({ data, rows, isFetching, rowsPerPage, columns
                 header={renderHeader()}
                 onRowClick={onEdit}
                 selectionMode="single"
+                onSelect={(e) => console.log(e)}
                 metaKeySelection={true}
             >
-                {columns.map((col, i) => (<Column key={col.field} field={col.field} header={col.header} body={col.body} />))}
+                {columns.map((col, i) => (<Column key={col.header} field={col.field} header={col.header} body={col.body} />))}
                 {hasEventoAcao && <Column header={"Ações"} body={actionBotoes} />}
             </DataTable>
             <Dialog

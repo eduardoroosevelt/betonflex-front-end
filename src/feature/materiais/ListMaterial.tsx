@@ -52,6 +52,7 @@ export function ListMaterial() {
   function handleAdicionar() {
     setVisibleAdicionar(true);
   }
+
   return (
     <div>
       <h2>Material</h2>

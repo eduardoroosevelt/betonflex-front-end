@@ -114,7 +114,6 @@ export function Produto({ material }: ProdutoFamilia) {
 
     return (
         <div>
-
             <ProdutoTable
                 data={data}
                 isFetching={isFetching}
