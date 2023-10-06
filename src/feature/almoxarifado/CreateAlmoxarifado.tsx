@@ -36,7 +36,7 @@ export function CreateAlmoxarifado({ visibleAdicionar, onHideAdicionar }: Create
   }
 
   return (
-    <SidebarPrime onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' >
+    <SidebarPrime onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' blockScroll>
       <h3>Cadastrar Almoxarifado</h3>
 
       <AlmoxarifadoForm

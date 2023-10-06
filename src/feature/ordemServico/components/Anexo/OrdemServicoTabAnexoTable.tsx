@@ -7,6 +7,7 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { CardExibirPDFProps } from '../../../../components/CardExibirPDF';
 import { useDownloadOrdemServicoAnexoBlobMutation, useDownloadOrdemServicoAnexoMutation } from '../../../ordemServicoAnexo/ordemServicoAnexoSlice';
+import { ColumnMeta } from '../../../../components/TabelaPaginado';
 
 
 type Props = {
@@ -21,12 +22,6 @@ type Props = {
     handleAdicionar?: () => void;
 };
 
-interface ColumnMeta {
-    field: string;
-    header: string;
-}
-
-
 
 export function OrdemServicoTabAnexoTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
 
@@ -37,7 +32,7 @@ export function OrdemServicoTabAnexoTable({ data, rows, isFetching, rowsPerPage,
     const [arquivoDownload, status] = useDownloadOrdemServicoAnexoMutation();
     const [arquivoDownloadBlob, statusBlob] = useDownloadOrdemServicoAnexoBlobMutation();
 
-    const columns: ColumnMeta[] = [
+    const columns: ColumnMeta<OrdemServicoAnexo>[] = [
         { field: 'ordemServicoAnexoArqNome', header: 'Nome' },
         { field: 'contentType', header: 'type' },
     ];

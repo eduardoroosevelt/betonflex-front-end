@@ -18,6 +18,8 @@ import { OrdemServicoMaterialApiSlice } from "../feature/ordemServicoMaterial/Or
 import { OrdemServicoAnexoApiSlice } from "../feature/ordemServicoAnexo/ordemServicoAnexoSlice";
 import { MaterialFamiliaApiSlice } from "../feature/materiais/components/materialFamilia/MaterialFamiliaApiSlice";
 import { ProdutoApiSlice } from "../feature/materiais/components/materialProduto/ProdutoApiSlice";
+import { uploadQueue } from "./middleware/uploadQueue";
+import { uploadReducer } from "../feature/upalod/UploadSlice";
 
 const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
@@ -33,6 +35,7 @@ const rootReducer = combineReducers({
     [OrdemServicoAnexoApiSlice.reducerPath]: apiSlice.reducer,
     [MaterialFamiliaApiSlice.reducerPath]: apiSlice.reducer,
     [ProdutoApiSlice.reducerPath]: apiSlice.reducer,
+    uploadSlice: uploadReducer,
     auth: authSlice.reducer,
 });
 
@@ -42,13 +45,13 @@ export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
         reducer: rootReducer,
         preloadedState,
         middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware({
-                // serializableCheck: {
-                //     ignoredActions: ["uploads/addUpload, uploads/updateUpload"],
-                //     ignoredPaths: ["uploadSlice.file"],
-                // },
-            })
-                //   .prepend(uploadQueue.middleware)
+                getDefaultMiddleware({
+                    serializableCheck: {
+                        ignoredActions: ["uploads/addUpload, uploads/updateUpload"],
+                        ignoredPaths: ["uploadSlice.file","menuReducer.menu"],
+                    },
+                })
+                .prepend(uploadQueue.middleware)
                 .concat(apiSlice.middleware),
     });
 };

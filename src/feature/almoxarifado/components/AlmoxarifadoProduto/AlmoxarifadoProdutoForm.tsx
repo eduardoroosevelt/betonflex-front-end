@@ -8,7 +8,8 @@ import { ButtonSalvar } from '../../../../components/ButtonComponent'
 import { InputText } from 'primereact/inputtext'
 import { Dropdown } from 'primereact/dropdown'
 import { IProduto } from '../../../../types/IProduto'
-import { PromptPesquisarProduto } from '../../../../components/PesquisarProduto/PromptPesquisarProduto'
+import { InputMask } from 'primereact/inputmask';
+
 
 interface AlmoxarifadoProdutoFormProps {
     errors: FieldErrors<IAlmoxarifadoProduto>
@@ -33,7 +34,7 @@ export function AlmoxarifadoProdutoForm({ onSubmit, isView, control, errors, isL
                 produtoSelecionado={{} as IProduto}
                 onHide={() => { }}
             /> */}
-            <WrapperComLabel cols='12' label='Produtos' >
+            <WrapperComLabel cols='12' label='Produtos' isObrigatorio>
                 <Controller
                     name="produto"
                     control={control}
@@ -57,7 +58,7 @@ export function AlmoxarifadoProdutoForm({ onSubmit, isView, control, errors, isL
                 />
             </WrapperComLabel>
 
-            <WrapperComLabel cols='12' label='Lote' >
+            <WrapperComLabel cols='12' label='Lote' isObrigatorio>
                 <Controller
                     name="lote"
                     control={control}
@@ -78,7 +79,75 @@ export function AlmoxarifadoProdutoForm({ onSubmit, isView, control, errors, isL
                 />
             </WrapperComLabel>
 
-            <WrapperComLabel cols='6' label='Valor Unitário do material' >
+            <WrapperComLabel cols='12' label='Máquina' isObrigatorio>
+                <Controller
+                    name="maquina"
+                    control={control}
+                    rules={{ required: 'Máquina é obrigatório' }}
+                    render={({ field, fieldState }) => (
+                        <>
+                            <InputText
+                                id={field.name}
+                                placeholder='Informe a máquina'
+                                value={field.value}
+                                className={classNames({ 'p-invalid': fieldState.error })}
+                                onChange={(e) => field.onChange(e.target.value)}
+                                disabled={isView}
+                            />
+                            {getFormErrorMessage(field.name)}
+                        </>
+                    )}
+                />
+            </WrapperComLabel>
+
+            <WrapperComLabel cols='6' label='Resistência' isObrigatorio >
+                <Controller
+                    name="resistencia"
+                    control={control}
+                    rules={{
+                        required: 'Entre com um valor acima de 0.',
+                        validate: (value) => (value >= 0) || 'Entre com um valor acima de 0.'
+                    }}
+                    render={({ field, fieldState }) => (
+                        <>
+                            <InputNumber
+                                minFractionDigits={2}
+                                maxFractionDigits={2}
+                                locale="pt-BR"
+                                id={field.name}
+                                inputRef={field.ref}
+                                onValueChange={(e) => field.onChange(e.value)}
+                                useGrouping={false}
+                                inputClassName={classNames('w-full', { 'p-invalid': fieldState.error })}
+                                className='w-full'
+                            />
+                            {getFormErrorMessage(field.name)}
+                        </>
+                    )}
+                />
+            </WrapperComLabel>
+
+            <WrapperComLabel cols='6' label='Data de Fabricação' isObrigatorio>
+                <Controller
+                    name="dataProducao"
+                    control={control}
+                    rules={{ required: 'Data de Fabricação é obrigatório' }}
+                    render={({ field, fieldState }) => (
+                        <>
+                            <InputMask
+                                id={field.name}
+                                value={field.value}
+                                className={classNames({ 'p-invalid': fieldState.error })}
+                                onChange={(e) => field.onChange(e.target.value)}
+                                mask="99/99/9999"
+                            />
+                            {getFormErrorMessage(field.name)}
+                        </>
+                    )}
+                />
+            </WrapperComLabel>
+
+            <WrapperComLabel cols='6' label='Valor Unitário do material' isObrigatorio>
                 <Controller
                     name="valorUnitario"
                     control={control}
@@ -105,7 +174,7 @@ export function AlmoxarifadoProdutoForm({ onSubmit, isView, control, errors, isL
                 />
             </WrapperComLabel>
 
-            <WrapperComLabel cols='6' label='Quantidade' >
+            <WrapperComLabel cols='6' label='Quantidade' isObrigatorio>
                 <Controller
                     name="qtde"
                     control={control}

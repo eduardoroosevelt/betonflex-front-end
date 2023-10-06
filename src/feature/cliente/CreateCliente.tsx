@@ -47,7 +47,7 @@ export default function CreateCliente({ visibleAdicionar, onHideAdicionar }: Cre
     }
 
     return (
-        <Sidebar onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' >
+        <Sidebar onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' blockScroll>
             <h3>Cadastrar Cliente</h3>
 
             <form className='grid' onSubmit={handleSubmit(onSubmit)}>

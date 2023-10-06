@@ -50,7 +50,7 @@ export function CreateTipoServico({ visibleAdicionar, onHideAdicionar }: CreateT
 
 
     return (
-        <Sidebar onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' >
+        <Sidebar onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' blockScroll>
             <h3>Cadastrar Tipo de Serviço</h3>
 
             <form className='grid' onSubmit={handleSubmit(onSubmit)}>

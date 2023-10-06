@@ -6,6 +6,7 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { useNavigate } from 'react-router-dom';
 import { OrdemServicoCliente } from '../../../types/OrdemServicoCliente';
+import { ColumnMeta } from '../../../components/TabelaPaginado';
 
 type Props = {
     data: Results<OrdemServicoCliente> | undefined;
@@ -19,16 +20,11 @@ type Props = {
     handleAdicionar: () => void;
 };
 
-interface ColumnMeta {
-    field: string;
-    header: string;
-}
-
 
 export function ClientOrdemServicoTabTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
     const navigation = useNavigate();
 
-    const columns: ColumnMeta[] = [
+    const columns: ColumnMeta<OrdemServicoCliente>[] = [
         { field: 'ordemServico.ordemServicoNumero', header: 'N° da ordem' },
         { field: 'ordemServico.tipoServico.tipoServicoNome', header: 'Tipo de Serviço' },
         { field: 'ordemServico.ordemServicoStatus', header: 'Status' },

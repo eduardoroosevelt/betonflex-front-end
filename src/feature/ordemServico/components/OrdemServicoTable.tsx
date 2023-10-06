@@ -6,6 +6,7 @@ import { Column } from 'primereact/column';
 import { useNavigate } from 'react-router-dom';
 import { OrdemServico } from '../../../types/OrdemServico';
 import { Dialog } from 'primereact/dialog';
+import { ColumnMeta } from '../../../components/TabelaPaginado';
 
 type Props = {
     data: Results<OrdemServico> | undefined;
@@ -19,18 +20,13 @@ type Props = {
     handleAdicionar: () => void;
 };
 
-interface ColumnMeta {
-    field: string;
-    header: string;
-}
-
 
 export function OrdemServicoTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
     const navigation = useNavigate();
     const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
     const [selected, setSelected] = useState<OrdemServico | null>();
 
-    const columns: ColumnMeta[] = [
+    const columns: ColumnMeta<OrdemServico>[] = [
         { field: 'ordemServicoNumero', header: 'N° da ordem' },
         { field: 'tipoServico.tipoServicoNome', header: 'Tipo de Serviço' },
         { field: 'ordemServicoStatus', header: 'Status' },

@@ -39,7 +39,7 @@ export function AlmoxarifadoTable({
   handleAdicionar
 }: Props) {
 
-  const columns: ColumnMeta[] = [
+  const columns: ColumnMeta<IAlmoxarifado>[] = [
     { field: 'nome', header: 'Nome' },
     { field: 'descricao', header: 'Descrição' },
     { field: 'created', header: 'Criado em' },

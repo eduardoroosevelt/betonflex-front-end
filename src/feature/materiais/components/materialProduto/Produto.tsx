@@ -127,7 +127,7 @@ export function Produto({ material }: ProdutoFamilia) {
             />
 
             {visibleForm &&
-                <Sidebar onHide={onHideForm} visible={visibleForm} className="w-11 md:w-4" position='right' >
+                <Sidebar onHide={onHideForm} visible={visibleForm} className="w-11 md:w-4" position='right' blockScroll>
                     <ProdutoForm
                         errors={errors}
                         onSubmit={handleSubmit(onSubmit)}

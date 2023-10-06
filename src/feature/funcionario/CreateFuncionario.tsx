@@ -48,7 +48,7 @@ export function CreateFuncionario({ visibleAdicionar, onHideAdicionar }: CreateF
 
 
     return (
-        <Sidebar onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' >
+        <Sidebar onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' blockScroll>
             <h3>Cadastrar Material</h3>
             <FuncionarioForm
                 handleSubmit={handleSubmit(onSubmit)}

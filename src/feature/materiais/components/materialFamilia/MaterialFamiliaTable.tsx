@@ -31,11 +31,11 @@ export default function MaterialFamiliaTable({
     handleView,
     handleAdicionar
 }: Props) {
-    const columns: ColumnMeta[] = [
+    const columns: ColumnMeta<IMaterialFamilia>[] = [
         { field: "nome", header: "Nome" },
         { field: "descricao", header: "Descrição" },
         { field: "created", header: "Criado em" },
-        { header: "Ativo?", body: (data) => data.ativo ? <Tag severity="success" value="ATIVO" className='w-full' /> : <Tag severity="danger" value="INATIVO" className='w-full' /> },
+        // { header: "Ativo?", body: (data) => data.ativo ? <Tag severity="success" value="ATIVO" className='w-full' /> : <Tag severity="danger" value="INATIVO" className='w-full' /> },
     ];
 
     return (

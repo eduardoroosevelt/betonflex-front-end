@@ -1,5 +1,6 @@
 import { IAlmoxarifado } from "./IAlmoxarifado"
 import { IProduto } from "./IProduto"
+import { IArquivo } from "./IArquivo"
 
 export interface IAlmoxarifadoProduto{
     id: number
@@ -11,6 +12,10 @@ export interface IAlmoxarifadoProduto{
     qtde:number
     qtdUtilizada:number
     created:string
+    maquina:string	
+	resistencia:number	
+	dataProducao: string 
+    listaArquivos:IArquivo[]
 }
 
 export interface IAlmoxarifadoProdutoParams{

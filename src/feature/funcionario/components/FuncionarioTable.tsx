@@ -6,6 +6,7 @@ import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
 import { Column } from 'primereact/column';
 import { Dialog } from 'primereact/dialog';
+import { ColumnMeta } from '../../../components/TabelaPaginado';
 
 type Props = {
     data: Results<Funcionario> | undefined;
@@ -20,17 +21,12 @@ type Props = {
 };
 
 
-interface ColumnMeta {
-    field: string;
-    header: string;
-}
-
 export function FuncionarioTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
     const navigation = useNavigate();
     const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
     const [selected, setSelected] = useState<Funcionario | null>();
 
-    const columns: ColumnMeta[] = [
+    const columns: ColumnMeta<Funcionario>[] = [
         { field: 'funcionarioNome', header: 'Nome' },
         { field: 'funcionarioCargo', header: 'Cargo' },
         { field: 'funcionarioAtivo', header: 'Ativo?' },

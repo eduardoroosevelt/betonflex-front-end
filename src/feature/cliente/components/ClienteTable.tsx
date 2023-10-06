@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { Dialog } from 'primereact/dialog';
+import { ColumnMeta } from '../../../components/TabelaPaginado';
 
 type Props = {
     data: Results<Cliente> | undefined;
@@ -20,10 +21,7 @@ type Props = {
 };
 
 
-interface ColumnMeta {
-    field: string;
-    header: string;
-}
+
 
 
 export function ClientTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
@@ -31,7 +29,7 @@ export function ClientTable({ data, rows, isFetching, rowsPerPage, handleOnPageC
     const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
     const [selected, setSelected] = useState<Cliente | null>();
 
-    const columns: ColumnMeta[] = [
+    const columns: ColumnMeta<Cliente>[] = [
         { field: 'clienteNome', header: 'Nome' },
         { field: 'clienteDocumento', header: 'Documento' },
         { field: 'clienteCreateat', header: 'Criado em' }

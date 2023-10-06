@@ -47,7 +47,7 @@ export function OrdemServicoTabClienteCreate({ ordemServicoId, visibleAdicionar,
     }
 
     return (
-        <Sidebar onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' >
+        <Sidebar onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' blockScroll>
             <h4>Vincular Cliente nesta ordem de serviço</h4>
             <form className='grid' onSubmit={handleSubmit(onSubmit)}>
                 <WrapperComLabel cols='12' label='Cliente' isObrigatorio>

@@ -5,6 +5,7 @@ import { DataTable, DataTableRowClickEvent, DataTableStateEvent } from 'primerea
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
+import { ColumnMeta } from '../../../components/TabelaPaginado';
 
 type Props = {
     data: Results<TipoServico> | undefined;
@@ -18,16 +19,12 @@ type Props = {
     handleAdicionar: () => void;
 };
 
-interface ColumnMeta {
-    field: string;
-    header: string;
-}
 
 export function TipoServicoTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
 
     const navigation = useNavigate();
 
-    const columns: ColumnMeta[] = [
+    const columns: ColumnMeta<TipoServico>[] = [
         { field: 'tipoServicoNome', header: 'Nome' },
         { field: 'tipoServicoDescricao', header: 'Descrição' },
         { field: 'tipoServicoAtivo', header: 'Ativo?' },

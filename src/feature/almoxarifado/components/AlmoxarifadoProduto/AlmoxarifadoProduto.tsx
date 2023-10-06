@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { IAlmoxarifado } from '../../../../types/IAlmoxarifado'
 import { AlmoxarifadoProdutoTable } from './AlmoxarifadoProdutoTable'
 import { useCreateAlmoxarifadoProdutoMutation, useDeleteAlmoxarifadoProdutoMutation, useGetPageAlmoxarifadoProdutoPorAlmoxarifadoQuery, useUpdateAlmoxarifadoProdutoMutation } from '../../almoxarifadoProdutoSlice'
@@ -11,6 +11,14 @@ import { LOCAL_STORAGE_KEYS } from '../../../../types/enums/LocalStorage_enum'
 import { AlmoxarifadoProdutoForm } from './AlmoxarifadoProdutoForm'
 import { Sidebar } from 'primereact/sidebar'
 import { useGetProdutosListAtivosQuery } from '../../../materiais/components/materialProduto/ProdutoApiSlice'
+import { FileUploadHandlerEvent } from 'primereact/fileupload'
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
+import { UploadState, addUpload, selectUploads } from '../../../upalod/UploadSlice'
+import { nanoid } from '@reduxjs/toolkit'
+import { useLazyDownloadLaudoTecnicoQuery, useUploadLaudoTecnicoMutation } from '../../arquivoSlice'
+import { enqueueSnackbar } from 'notistack'
+
+export const baseUrl = import.meta.env.VITE_BASE_URL;
 
 interface AlmoxarifadoProdutoProps {
     almoxarifado: IAlmoxarifado
@@ -37,7 +45,19 @@ export function AlmoxarifadoProduto({ almoxarifado }: AlmoxarifadoProdutoProps) 
     const [createAlmoxarifadoProduto, createStatus] = useCreateAlmoxarifadoProdutoMutation()
     const [deleteAlmoxarifadoProduto, deleteStatus] = useDeleteAlmoxarifadoProdutoMutation()
     const [updateAlmoxarifadoProduto, updateStatus] = useUpdateAlmoxarifadoProdutoMutation()
+    const dispatch = useAppDispatch()
+
     const { data: listProduto } = useGetProdutosListAtivosQuery()
+    const [upload, statusUpload] = useUploadLaudoTecnicoMutation()
+    const [download, statusDownload] = useLazyDownloadLaudoTecnicoQuery()
+
+    useEffect(() => {
+        if (statusUpload.isSuccess) {
+            enqueueSnackbar("Upload do laudo realizado com  sucesso", { variant: "success", autoHideDuration: 4000 });
+        }
+    }, [statusUpload])
+
+
 
     function handleAdicionar() {
         setVisibleForm(true)
@@ -82,6 +102,37 @@ export function AlmoxarifadoProduto({ almoxarifado }: AlmoxarifadoProdutoProps) 
 
     const isLoading = createStatus.isLoading || updateStatus.isLoading || deleteStatus.isLoading
 
+    function uploadHandler(event: FileUploadHandlerEvent, almoxProd: IAlmoxarifadoProduto) {
+
+        event.files.forEach(file => {
+            // let payload: UploadState = {
+            //     idInterno: nanoid(),
+            //     endpoint: `/arquivos/upload/${almoxProd.id}`,
+            //     file: file,
+            //     field: 'file',
+            // }
+            // dispatch(addUpload(payload))
+            upload({
+                almoxProd,
+                file
+            })
+        })
+    }
+
+    async function downloadHandler(almoxProd: IAlmoxarifadoProduto) {
+        const arquivo = await download({ almoxProd })
+
+        if (arquivo.data) {
+
+            const url = window.URL.createObjectURL(arquivo.data)
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', `${almoxProd.produto.nome}-${almoxProd.lote}.${arquivo.data.type.split('/')[1]}`)
+            document.body.appendChild(link)
+            link.click()
+        }
+    }
+
     return (
         <div>
             <AlmoxarifadoProdutoTable
@@ -93,9 +144,12 @@ export function AlmoxarifadoProduto({ almoxarifado }: AlmoxarifadoProdutoProps) 
                 handleFilterChange={handleFilterChange}
                 handleOnPageChange={handleOnPageChange}
                 handleAdicionar={handleAdicionar}
+                handleEdit={handleEdit}
+                uploadHandler={uploadHandler}
+                downloadHandler={downloadHandler}
             />
             {visibleForm &&
-                <Sidebar onHide={onHideForm} visible={visibleForm} className="w-11 md:w-4" position='right' >
+                <Sidebar onHide={onHideForm} visible={visibleForm} className="w-11 md:w-4" position='right' blockScroll>
                     <AlmoxarifadoProdutoForm
                         errors={errors}
                         onSubmit={handleSubmit(onSubmit)}

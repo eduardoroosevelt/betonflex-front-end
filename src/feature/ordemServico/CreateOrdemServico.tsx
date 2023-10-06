@@ -50,7 +50,7 @@ export function CreateOrdemServico({ visibleAdicionar, onHideAdicionar }: Create
 
 
     return (
-        <Sidebar onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' >
+        <Sidebar onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' blockScroll>
             <h3>Cadastrar Ordem de Serviço</h3>
 
             <OrdemServicoForm

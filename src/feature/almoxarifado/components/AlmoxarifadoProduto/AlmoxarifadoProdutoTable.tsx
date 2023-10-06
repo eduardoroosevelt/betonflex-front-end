@@ -1,11 +1,12 @@
-import React from 'react'
-import { IProduto } from '../../../../types/IProduto';
+import { LegacyRef, useRef } from 'react'
 import { Results } from '../../../../types/Results';
 import { DataTableStateEvent } from 'primereact/datatable';
 import { ColumnMeta, TabelaPaginado } from '../../../../components/TabelaPaginado';
-import { Tag } from 'primereact/tag';
 import { IAlmoxarifadoProduto } from '../../../../types/IAlmoxarifadoProduto';
-
+import { ButtonSecondary } from '../../../../components/ButtonComponent';
+import { FileUpload, FileUploadHandlerEvent, FileUploadHandlerOptions } from 'primereact/fileupload';
+import { enqueueSnackbar } from 'notistack';
+export const baseUrl = import.meta.env.VITE_BASE_URL;
 
 type Props = {
     data: Results<IAlmoxarifadoProduto> | undefined;
@@ -19,6 +20,8 @@ type Props = {
     handleEdit?: ((arg: IAlmoxarifadoProduto) => void) | null;
     handleView?: ((arg: IAlmoxarifadoProduto) => void) | null;
     handleAdicionar?: (() => void) | null;
+    uploadHandler: (event: FileUploadHandlerEvent, arg: IAlmoxarifadoProduto) => void
+    downloadHandler: (arg: IAlmoxarifadoProduto) => void
 };
 
 export function AlmoxarifadoProdutoTable({
@@ -31,30 +34,62 @@ export function AlmoxarifadoProdutoTable({
     handleDelete,
     handleEdit,
     handleView,
-    handleAdicionar
+    handleAdicionar,
+    uploadHandler,
+    downloadHandler,
 }: Props) {
-    const columns: ColumnMeta[] = [
+    const fileRef = useRef<FileUpload | null>(null)
+
+    function upload(event: FileUploadHandlerEvent, data: IAlmoxarifadoProduto) {
+        uploadHandler(event, data)
+        fileRef.current && fileRef.current.clear()
+    }
+    const columns: ColumnMeta<IAlmoxarifadoProduto>[] = [
         { field: "produto.nome", header: "Produto" },
         { field: "lote", header: "Lote" },
         { field: "qtde", header: "Quantidade" },
         { field: "created", header: "Criado em" },
-        // { header: "Ativo?", body: (data) => data.ativo ? <Tag severity="success" value="ATIVO" className='w-full' /> : <Tag severity="danger" value="INATIVO" className='w-full' /> },
+        {
+            header: "Laudo",
+            body: (data) =>
+                (!data.listaArquivos || (data.listaArquivos && data.listaArquivos.length) == 0)
+                    ?
+                    <FileUpload
+                        mode="basic"
+                        name="file"
+                        url={`${baseUrl}/arquivos/upload/${data.id}`}
+                        accept="application/pdf"
+                        maxFileSize={1000000}
+                        chooseLabel='Anexar'
+                        onUpload={onUpload}
+                        customUpload
+                        uploadHandler={(arg) => upload(arg, data)}
+                        ref={fileRef}
+                    />
+                    :
+                    <ButtonSecondary label='Download do Laudo' onClick={() => downloadHandler(data)} />
+        },
     ];
+
+    const onUpload = () => {
+        enqueueSnackbar("Laudo anexado com sucesso", { variant: "success" });
+    };
+
 
     return (
         <div className="col-12">
             <TabelaPaginado<IAlmoxarifadoProduto>
+                hasEventoAcao
                 data={data}
                 columns={columns}
                 isFetching={isFetching}
+                rows={rows}
+                rowsPerPage={rowsPerPage}
                 handleDelete={handleDelete}
                 handleEdit={handleEdit}
                 handleFilterChange={handleFilterChange}
                 handleOnPageChange={handleOnPageChange}
-                rows={rows}
-                rowsPerPage={rowsPerPage}
                 handleAdicionar={handleAdicionar}
-                hasEventoAcao
             />
         </div>
     )

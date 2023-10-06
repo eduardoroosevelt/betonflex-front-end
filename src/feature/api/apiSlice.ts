@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 // import { keycloak } from "../../keycloakConfig";
 
 export const baseUrl = import.meta.env.VITE_BASE_URL;
+console.log(baseUrl);
 
 export const apiSlice = createApi({
     reducerPath: "api",
@@ -17,7 +18,8 @@ export const apiSlice = createApi({
     "Funcionario",
     "MaterialFamilia",
     'Produto',
-    "AlmoxarifadoProduto"
+    "AlmoxarifadoProduto",
+    "Arquivo"
 ],
     endpoints: (builder) => ({}),
     baseQuery: fetchBaseQuery({

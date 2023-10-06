@@ -6,12 +6,7 @@ import { Cliente } from '../../../../types/Cliente';
 import { Column } from 'primereact/column';
 import { OrdemServicoCliente } from '../../../../types/OrdemServicoCliente';
 import { Dialog } from 'primereact/dialog';
-
-interface ColumnMeta {
-    field: string;
-    header: string;
-}
-
+import { ColumnMeta } from '../../../../components/TabelaPaginado';
 
 type Props = {
     data: Results<OrdemServicoCliente> | undefined;
@@ -30,7 +25,7 @@ export default function OrdemServicoTabClienteTable({ data, rows, isFetching, ro
     const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
     const [selected, setSelected] = useState<OrdemServicoCliente | null>();
 
-    const columns: ColumnMeta[] = [
+    const columns: ColumnMeta<OrdemServicoCliente>[] = [
         { field: 'cliente.clienteNome', header: 'Nome' },
         { field: 'cliente.clienteDocumento', header: 'Documento' },
         { field: 'cliente.clienteCreateat', header: 'Criado em' }

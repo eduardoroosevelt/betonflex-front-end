@@ -6,12 +6,13 @@ import React, { useState } from 'react'
 import { Results } from '../types/Results';
 import { ButtonIcon } from './ButtonComponent';
 import style from './styles/TabelaPaginado.module.css'
+
 export interface TabelaPaginadoProps<T> {
     data: Results<T> | undefined;
     rows: number;
     isFetching: boolean;
     rowsPerPage?: number[];
-    columns: ColumnMeta[]
+    columns: ColumnMeta<T>[]
     hasEventoAcao?: boolean;
 
     handleOnPageChange?: (page: DataTableStateEvent) => void;
@@ -25,10 +26,10 @@ export interface TabelaPaginadoProps<T> {
 
 
 
-export interface ColumnMeta {
+export interface ColumnMeta<T> {
     field?: string;
     header: string;
-    body?: (data: any, options: ColumnBodyOptions) => React.ReactNode
+    body?: (data: T, options: ColumnBodyOptions) => React.ReactNode
 }
 
 
@@ -107,7 +108,7 @@ export function TabelaPaginado<T>({ data, rows, isFetching, rowsPerPage, columns
                 onPage={handleOnPageChange}
                 onFilter={handleFilterChange}
                 header={renderHeader()}
-                onRowClick={onEdit}
+                // onRowClick={onEdit}
                 selectionMode="single"
                 onSelect={(e) => console.log(e)}
                 metaKeySelection={true}

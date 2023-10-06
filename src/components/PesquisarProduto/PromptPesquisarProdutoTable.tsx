@@ -19,7 +19,7 @@ type Props = {
 export function PromptPesquisarProdutoTable({ data, rows, rowsPerPage, isFetching, handleOnPageChange, handleFilterChange }: Props) {
 
 
-    const columns: ColumnMeta[] = [
+    const columns: ColumnMeta<IProduto>[] = [
         { field: "nome", header: "Nome" },
         { field: "descricao", header: "Descrição" },
         { field: "created", header: "Criado em" },

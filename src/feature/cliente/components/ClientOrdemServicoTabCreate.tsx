@@ -59,7 +59,7 @@ export function ClientOrdemServicoTabCreate({ clienteId, onHideAdicionar, visibl
 
 
     return (
-        <Sidebar onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' >
+        <Sidebar onHide={onHideAdicionar} visible={visibleAdicionar} className="w-11 md:w-4" position='right' blockScroll>
             <h3>Cadastrar Ordem de Serviço</h3>
 
             <form className='grid' onSubmit={handleSubmit(onSubmit)}>

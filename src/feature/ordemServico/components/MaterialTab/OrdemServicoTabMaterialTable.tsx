@@ -5,12 +5,7 @@ import { DataTable, DataTableStateEvent } from 'primereact/datatable';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { Dialog } from 'primereact/dialog';
-
-interface ColumnMeta {
-    field: string;
-    header: string;
-}
-
+import { ColumnMeta } from '../../../../components/TabelaPaginado';
 
 type Props = {
     data: Results<OrdemServicoMaterial> | undefined;
@@ -29,7 +24,7 @@ export function OrdemServicoTabMaterialTable({ data, rows, isFetching, rowsPerPa
     const [selected, setSelected] = useState<OrdemServicoMaterial | null>();
     const first = data?.number && data?.size ? data?.number * data?.size : 0;
 
-    const columns: ColumnMeta[] = [
+    const columns: ColumnMeta<OrdemServicoMaterial>[] = [
         { field: 'almoxarifadoMaterial.material.materialNome', header: 'Nome' },
         { field: 'almoxarifadoMaterial.material.materialSku', header: 'Sku' },
         { field: 'almoxarifadoMaterial.material.materialDescricao', header: 'Descrição' },

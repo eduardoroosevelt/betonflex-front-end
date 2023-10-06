@@ -7,6 +7,7 @@ import { Results } from '../../../types/Results';
 import { IMaterial } from '../../../types/Material';
 import { useState } from 'react';
 import { Dialog } from 'primereact/dialog';
+import { ColumnMeta } from '../../../components/TabelaPaginado';
 
 
 
@@ -23,18 +24,13 @@ type Props = {
 };
 
 
-interface ColumnMeta {
-    field: string;
-    header: string;
-}
-
 export function MaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar }: Props) {
 
     const navigation = useNavigate();
     const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
     const [selected, setSelected] = useState<IMaterial | null>();
 
-    const columns: ColumnMeta[] = [
+    const columns: ColumnMeta<IMaterial>[] = [
         { field: 'nome', header: 'Nome' },
         { field: 'descricao', header: 'Descrição' },
         { field: 'ativo', header: 'Ativo?' },
