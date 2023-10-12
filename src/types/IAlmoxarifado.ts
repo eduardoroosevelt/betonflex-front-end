@@ -16,18 +16,16 @@ export interface IAlmoxarifadoParams {
     isActive?: boolean;
 }
 
-// export interface AlmoxarifadoMaterial {
-//     almoxarifadoMaterialId: number;
-//     almoxarifado: Almoxarifado;
-//     material: Material;
-//     lote: string;
-//     valorUnitario: number
-//     valorTotal: number
-//     qtde: number
-//     qtdeUtilizada: number
-//     status: string
-//     data: string
-// }
+export interface AlmoxarifadoMaterial {
+    almoxarifadoMaterialId: number;
+    lote: string;
+    valorUnitario: number
+    valorTotal: number
+    qtde: number
+    qtdeUtilizada: number
+    status: string
+    data: string
+}
 
 // export interface AlmoxarifadoMaterialParams {
 //     page?: number;

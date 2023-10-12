@@ -1,12 +1,7 @@
-import { Button } from 'primereact/button';
-import { Column } from 'primereact/column';
-import { DataTable, DataTableRowClickEvent, DataTableSelectionChangeEvent, DataTableStateEvent } from 'primereact/datatable';
+import { DataTableStateEvent } from 'primereact/datatable';
 
-import { useNavigate } from 'react-router-dom';
 import { Results } from '../../../types/Results';
 import { IAlmoxarifado } from '../../../types/IAlmoxarifado';
-import { useState } from 'react';
-import { Dialog } from 'primereact/dialog';
 import { Tag } from 'primereact/tag';
 import { ColumnMeta, TabelaPaginado } from '../../../components/TabelaPaginado';
 

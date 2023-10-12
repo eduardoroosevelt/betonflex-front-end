@@ -48,7 +48,7 @@ function getAlmoxarifadoMateriais({ id }: { id: number }): string {
 
 function getPageAlmoxarifadoProdutoPorAlmoxarifado({ page = 0, rows = 10, search = "", almoxarifadoId = 0 }) {
     const params = { page, rows, search, isActive: true };
-    return `${endpointUrl}/buscaPorAlmoxarifado/${almoxarifadoId}?${parseQueryParams(params)}`;
+    return `${endpointUrl}/buscaporalmoxarifado/${almoxarifadoId}?${parseQueryParams(params)}`;
 }
 
 function getAlmoxarifadoProdutoListPorAlmoxarifado({ almoxarifadoId }: { almoxarifadoId: number }) {

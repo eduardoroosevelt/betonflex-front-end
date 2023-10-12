@@ -6,14 +6,13 @@ import { Controller, useForm } from 'react-hook-form';
 import { Sidebar } from 'primereact/sidebar';
 import { WrapperComLabel } from '../../../../components/WrapperFormLabelInput';
 import { Dropdown } from 'primereact/dropdown';
-import { AlmoxarifadoMaterial } from '../../../../types/Almoxarifado';
 import { classNames } from 'primereact/utils';
 import { Button } from 'primereact/button';
 import { Funcionario } from '../../../../types/Funcionario';
 import { InputNumber } from 'primereact/inputnumber';
 import { useGetFuncionarioListQuery } from '../../../funcionario/FuncionarioSlice';
-import { useGetAlmoxarifadoMateriailListPorAlmoxarifadoQuery } from '../../../almoxarifado/almoxarifadoMaterialSlice';
-import { Almoxarifado, useGetAlmoxarifadoListQuery } from '../../../almoxarifado/almoxarifadoSlice';
+import { IAlmoxarifado } from '../../../../types/IAlmoxarifado';
+import { useGetAlmoxarifadoListQuery } from '../../../almoxarifado/almoxarifadoSlice';
 
 interface OrdemServicoTabMaterialCreateProps {
     ordemServicoId: number
@@ -26,8 +25,7 @@ export function OrdemServicoTabMaterialCreate({ ordemServicoId, visibleAdicionar
     const [createOrdemServicoMaterial, status] = useCreateOrdemServicoMaterialMutation();
     const { data: listFuncionario } = useGetFuncionarioListQuery()
 
-    const [almoxarifadoSelecionado, setAlmoxarifadoSelecionado] = useState<Almoxarifado | null>(null)
-    const { data: listAlmoxarifadoMaterial, refetch: refetchAlmoxarifadoMaterial, } = useGetAlmoxarifadoMateriailListPorAlmoxarifadoQuery({ almoxarifadoId: almoxarifadoSelecionado?.almoxarifadoId || 0 }, {})
+    const [almoxarifadoSelecionado, setAlmoxarifadoSelecionado] = useState<IAlmoxarifado | null>(null)
     const { data: listAlmoxarifado } = useGetAlmoxarifadoListQuery()
 
     const { register, handleSubmit, control, watch, setError, formState: { errors } } = useForm<OrdemServicoMaterial>({
@@ -49,11 +47,11 @@ export function OrdemServicoTabMaterialCreate({ ordemServicoId, visibleAdicionar
         }
     });
 
-    useEffect(() => {
-        if (almoxarifadoSelecionado) {
-            refetchAlmoxarifadoMaterial()
-        }
-    }, [almoxarifadoSelecionado])
+    // useEffect(() => {
+    //     if (almoxarifadoSelecionado) {
+    //         refetchAlmoxarifadoMaterial()
+    //     }
+    // }, [almoxarifadoSelecionado])
 
     useEffect(() => {
         if (status.isSuccess) {
@@ -85,7 +83,7 @@ export function OrdemServicoTabMaterialCreate({ ordemServicoId, visibleAdicionar
                         className={classNames('w-full')}
                     />
                 </WrapperComLabel>
-                <WrapperComLabel cols='12' label='Material' isObrigatorio>
+                {/* <WrapperComLabel cols='12' label='Material' isObrigatorio>
                     <Controller
                         name="almoxarifadoMaterial"
                         control={control}
@@ -103,7 +101,7 @@ export function OrdemServicoTabMaterialCreate({ ordemServicoId, visibleAdicionar
                             />
                         )}
                     />
-                </WrapperComLabel>
+                </WrapperComLabel> */}
                 <WrapperComLabel cols='12' label='Funcionário' isObrigatorio>
                     <Controller
                         name="funcionario"

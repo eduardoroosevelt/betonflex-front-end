@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { OrdemServicoMaterial } from '../../../../types/OrdemServicoMaterial';
 import { Results } from '../../../../types/Results';
-import { DataTable, DataTableStateEvent } from 'primereact/datatable';
+
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { Dialog } from 'primereact/dialog';
 import { ColumnMeta } from '../../../../components/TabelaPaginado';
+import { DataTable, DataTableStateEvent } from 'primereact/datatable';
 
 type Props = {
     data: Results<OrdemServicoMaterial> | undefined;
@@ -86,7 +87,7 @@ export function OrdemServicoTabMaterialTable({ data, rows, isFetching, rowsPerPa
     return (
         <div>
             <DataTable
-                value={data?.content}
+                value={data?.content || []}
                 totalRecords={data?.totalElements}
                 tableStyle={{ minWidth: '50rem' }}
                 rowsPerPageOptions={rowsPerPage}
@@ -101,7 +102,7 @@ export function OrdemServicoTabMaterialTable({ data, rows, isFetching, rowsPerPa
                 header={renderHeader()}
                 selectionMode="single"
                 metaKeySelection={true}
-                selection={selected || []}
+            // selection={selected || []}
             >
                 {columns.map((col, i) => (
                     <Column key={col.field} field={col.field} header={col.header} />

@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <Provider store={store}>
         <KeycloakProvider>
             <React.StrictMode>
-                <BrowserRouter basename='/betonflex'>
+                <BrowserRouter basename='betonflex'>
                     <App />
                 </BrowserRouter>
             </React.StrictMode>

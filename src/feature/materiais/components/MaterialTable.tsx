@@ -1,13 +1,14 @@
 
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
-import { DataTable, DataTableRowClickEvent, DataTableSelectionChangeEvent, DataTableStateEvent } from 'primereact/datatable';
-import { useNavigate } from 'react-router-dom';
+
 import { Results } from '../../../types/Results';
 import { IMaterial } from '../../../types/Material';
 import { useState } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { ColumnMeta } from '../../../components/TabelaPaginado';
+import { DataTable, DataTableRowClickEvent, DataTableStateEvent } from 'primereact/datatable';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -115,7 +116,7 @@ export function MaterialTable({ data, rows, isFetching, rowsPerPage, handleOnPag
                 header={renderHeader()}
                 onRowClick={handleEdit}
                 selectionMode="single"
-                selection={selected || []}
+                // selection={selected || []}
                 metaKeySelection={true}
             >
                 {columns.map((col, i) => (

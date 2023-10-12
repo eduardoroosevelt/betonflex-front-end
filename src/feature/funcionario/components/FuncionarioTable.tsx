@@ -109,7 +109,7 @@ export function FuncionarioTable({ data, rows, isFetching, rowsPerPage, handleOn
                 header={renderHeader()}
                 onRowClick={handleEdit}
                 selectionMode="single"
-                selection={selected || []}
+                // selection={selected || []}
                 metaKeySelection={true}
             >
                 {columns.map((col, i) => (

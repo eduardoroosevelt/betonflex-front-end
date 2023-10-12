@@ -113,10 +113,11 @@ export function AlmoxarifadoProdutoForm({ onSubmit, isView, control, errors, isL
                             <InputNumber
                                 minFractionDigits={2}
                                 maxFractionDigits={2}
-                                locale="pt-BR"
                                 id={field.name}
                                 inputRef={field.ref}
-                                onValueChange={(e) => field.onChange(e.value)}
+                                value={field.value}
+                                onBlur={field.onBlur}
+                                onValueChange={(e) => field.onChange(e)}
                                 useGrouping={false}
                                 inputClassName={classNames('w-full', { 'p-invalid': fieldState.error })}
                                 className='w-full'
@@ -163,7 +164,9 @@ export function AlmoxarifadoProdutoForm({ onSubmit, isView, control, errors, isL
                                 locale="pt-BR"
                                 id={field.name}
                                 inputRef={field.ref}
-                                onValueChange={(e) => field.onChange(e.value)}
+                                value={field.value}
+                                onBlur={field.onBlur}
+                                onValueChange={(e) => field.onChange(e)}
                                 useGrouping={false}
                                 inputClassName={classNames('w-full', { 'p-invalid': fieldState.error })}
                                 className='w-full'

@@ -102,7 +102,7 @@ export default function OrdemServicoTabClienteTable({ data, rows, isFetching, ro
                 onPage={handleOnPageChange}
                 onFilter={handleFilterChange}
                 header={renderHeader()}
-                selection={selected || []}
+                // selection={selected || []}
                 selectionMode="single"
                 metaKeySelection={true}
             >
