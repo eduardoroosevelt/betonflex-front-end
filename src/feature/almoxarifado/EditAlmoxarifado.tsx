@@ -8,6 +8,7 @@ import { IAlmoxarifado } from '../../types/IAlmoxarifado';
 import { AlmoxarifadoForm } from './components/AlmoxarifadoForm';
 import CardWrapper from '../../components/CardWrapper';
 import { AlmoxarifadoProduto } from './components/AlmoxarifadoProduto/AlmoxarifadoProduto';
+import { AlmoxarifadoMovimentacao } from './components/AlmoxarifadoMovimentacao/AlmoxarifadoMovimentacao';
 
 export function EditAlmoxarifado() {
     const id = useParams().id;
@@ -57,6 +58,9 @@ export function EditAlmoxarifado() {
                 </TabPanel>
                 <TabPanel header="Produtos">
                     {almoxarifado && <AlmoxarifadoProduto almoxarifado={almoxarifado} />}
+                </TabPanel>
+                <TabPanel header="Movimentação">
+                    {almoxarifado && <AlmoxarifadoMovimentacao almoxarifado={almoxarifado} />}
                 </TabPanel>
             </TabView>
         </CardWrapper>

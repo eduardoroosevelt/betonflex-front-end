@@ -22,6 +22,7 @@ export interface TabelaPaginadoProps<T> {
     handleView?: ((arg: T) => void) | null;
     handleAdicionar?: (() => void) | null;
     botoes?: (arg: T) => React.ReactNode;
+    handleRowClick?: (event: DataTableRowClickEvent) => void;
 };
 
 
@@ -33,7 +34,22 @@ export interface ColumnMeta<T> {
 }
 
 
-export function TabelaPaginado<T>({ data, rows, isFetching, rowsPerPage, columns, hasEventoAcao, handleOnPageChange, handleFilterChange, handleDelete, handleAdicionar, handleEdit, handleView }: TabelaPaginadoProps<T>) {
+export function TabelaPaginado<T>(
+    {
+        data,
+        rows,
+        isFetching,
+        rowsPerPage,
+        columns,
+        hasEventoAcao,
+        handleOnPageChange,
+        handleFilterChange,
+        handleDelete,
+        handleAdicionar,
+        handleEdit,
+        handleView,
+        handleRowClick
+    }: TabelaPaginadoProps<T>) {
     const first = data?.number && data?.size ? data?.number * data?.size : 0;
     const [visibleConfirmExcluir, setVisibleConfirmExcluir] = useState(false);
     const [selecteConfirmExclusao, setSelecteConfirmExclusao] = useState<T>();
@@ -108,7 +124,7 @@ export function TabelaPaginado<T>({ data, rows, isFetching, rowsPerPage, columns
                 onPage={handleOnPageChange}
                 onFilter={handleFilterChange}
                 header={renderHeader()}
-                // onRowClick={onEdit}
+                onRowClick={handleRowClick}
                 selectionMode="single"
                 onSelect={(e) => console.log(e)}
                 metaKeySelection={true}

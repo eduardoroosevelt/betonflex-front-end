@@ -45,8 +45,8 @@ export function AlmoxarifadoProdutoTable({
         fileRef.current && fileRef.current.clear()
     }
     const columns: ColumnMeta<IAlmoxarifadoProduto>[] = [
-        { field: "produto.nome", header: "Produto" },
         { field: "lote", header: "Lote" },
+        { field: "produto.nome", header: "Produto" },
         { field: "qtde", header: "Quantidade" },
         { field: "created", header: "Criado em" },
         {

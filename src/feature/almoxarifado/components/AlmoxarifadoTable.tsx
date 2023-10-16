@@ -1,4 +1,4 @@
-import { DataTableStateEvent } from 'primereact/datatable';
+import { DataTableRowClickEvent, DataTableStateEvent } from 'primereact/datatable';
 
 import { Results } from '../../../types/Results';
 import { IAlmoxarifado } from '../../../types/IAlmoxarifado';
@@ -41,6 +41,10 @@ export function AlmoxarifadoTable({
     { header: "Ativo?", body: (data) => data.ativo ? <Tag severity="success" value="ATIVO" className='w-full' /> : <Tag severity="danger" value="INATIVO" className='w-full' /> },
   ];
 
+  function handleRowClick(event: DataTableRowClickEvent) {
+    handleEdit && handleEdit(event.data as IAlmoxarifado)
+  }
+
   return (
     <div className="col-12">
       <TabelaPaginado<IAlmoxarifado>
@@ -49,6 +53,7 @@ export function AlmoxarifadoTable({
         isFetching={isFetching}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
+        handleRowClick={handleRowClick}
         handleFilterChange={handleFilterChange}
         handleOnPageChange={handleOnPageChange}
         rows={rows}
