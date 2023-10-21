@@ -20,11 +20,20 @@ import { MaterialFamiliaApiSlice } from "../feature/materiais/components/materia
 import { ProdutoApiSlice } from "../feature/materiais/components/materialProduto/ProdutoApiSlice";
 import { uploadQueue } from "./middleware/uploadQueue";
 import { uploadReducer } from "../feature/upalod/UploadSlice";
+import { almoxarifadoProdutoApiSlice } from "../feature/almoxarifado/almoxarifadoProdutoSlice";
+import { movimentacaoApiSlice } from "../feature/movimentacao/movimentacaoSlice";
+import { arquivoApiSlice } from "../feature/almoxarifado/arquivoSlice";
 
 const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
+    [arquivoApiSlice.reducerPath]: apiSlice.reducer,
     [almoxarifadoApiSlice.reducerPath]: apiSlice.reducer,
+    [almoxarifadoProdutoApiSlice.reducerPath]: apiSlice.reducer,
+    [movimentacaoApiSlice.reducerPath]: apiSlice.reducer,
     [MaterialApiSlice.reducerPath]: apiSlice.reducer,
+    [MaterialFamiliaApiSlice.reducerPath]: apiSlice.reducer,
+    [ProdutoApiSlice.reducerPath]: apiSlice.reducer,
+    
     [TipoServicoApiSlice.reducerPath]: apiSlice.reducer,
     [ClienteApiSlice.reducerPath]: apiSlice.reducer,
     [OrdemServicoApiSlice.reducerPath]: apiSlice.reducer,
@@ -33,8 +42,7 @@ const rootReducer = combineReducers({
     [OrdemServicoMaterialApiSlice.reducerPath]: apiSlice.reducer,
     [OrdemServicoClienteApiSlice.reducerPath]: apiSlice.reducer,
     [OrdemServicoAnexoApiSlice.reducerPath]: apiSlice.reducer,
-    [MaterialFamiliaApiSlice.reducerPath]: apiSlice.reducer,
-    [ProdutoApiSlice.reducerPath]: apiSlice.reducer,
+   
     uploadSlice: uploadReducer,
     auth: authSlice.reducer,
 });

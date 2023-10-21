@@ -15,13 +15,14 @@ interface AlmoxarifadoProdutoFormProps {
     errors: FieldErrors<IAlmoxarifadoProduto>
     onSubmit?: React.FormEventHandler<HTMLFormElement>
     isView?: boolean
+    isEdit?: boolean
     control: Control<IAlmoxarifadoProduto, any>
     isLoading: boolean
     onGoBack: () => void
     listProduto: IProduto[]
 }
 
-export function AlmoxarifadoProdutoForm({ onSubmit, isView, control, errors, isLoading, onGoBack, listProduto }: AlmoxarifadoProdutoFormProps) {
+export function AlmoxarifadoProdutoForm({ onSubmit, isView, control, errors, isLoading, onGoBack, listProduto, isEdit = false }: AlmoxarifadoProdutoFormProps) {
 
     const getFormErrorMessage = (name: keyof IAlmoxarifadoProduto) => {
         return errors[name] ? <small className="p-error">{errors[name]!.message}</small> : <small className="p-error">&nbsp;</small>;
@@ -148,7 +149,7 @@ export function AlmoxarifadoProdutoForm({ onSubmit, isView, control, errors, isL
                 />
             </WrapperComLabel>
 
-            <WrapperComLabel cols='6' label='Valor Unitário do material' isObrigatorio>
+            <WrapperComLabel cols={isEdit ? '12' : '6'} label='Valor Unitário do material' isObrigatorio>
                 <Controller
                     name="valorUnitario"
                     control={control}
@@ -176,32 +177,35 @@ export function AlmoxarifadoProdutoForm({ onSubmit, isView, control, errors, isL
                     )}
                 />
             </WrapperComLabel>
-
-            <WrapperComLabel cols='6' label='Quantidade' isObrigatorio>
-                <Controller
-                    name="qtde"
-                    control={control}
-                    rules={{
-                        required: 'Entre com um valor acima de 0.',
-                        validate: (value) => (value >= 0) || 'Entre com um valor acima de 0.'
-                    }}
-                    render={({ field, fieldState }) => (
-                        <>
-                            <InputNumber
-                                id={field.name}
-                                inputRef={field.ref}
-                                value={field.value}
-                                onBlur={field.onBlur}
-                                onValueChange={(e) => field.onChange(e)}
-                                useGrouping={false}
-                                inputClassName={classNames('w-full', { 'p-invalid': fieldState.error })}
-                                className='w-full'
-                            />
-                            {getFormErrorMessage(field.name)}
-                        </>
-                    )}
-                />
-            </WrapperComLabel>
+            {
+                !isEdit && (
+                    <WrapperComLabel cols='6' label='Quantidade' isObrigatorio>
+                        <Controller
+                            name="qtde"
+                            control={control}
+                            rules={{
+                                required: 'Entre com um valor acima de 0.',
+                                validate: (value) => (value >= 0) || 'Entre com um valor acima de 0.'
+                            }}
+                            render={({ field, fieldState }) => (
+                                <>
+                                    <InputNumber
+                                        id={field.name}
+                                        inputRef={field.ref}
+                                        value={field.value}
+                                        onBlur={field.onBlur}
+                                        onValueChange={(e) => field.onChange(e)}
+                                        useGrouping={false}
+                                        inputClassName={classNames('w-full', { 'p-invalid': fieldState.error })}
+                                        className='w-full'
+                                    />
+                                    {getFormErrorMessage(field.name)}
+                                </>
+                            )}
+                        />
+                    </WrapperComLabel>)
+            }
+            {/* 
 
             <WrapperComLabel cols='12' label='Valor Total' >
                 <Controller
@@ -227,7 +231,7 @@ export function AlmoxarifadoProdutoForm({ onSubmit, isView, control, errors, isL
                         </>
                     )}
                 />
-            </WrapperComLabel>
+            </WrapperComLabel> */}
 
             <ButtonSalvar type="submit" severity="success" label="Salvar" className="col-12" />
         </form>

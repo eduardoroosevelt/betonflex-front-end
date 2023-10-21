@@ -71,7 +71,7 @@ export const almoxarifadoProdutoApiSlice = apiSlice.injectEndpoints({
         }),
         createAlmoxarifadoProduto: mutation<IAlmoxarifadoProduto, IAlmoxarifadoProduto>({
             query: createAlmoxarifadoMateriaisMutation,
-            invalidatesTags: ["AlmoxarifadoProduto", "Material"],
+            invalidatesTags: ["AlmoxarifadoProduto", "Movimentacao"],
         }),
         updateAlmoxarifadoProduto: mutation<IAlmoxarifadoProduto, IAlmoxarifadoProduto>({
             query: updateAlmoxarifadoMateriaisMutation,

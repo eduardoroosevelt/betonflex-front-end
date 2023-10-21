@@ -19,7 +19,8 @@ export const apiSlice = createApi({
     "MaterialFamilia",
     'Produto',
     "AlmoxarifadoProduto",
-    "Arquivo"
+    "Arquivo",
+    "Movimentacao"
 ],
     endpoints: (builder) => ({}),
     baseQuery: fetchBaseQuery({

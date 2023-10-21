@@ -35,7 +35,7 @@ export function AlmoxarifadoProduto({ almoxarifado }: AlmoxarifadoProdutoProps) 
     const { data, isFetching } = useGetPageAlmoxarifadoProdutoPorAlmoxarifadoQuery({ almoxarifadoId: almoxarifado.id! })
     const [visibleForm, setVisibleForm] = React.useState(false);
     const { value: optionsFilter, updateLocalStorage } = useLocalStorage(LOCAL_STORAGE_KEYS.MATERIAL_FAMILIA, { ...optionsInit, almoxarifadoId: almoxarifado.id! })
-    const { control, handleSubmit, setValue, reset, formState: { errors } } = useForm<IAlmoxarifadoProduto>({
+    const { control, handleSubmit, getValues, reset, formState: { errors } } = useForm<IAlmoxarifadoProduto>({
         defaultValues: {
             id: 0,
             almoxarifado
@@ -57,7 +57,19 @@ export function AlmoxarifadoProduto({ almoxarifado }: AlmoxarifadoProdutoProps) 
         }
     }, [statusUpload])
 
+    useEffect(() => {
+        if (updateStatus.isSuccess) {
+            enqueueSnackbar("Produto alterado no estoque com sucesso", { variant: "success" });
+            onHideForm()
+        }
+    }, [updateStatus.isSuccess]);
 
+    useEffect(() => {
+        if (createStatus.isSuccess) {
+            enqueueSnackbar("Produto criado no estoque com sucesso", { variant: "success" });
+            onHideForm()
+        }
+    }, [createStatus.isSuccess]);
 
     function handleAdicionar() {
         setVisibleForm(true)
@@ -157,6 +169,7 @@ export function AlmoxarifadoProduto({ almoxarifado }: AlmoxarifadoProdutoProps) 
                         isLoading={isLoading}
                         onGoBack={onHideForm}
                         listProduto={listProduto || []}
+                        isEdit={getValues().id > 0}
                     />
                 </Sidebar>
             }

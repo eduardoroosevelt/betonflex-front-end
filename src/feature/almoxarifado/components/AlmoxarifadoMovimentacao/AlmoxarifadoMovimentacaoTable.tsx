@@ -1,5 +1,5 @@
 import React from 'react'
-import { TabelaPaginado } from '../../../../components/TabelaPaginado'
+import { TabelaPaginado, ColumnMeta } from '../../../../components/TabelaPaginado'
 import { IMovimentacao } from '../../../../types/IMovimentacao'
 import { DataTableStateEvent } from 'primereact/datatable';
 import { Results } from '../../../../types/Results';
@@ -31,9 +31,9 @@ export function AlmoxarifadoMovimentacaoTable({
     handleView,
     handleAdicionar,
 }: Props) {
-    const columns = [
-        { field: "almoxarifado_produto.produto.nome", header: "Produto" },
-        { field: "almoxarifado_produto.lote", header: "Lote" },
+    const columns: ColumnMeta<IMovimentacao>[] = [
+        { field: "almoxarifadoProduto.produto.nome", header: "Produto" },
+        { field: "almoxarifadoProduto.lote", header: "Lote" },
         { field: "tipoMov", header: "Tipo Movimentação" },
         { field: "qtde", header: "Quantidade" },
         { field: "created", header: "Data Movimentação" },
