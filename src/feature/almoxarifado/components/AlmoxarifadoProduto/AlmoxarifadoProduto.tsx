@@ -12,10 +12,8 @@ import { AlmoxarifadoProdutoForm } from './AlmoxarifadoProdutoForm'
 import { Sidebar } from 'primereact/sidebar'
 import { useGetProdutosListAtivosQuery } from '../../../materiais/components/materialProduto/ProdutoApiSlice'
 import { FileUploadHandlerEvent } from 'primereact/fileupload'
-import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
-import { UploadState, addUpload, selectUploads } from '../../../upalod/UploadSlice'
-import { nanoid } from '@reduxjs/toolkit'
-import { useLazyDownloadLaudoTecnicoQuery, useUploadLaudoTecnicoMutation } from '../../arquivoSlice'
+import { useAppDispatch } from '../../../../app/hooks'
+import { useAlterarLaudoTecnicoMutation, useLazyDownloadLaudoTecnicoQuery, useUploadLaudoTecnicoMutation } from '../../arquivoSlice'
 import { enqueueSnackbar } from 'notistack'
 
 export const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -49,13 +47,14 @@ export function AlmoxarifadoProduto({ almoxarifado }: AlmoxarifadoProdutoProps) 
 
     const { data: listProduto } = useGetProdutosListAtivosQuery()
     const [upload, statusUpload] = useUploadLaudoTecnicoMutation()
+    const [alterarLaudo, statusAlterarLaudo] = useAlterarLaudoTecnicoMutation()
     const [download, statusDownload] = useLazyDownloadLaudoTecnicoQuery()
 
     useEffect(() => {
-        if (statusUpload.isSuccess) {
+        if (statusUpload.isSuccess || statusAlterarLaudo.isSuccess) {
             enqueueSnackbar("Upload do laudo realizado com  sucesso", { variant: "success", autoHideDuration: 4000 });
         }
-    }, [statusUpload])
+    }, [statusUpload, statusAlterarLaudo])
 
     useEffect(() => {
         if (updateStatus.isSuccess) {
@@ -131,6 +130,16 @@ export function AlmoxarifadoProduto({ almoxarifado }: AlmoxarifadoProdutoProps) 
         })
     }
 
+    function alterarLaudoUploadHandler(event: FileUploadHandlerEvent, almoxProd: IAlmoxarifadoProduto) {
+
+        event.files.forEach(file => {
+            alterarLaudo({
+                almoxProd,
+                file
+            })
+        })
+    }
+
     async function downloadHandler(almoxProd: IAlmoxarifadoProduto) {
         const arquivo = await download({ almoxProd })
 
@@ -159,6 +168,7 @@ export function AlmoxarifadoProduto({ almoxarifado }: AlmoxarifadoProdutoProps) 
                 handleEdit={handleEdit}
                 uploadHandler={uploadHandler}
                 downloadHandler={downloadHandler}
+                alterarLaudoUploadHandler={alterarLaudoUploadHandler}
             />
             {visibleForm &&
                 <Sidebar onHide={onHideForm} visible={visibleForm} className="w-11 md:w-4" position='right' blockScroll>

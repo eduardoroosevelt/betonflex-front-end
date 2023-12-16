@@ -3,9 +3,11 @@ import { Results } from '../../../../types/Results';
 import { DataTableStateEvent } from 'primereact/datatable';
 import { ColumnMeta, TabelaPaginado } from '../../../../components/TabelaPaginado';
 import { IAlmoxarifadoProduto } from '../../../../types/IAlmoxarifadoProduto';
-import { ButtonSecondary } from '../../../../components/ButtonComponent';
+import { ButtonIcon, ButtonPrimary, ButtonSecondary } from '../../../../components/ButtonComponent';
 import { FileUpload, FileUploadHandlerEvent, FileUploadHandlerOptions } from 'primereact/fileupload';
 import { enqueueSnackbar } from 'notistack';
+import QRCodeLink from 'qrcode';
+import { Tooltip } from 'primereact/tooltip';
 export const baseUrl = import.meta.env.VITE_BASE_URL;
 
 type Props = {
@@ -21,6 +23,7 @@ type Props = {
     handleView?: ((arg: IAlmoxarifadoProduto) => void) | null;
     handleAdicionar?: (() => void) | null;
     uploadHandler: (event: FileUploadHandlerEvent, arg: IAlmoxarifadoProduto) => void
+    alterarLaudoUploadHandler: (event: FileUploadHandlerEvent, arg: IAlmoxarifadoProduto) => void
     downloadHandler: (arg: IAlmoxarifadoProduto) => void
 };
 
@@ -36,6 +39,7 @@ export function AlmoxarifadoProdutoTable({
     handleView,
     handleAdicionar,
     uploadHandler,
+    alterarLaudoUploadHandler,
     downloadHandler,
 }: Props) {
     const fileRef = useRef<FileUpload | null>(null)
@@ -44,11 +48,17 @@ export function AlmoxarifadoProdutoTable({
         uploadHandler(event, data)
         fileRef.current && fileRef.current.clear()
     }
+
+    function alterarLaudoUpload(event: FileUploadHandlerEvent, data: IAlmoxarifadoProduto) {
+        alterarLaudoUploadHandler(event, data)
+        fileRef.current && fileRef.current.clear()
+    }
+
     const columns: ColumnMeta<IAlmoxarifadoProduto>[] = [
         { field: "lote", header: "Lote" },
         { field: "produto.nome", header: "Produto" },
         { field: "qtde", header: "Quantidade" },
-        { field: "created", header: "Criado em" },
+        { field: "dataProducao", header: "Data de Fabricação" },
         {
             header: "Laudo",
             body: (data) =>
@@ -57,7 +67,6 @@ export function AlmoxarifadoProdutoTable({
                     <FileUpload
                         mode="basic"
                         name="file"
-                        url={`${baseUrl}/arquivos/upload/${data.id}`}
                         accept="application/pdf"
                         maxFileSize={1000000}
                         chooseLabel='Anexar'
@@ -67,8 +76,53 @@ export function AlmoxarifadoProdutoTable({
                         ref={fileRef}
                     />
                     :
-                    <ButtonSecondary label='Download do Laudo' onClick={() => downloadHandler(data)} />
+                    <div className='flex gap-2'>
+                        <Tooltip target=".custom-choose-btn" content="Alterar" position="top" />
+                        <ButtonIcon tooltip='Download' icon="pi pi-download" onClick={() => downloadHandler(data)} />
+                        <FileUpload
+                            mode="basic"
+                            name="file"
+                            accept="application/pdf"
+                            maxFileSize={1000000}
+                            onUpload={onUpload}
+                            customUpload
+                            uploadHandler={(arg) => alterarLaudoUpload(arg, data)}
+                            ref={fileRef}
+                            chooseOptions={{ icon: 'pi pi-sync', iconOnly: true, className: 'custom-choose-btn p-button-warning' }}
+
+                        />
+                    </div>
         },
+        {
+            header: 'Qrcode',
+            body(data, options) {
+                let qrcodeLink = JSON.stringify({
+                    id: data.id,
+                    lote: data.lote,
+                    produto: data.produto.nome
+                })
+
+                return (
+                    <div className="flex gap-2">
+                        <ButtonIcon tooltip='QRCode' icon="pi pi-qrcode" onClick={() => {
+                            QRCodeLink.toDataURL(qrcodeLink,
+                                {
+                                    width: 300,
+                                    margin: 3
+                                },
+                                function (err, url) {
+                                    if (err) throw err
+                                    const link = document.createElement('a')
+                                    link.href = url
+                                    link.setAttribute('download', `${data.produto.nome}-${data.lote}.png`)
+                                    document.body.appendChild(link)
+                                    link.click()
+                                })
+                        }} />
+                    </div>
+                )
+            },
+        }
     ];
 
     const onUpload = () => {

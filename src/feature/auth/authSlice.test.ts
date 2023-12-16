@@ -1,59 +1,49 @@
-// import { configureStore } from "@reduxjs/toolkit";
-// import {
-//   authSlice,
-//   selectIsAuthenticated,
-//   selectIsLoading,
-//   setAuthenticated,
-//   setLoading,
-//   setToken,
-//   setUserDetails,
-// } from "./authSlice";
-// import { RootState } from "../../app/store";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
+import { IToken } from "../../types/Token";
+import { LOCAL_STORAGE_KEYS } from "../../types/enums/LocalStorage_enum";
 
-// describe("authSlice", () => {
-//   let store = configureStore({ reducer: { auth: authSlice.reducer } });
+const token: IToken | null = localStorage.getItem(LOCAL_STORAGE_KEYS.TOKEN)
+  ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.TOKEN)!)
+  : null
 
-//   const mockState = {
-//     auth: {
-//       token: "",
-//       isLoading: false,
-//       userDetails: null,
-//       isAuthenticated: false,
-//     },
-//   } as RootState;
 
-//   beforeEach(() => {
-//     store = configureStore({ reducer: { auth: authSlice.reducer } });
-//   });
+type AuthState = {
+  token: IToken 
+}
 
-//   it("sets isAuthenticated", () => {
-//     store.dispatch(setAuthenticated(true));
-//     expect(store.getState().auth.isAuthenticated).toBe(true);
-//   });
+const initialState:AuthState = {
+  token: {
+    access_token: token?.access_token || "",
+    token_type: token?.token_type || "",
+    expires_in: token?.expires_in || 0,
+    refresh_token: token?.refresh_token || "",
+  }
+};
 
-//   it("sets isLoading", () => {
-//     store.dispatch(setLoading(true));
-//     expect(store.getState().auth.isLoading).toBe(true);
-//   });
+export const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    setToken:(state,{payload}:PayloadAction< IToken >) => {
+      localStorage.setItem(LOCAL_STORAGE_KEYS.TOKEN,JSON.stringify(payload))      
+      state.token.access_token = payload.access_token
+      state.token.token_type = payload.token_type
+      state.token.expires_in = payload.expires_in
+      state.token.refresh_token = payload.refresh_token
+    },
+    loggedOut: (state) => { 
+      localStorage.clear()    
+      state.token.access_token = "";
+      state.token.token_type = "";
+      state.token.expires_in = 0;
+      state.token.refresh_token = "";
+    }
+  },
+});
 
-//   it("sets token", () => {
-//     store.dispatch(setToken("token"));
-//     expect(store.getState().auth.token).toBe("token");
-//   });
+export const { setToken,loggedOut } = authSlice.actions
 
-//   it("sets userDetails", () => {
-//     store.dispatch(setUserDetails({ name: "John Doe" }));
-//     expect(store.getState().auth.userDetails).toEqual({ name: "John Doe" });
-//   });
-
-//   // selectIsAuthenticated
-//   it("selects isAuthenticated", () => {
-//     const isAuthenticated = selectIsAuthenticated(mockState);
-//     expect(isAuthenticated).toBe(mockState.auth.isAuthenticated);
-//   });
-
-//   it("selects isLoading", () => {
-//     const isLoading = selectIsLoading(mockState);
-//     expect(isLoading).toBe(mockState.auth.isLoading);
-//   });
-// });
+export const selectIsAuthenticated = (state: RootState) => {
+  return !!state.auth.token.access_token;
+};

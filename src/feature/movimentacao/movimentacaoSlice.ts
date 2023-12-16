@@ -15,8 +15,8 @@ function parseQueryParams(params: IMovimentacaoParams) {
         query.append("size", params.rows.toString());
     }
 
-    if (params.almoxarifadoProdutoId) {
-        query.append("almoxarifadoProdutoId", params.almoxarifadoProdutoId.toString());
+    if (params.almoxarifadoProduto) {
+        query.append("almoxarifadoProdutoId", params.almoxarifadoProduto.id.toString());
     }
     return query.toString();
 }

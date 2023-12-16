@@ -18,32 +18,14 @@ import { OrdemServicoMaterialApiSlice } from "../feature/ordemServicoMaterial/Or
 import { OrdemServicoAnexoApiSlice } from "../feature/ordemServicoAnexo/ordemServicoAnexoSlice";
 import { MaterialFamiliaApiSlice } from "../feature/materiais/components/materialFamilia/MaterialFamiliaApiSlice";
 import { ProdutoApiSlice } from "../feature/materiais/components/materialProduto/ProdutoApiSlice";
-import { uploadQueue } from "./middleware/uploadQueue";
-import { uploadReducer } from "../feature/upalod/UploadSlice";
 import { almoxarifadoProdutoApiSlice } from "../feature/almoxarifado/almoxarifadoProdutoSlice";
 import { movimentacaoApiSlice } from "../feature/movimentacao/movimentacaoSlice";
 import { arquivoApiSlice } from "../feature/almoxarifado/arquivoSlice";
+import { messageSlice } from "../feature/message/messageSlice";
 
 const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
-    [arquivoApiSlice.reducerPath]: apiSlice.reducer,
-    [almoxarifadoApiSlice.reducerPath]: apiSlice.reducer,
-    [almoxarifadoProdutoApiSlice.reducerPath]: apiSlice.reducer,
-    [movimentacaoApiSlice.reducerPath]: apiSlice.reducer,
-    [MaterialApiSlice.reducerPath]: apiSlice.reducer,
-    [MaterialFamiliaApiSlice.reducerPath]: apiSlice.reducer,
-    [ProdutoApiSlice.reducerPath]: apiSlice.reducer,
-    
-    [TipoServicoApiSlice.reducerPath]: apiSlice.reducer,
-    [ClienteApiSlice.reducerPath]: apiSlice.reducer,
-    [OrdemServicoApiSlice.reducerPath]: apiSlice.reducer,
-    [OrdemServicoClienteApiSlice.reducerPath]: apiSlice.reducer,
-    [funcionarioApiSlice.reducerPath]: apiSlice.reducer,
-    [OrdemServicoMaterialApiSlice.reducerPath]: apiSlice.reducer,
-    [OrdemServicoClienteApiSlice.reducerPath]: apiSlice.reducer,
-    [OrdemServicoAnexoApiSlice.reducerPath]: apiSlice.reducer,
-   
-    uploadSlice: uploadReducer,
+    messageReducer: messageSlice.reducer,
     auth: authSlice.reducer,
 });
 
@@ -59,8 +41,7 @@ export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
                         ignoredPaths: ["uploadSlice.file","menuReducer.menu"],
                     },
                 })
-                .prepend(uploadQueue.middleware)
-                .concat(apiSlice.middleware),
+                .concat(apiSlice.middleware)
     });
 };
 

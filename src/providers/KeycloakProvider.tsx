@@ -1,12 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { keycloak } from "../keycloakConfig";
-import {
-    setAuthenticated,
-    setLoading,
-    setToken,
-    setUserDetails,
-} from "../feature/auth/authSlice";
 
 export const KeycloakProvider = ({
     children,

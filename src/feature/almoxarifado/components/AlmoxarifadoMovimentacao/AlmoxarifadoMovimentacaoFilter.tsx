@@ -39,17 +39,16 @@ export function AlmoxarifadoMovimentacaoFilter({ onPesquisar, almoxarifadoId, is
 
             < WrapperComLabel label="Nome:" cols="12 " isObrigatorio >
                 <Controller
-                    name="almoxarifadoProdutoId"
+                    name="almoxarifadoProduto"
                     control={control}
                     render={({ field, fieldState }) => (
                         <>
                             <Dropdown
                                 id={field.name}
-                                dataKey='id'
                                 value={field.value}
+                                optionLabel="produto.nome"
                                 itemTemplate={(option) => (`${option.lote} - ${option.produto.nome}`)}
                                 valueTemplate={valueTemplate}
-                                optionValue='id'
                                 placeholder="Selecione o produto"
                                 options={listaAlmoxarifadoProduto || []}
                                 focusInputRef={field.ref}

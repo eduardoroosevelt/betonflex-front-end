@@ -22,6 +22,6 @@ export interface IMovimentacaoParams extends IMovimentacaoFilter{
 }
 
 export interface IMovimentacaoFilter{
-    almoxarifadoProdutoId?: number;
+    almoxarifadoProduto?: IAlmoxarifadoProduto;
     almoxarifadoId?: number;
 }

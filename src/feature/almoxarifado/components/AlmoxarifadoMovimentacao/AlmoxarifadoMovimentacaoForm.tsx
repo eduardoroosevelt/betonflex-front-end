@@ -105,6 +105,7 @@ export function AlmoxarifadoMovimentacaoForm({ onSubmit, isView, control, errors
                                 onChange={(e) => field.onChange(e.originalEvent)}
                                 inputClassName={classNames('w-full', { 'p-invalid': fieldState.error })}
                                 className='w-full'
+                                useGrouping={false}
                             />
                             {getFormErrorMessage(field.name)}
                         </>

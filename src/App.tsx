@@ -1,17 +1,33 @@
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { RouterApp } from './RouterApp';
+
+import { ConfigCtxProvider } from './context/ConfigCtx';
+import { Provider } from 'react-redux';
+import { setupStore } from './app/store';
 
 import './config/locale';
 import './config/primereact';
-import { ConfigCtxProvider } from './context/ConfigCtx';
-import { UploadList } from './feature/upalod/UploadList';
 import './styles/layout/layout.scss';
+import { ToastProvider } from './providers/PrintToast';
+
+const store = setupStore();
 function App() {
     return (
         <>
-            <ConfigCtxProvider>
-                <UploadList />
-                <RouterApp />
-            </ConfigCtxProvider>
+            <Provider store={store}>
+                <React.StrictMode>
+                    <ConfigCtxProvider>
+                        <ToastProvider>
+                            <BrowserRouter basename='betonflex'>
+                                <RouterApp />
+                            </BrowserRouter>
+                        </ToastProvider>
+                    </ConfigCtxProvider>
+                </React.StrictMode>
+            </Provider>
+
+
         </>
     );
 }
