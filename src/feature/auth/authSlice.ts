@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
+import { User } from "../../types/IUser";
 import { IToken } from "../../types/Token";
 import { LOCAL_STORAGE_KEYS } from "../../types/enums/LocalStorage_enum";
 
@@ -14,10 +15,10 @@ type AuthState = {
 
 const initialState:AuthState = {
   token: {
-    access_token: token?.access_token || "",
+    accessToken: token?.accessToken || "",
     token_type: token?.token_type || "",
     expires_in: token?.expires_in || 0,
-    refresh_token: token?.refresh_token || "",
+    refreshToken: token?.refreshToken || "",
   }
 };
 
@@ -27,17 +28,17 @@ export const authSlice = createSlice({
   reducers: {
     setToken:(state,{payload}:PayloadAction< IToken >) => {
       localStorage.setItem(LOCAL_STORAGE_KEYS.TOKEN,JSON.stringify(payload))      
-      state.token.access_token = payload.access_token
+      state.token.accessToken = payload.accessToken
       state.token.token_type = payload.token_type
       state.token.expires_in = payload.expires_in
-      state.token.refresh_token = payload.refresh_token
+      state.token.refreshToken = payload.refreshToken
     },
     loggedOut: (state) => { 
       localStorage.clear()    
-      state.token.access_token = "";
+      state.token.accessToken = "";
       state.token.token_type = "";
       state.token.expires_in = 0;
-      state.token.refresh_token = "";
+      state.token.refreshToken = "";
     }
   },
 });
@@ -45,5 +46,5 @@ export const authSlice = createSlice({
 export const { setToken,loggedOut } = authSlice.actions
 
 export const selectIsAuthenticated = (state: RootState) => {
-  return !!state.auth.token.access_token;
+  return !!state.auth.token.accessToken;
 };

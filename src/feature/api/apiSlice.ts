@@ -8,26 +8,26 @@ export const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const publicos = ['getVersao'];
 
-const baseQueryFn = (baseUrl = BASE_URL) =>
-    fetchBaseQuery({
-        baseUrl,
-        prepareHeaders: (headers: Headers, { getState, endpoint, extra }) => {
-            let _extra: any = extra;
 
-            if (_extra && _extra['isRefreshToken']) {
-                return headers;
-            }
-
-            // const token = (getState() as RootState).auth.token!.access_token;
-            // const isPublic = !!publicos.find((e) => e == endpoint);
-            // if (token && !isPublic) {
-            //     headers.set('authorization', `Bearer ${token}`);
-            // }
-
-            return headers;
-        }
-    });
-    
+const baseQueryFn = (baseUrl= BASE_URL) => fetchBaseQuery({
+    baseUrl,
+    prepareHeaders: (headers: Headers, { getState, endpoint, extra }) => {
+      let _extra: any = extra
+  
+      if (_extra && _extra['isRefreshToken']) {
+        return headers
+      }
+  
+      const token = (getState() as RootState).auth.token!.accessToken
+      const isPublic = !!publicos.find((e) => e == endpoint)
+      if (token && !isPublic) {
+        headers.set('authorization', `Bearer ${token}`)
+      }
+      
+      return headers
+    },
+  
+  })
 export const apiSlice = createApi({
     reducerPath: "api",
     tagTypes: ["Almoxarifado", 

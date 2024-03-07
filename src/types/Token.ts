@@ -1,6 +1,6 @@
 export interface IToken{
-  access_token: string
-  refresh_token: string
+  accessToken: string
+  refreshToken: string
   token_type: string
   expires_in: number
 }

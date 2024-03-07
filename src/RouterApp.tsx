@@ -19,6 +19,7 @@ import EditOrdemServico from './feature/ordemServico/EditOrdemServico';
 import { ListFuncionario } from './feature/funcionario/ListFuncionario';
 import { EditFuncionario } from './feature/funcionario/EditFuncionario';
 import { Dashboard } from './feature/dashboard/Dashboard';
+import { Login } from './feature/auth/Login';
 
 
 
@@ -27,8 +28,9 @@ export function RouterApp() {
         <LayoutProvider>
             <Routes>
 
-                <Route path="/" element={<Redirect url='/app' />}>
-                    {/* <Route path="/login" element={<Login />} /> */}
+                <Route path="/">
+                    <Route path="/" element={<Redirect url='/login' />} />
+                    <Route path="/login" element={<Login />} />
                 </Route>
 
                 <Route path="/app" element={<AppLayout />} >
@@ -54,6 +56,6 @@ export function RouterApp() {
 
                 <Route path="*" element={<NotFound />} />
             </Routes>
-        </LayoutProvider>
+        </LayoutProvider >
     );
 }
